@@ -32,7 +32,7 @@ const nav = [
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
-    <nav className="flex flex-col gap-1 px-3">
+    <nav className="flex flex-col px-3">
       {nav.map((item) => {
         const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
         return (
@@ -41,12 +41,18 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
             to={item.to}
             onClick={onNavigate}
             className={cn(
-              "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+              "group relative flex items-center gap-3 px-3 py-2.5 text-[13px] transition-colors",
               active
-                ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold"
-                : "text-sidebar-foreground/75 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
+                ? "bg-sidebar-accent font-semibold text-sidebar-accent-foreground"
+                : "text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
             )}
           >
+            <span
+              className={cn(
+                "absolute inset-y-0 left-0 w-[3px]",
+                active ? "bg-sidebar-primary" : "bg-transparent",
+              )}
+            />
             <item.icon className={cn("h-4 w-4 shrink-0", active && "text-sidebar-primary")} />
             <span className="truncate">{item.label}</span>
           </Link>
@@ -59,34 +65,32 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
 function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex h-full flex-col bg-sidebar py-5">
-      <div className="flex items-center gap-2.5 px-5 pb-6">
-        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-sidebar-primary font-display text-sm font-bold text-sidebar-primary-foreground">
+      <div className="flex items-center gap-3 px-5 pb-6">
+        <div className="grid h-10 w-10 shrink-0 place-items-center bg-primary font-display text-sm text-primary-foreground">
           H7
         </div>
         <div className="min-w-0">
-          <p className="truncate font-display text-sm font-semibold text-sidebar-accent-foreground">
-            Hepta Project
+          <p className="truncate font-display text-[15px] text-sidebar-accent-foreground">
+            HEPTA
           </p>
-          <p className="truncate text-[11px] text-sidebar-foreground/60">Plataforma PPM · v2</p>
+          <p className="eyebrow truncate text-sidebar-foreground/50">Project PPM · v2</p>
         </div>
       </div>
+      <div className="mb-4 h-[3px] bg-linear-to-r from-primary via-sidebar-primary to-primary" />
       <NavList onNavigate={onNavigate} />
       <div className="mt-auto px-5 pt-6">
-        <div className="rounded-md border border-sidebar-border/70 p-3">
-          <p className="text-[11px] uppercase tracking-wide text-sidebar-foreground/50">
-            Organização
-          </p>
-          <p className="mt-1 truncate text-sm text-sidebar-accent-foreground">
+        <div className="border border-sidebar-border/70 p-3">
+          <p className="eyebrow text-sidebar-foreground/45">Organização</p>
+          <p className="mt-1.5 truncate text-sm text-sidebar-accent-foreground">
             {organizacoes[0].nome}
           </p>
-          <p className="mt-2 text-[11px] text-sidebar-foreground/50">
-            Perfil: {usuarioAtual.perfil}
-          </p>
+          <p className="eyebrow mt-2 text-sidebar-foreground/45">Perfil · {usuarioAtual.perfil}</p>
         </div>
       </div>
     </div>
   );
 }
+
 
 export function AppShell({
   title,
