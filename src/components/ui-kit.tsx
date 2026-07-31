@@ -56,9 +56,9 @@ export function Stat({
         {delta && (
           <span
             className={cn(
-              "inline-flex items-center border px-1.5 py-0.5 font-medium uppercase tracking-wide",
-              delta.tom === "up" && "border-success/40 bg-success/10 text-success",
-              delta.tom === "down" && "border-destructive/40 bg-destructive/8 text-destructive",
+              "chip",
+              delta.tom === "up" && "border-success/40 bg-success/15 text-success",
+              delta.tom === "down" && "border-destructive/40 bg-destructive/15 text-destructive",
               delta.tom === "flat" && "border-border bg-muted text-muted-foreground",
             )}
           >
@@ -71,22 +71,29 @@ export function Stat({
   );
 }
 
-const saudeMap: Record<Saude, { label: string; cls: string }> = {
-  verde: { label: "Saudável", cls: "border-success/40 bg-success/10 text-success" },
-  amarelo: { label: "Atenção", cls: "border-foreground/25 bg-accent/35 text-foreground" },
-  vermelho: { label: "Crítico", cls: "border-destructive/40 bg-destructive/10 text-destructive" },
+const saudeMap: Record<Saude, { label: string; cls: string; dot: string }> = {
+  verde: {
+    label: "Saudável",
+    cls: "border-success/40 bg-success/15 text-success",
+    dot: "bg-success",
+  },
+  amarelo: {
+    label: "Atenção",
+    cls: "border-warning/40 bg-warning/15 text-warning",
+    dot: "bg-warning",
+  },
+  vermelho: {
+    label: "Crítico",
+    cls: "border-destructive/40 bg-destructive/15 text-destructive",
+    dot: "bg-destructive",
+  },
 };
 
 export function SaudeTag({ saude }: { saude: Saude }) {
   const s = saudeMap[saude];
   return (
-    <span
-      className={cn(
-        "inline-flex shrink-0 items-center gap-1.5 border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
-        s.cls,
-      )}
-    >
-      <span className="h-1.5 w-1.5 bg-current" />
+    <span className={cn("chip", s.cls)}>
+      <span className={cn("h-1.5 w-1.5 rounded-full", s.dot)} />
       {s.label}
     </span>
   );
@@ -97,17 +104,18 @@ export function Tag({
   tom = "neutro",
 }: {
   children: ReactNode;
-  tom?: "neutro" | "accent" | "info" | "success" | "danger";
+  tom?: "neutro" | "accent" | "info" | "success" | "danger" | "warning";
 }) {
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 items-center border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
+        "chip",
         tom === "neutro" && "border-border bg-muted text-muted-foreground",
-        tom === "accent" && "border-foreground/25 bg-accent/35 text-foreground",
-        tom === "info" && "border-info/40 bg-info/10 text-info",
-        tom === "success" && "border-success/40 bg-success/10 text-success",
-        tom === "danger" && "border-destructive/40 bg-destructive/10 text-destructive",
+        tom === "accent" && "border-primary/40 bg-primary/15 text-primary",
+        tom === "info" && "border-info/40 bg-info/15 text-info",
+        tom === "success" && "border-success/40 bg-success/15 text-success",
+        tom === "warning" && "border-warning/40 bg-warning/15 text-warning",
+        tom === "danger" && "border-destructive/40 bg-destructive/15 text-destructive",
       )}
     >
       {children}
@@ -117,9 +125,9 @@ export function Tag({
 
 export function Barra({ valor, tom = "accent" }: { valor: number; tom?: "accent" | "info" }) {
   return (
-    <div className="h-2 w-full overflow-hidden border border-border bg-muted">
+    <div className="h-2.5 w-full overflow-hidden rounded-full border border-border bg-muted">
       <div
-        className={cn("h-full", tom === "accent" ? "bg-foreground" : "bg-primary")}
+        className={cn("h-full rounded-full transition-all duration-500", tom === "accent" ? "bg-foreground" : "bg-primary")}
         style={{ width: `${Math.min(100, Math.max(0, valor))}%` }}
       />
     </div>

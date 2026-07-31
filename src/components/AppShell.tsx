@@ -29,10 +29,48 @@ const nav = [
   { to: "/relatorios", label: "Relatórios", icon: FileBarChart },
 ] as const;
 
+function Logo({ className }: { className?: string }) {
+  return (
+    <div className={cn("flex items-center gap-3", className)}>
+      <div className="relative grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent text-primary-foreground shadow-lg shadow-primary/20">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          aria-label="Hepta logo"
+        >
+          <path
+            d="M12 2L20.66 7V17L12 22L3.34 17V7L12 2Z"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M12 7V17M7 10V17M17 10V17"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+      <div className="min-w-0">
+        <p className="truncate font-display text-[15px] font-semibold tracking-tight text-sidebar-accent-foreground">
+          Hepta
+        </p>
+        <p className="eyebrow truncate text-sidebar-foreground/50">Project PPM</p>
+      </div>
+    </div>
+  );
+}
+
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
-    <nav className="flex flex-col px-3">
+    <nav className="flex flex-col gap-1 px-3">
       {nav.map((item) => {
         const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
         return (
@@ -41,19 +79,15 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
             to={item.to}
             onClick={onNavigate}
             className={cn(
-              "group relative flex items-center gap-3 px-3 py-2.5 text-[13px] transition-colors",
+              "group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium transition-all",
               active
-                ? "bg-sidebar-accent font-semibold text-sidebar-accent-foreground"
-                : "text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
+                ? "bg-sidebar-primary/15 text-sidebar-primary shadow-sm"
+                : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
             )}
           >
-            <span
-              className={cn(
-                "absolute inset-y-0 left-0 w-[3px]",
-                active ? "bg-sidebar-primary" : "bg-transparent",
-              )}
+            <item.icon
+              className={cn("h-[18px] w-[18px] shrink-0 transition-colors", active && "text-sidebar-primary")}
             />
-            <item.icon className={cn("h-4 w-4 shrink-0", active && "text-sidebar-primary")} />
             <span className="truncate">{item.label}</span>
           </Link>
         );
@@ -65,32 +99,27 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
 function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex h-full flex-col bg-sidebar py-5">
-      <div className="flex items-center gap-3 px-5 pb-6">
-        <div className="grid h-10 w-10 shrink-0 place-items-center bg-primary font-display text-sm text-primary-foreground">
-          H7
-        </div>
-        <div className="min-w-0">
-          <p className="truncate font-display text-[15px] text-sidebar-accent-foreground">
-            HEPTA
-          </p>
-          <p className="eyebrow truncate text-sidebar-foreground/50">Project PPM · v2</p>
-        </div>
+      <div className="px-5 pb-6">
+        <Logo />
       </div>
-      <div className="mb-4 h-[3px] bg-linear-to-r from-primary via-sidebar-primary to-primary" />
+      <div className="px-3 pb-3">
+        <div className="h-px bg-sidebar-border/60" />
+      </div>
       <NavList onNavigate={onNavigate} />
       <div className="mt-auto px-5 pt-6">
-        <div className="border border-sidebar-border/70 p-3">
-          <p className="eyebrow text-sidebar-foreground/45">Organização</p>
-          <p className="mt-1.5 truncate text-sm text-sidebar-accent-foreground">
+        <div className="rounded-xl border border-sidebar-border/60 bg-sidebar-accent/40 p-4">
+          <p className="eyebrow text-sidebar-foreground/50">Organização</p>
+          <p className="mt-1.5 truncate text-sm font-medium text-sidebar-accent-foreground">
             {organizacoes[0].nome}
           </p>
-          <p className="eyebrow mt-2 text-sidebar-foreground/45">Perfil · {usuarioAtual.perfil}</p>
+          <div className="mt-3 h-px bg-sidebar-border/40" />
+          <p className="eyebrow mt-3 text-sidebar-foreground/50">Perfil</p>
+          <p className="mt-1 text-xs font-medium text-sidebar-primary">{usuarioAtual.perfil}</p>
         </div>
       </div>
     </div>
   );
 }
-
 
 export function AppShell({
   title,
@@ -107,22 +136,22 @@ export function AppShell({
 
   return (
     <div className="min-h-screen w-full bg-background">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-sidebar-border lg:block">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-sidebar-border bg-sidebar lg:block">
         <SidebarBody />
       </aside>
 
       {open && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <div
-            className="absolute inset-0 bg-foreground/40"
+            className="absolute inset-0 bg-foreground/30 backdrop-blur-sm"
             onClick={() => setOpen(false)}
             aria-hidden
           />
-          <div className="absolute inset-y-0 left-0 w-72 border-r border-sidebar-border">
+          <div className="absolute inset-y-0 left-0 w-72 border-r border-sidebar-border bg-sidebar">
             <button
               onClick={() => setOpen(false)}
               aria-label="Fechar menu"
-              className="absolute right-3 top-4 z-10 rounded-md p-1.5 text-sidebar-foreground hover:bg-sidebar-accent"
+              className="absolute right-3 top-4 z-10 rounded-lg p-1.5 text-sidebar-foreground hover:bg-sidebar-accent"
             >
               <X className="h-4 w-4" />
             </button>
@@ -132,17 +161,17 @@ export function AppShell({
       )}
 
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-20 border-b-2 border-foreground bg-background/90 backdrop-blur">
+        <header className="sticky top-0 z-20 border-b border-border bg-background/80 backdrop-blur-xl">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3 sm:px-6">
             <div className="flex min-w-0 items-center gap-3">
               <button
                 onClick={() => setOpen(true)}
                 aria-label="Abrir menu"
-                className="shrink-0 border border-foreground p-2 lg:hidden"
+                className="shrink-0 rounded-lg border border-border p-2 text-foreground hover:bg-muted lg:hidden"
               >
                 <Menu className="h-4 w-4" />
               </button>
-              <div className="hidden min-w-0 items-center gap-2 border border-border bg-card px-3 py-2 md:flex md:w-80">
+              <div className="hidden min-w-0 items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 md:flex md:w-80">
                 <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
                 <input
                   placeholder="Buscar projetos, riscos, indicadores…"
@@ -153,17 +182,17 @@ export function AppShell({
             <div className="flex shrink-0 items-center gap-2">
               <button
                 aria-label="Notificações"
-                className="relative border border-border p-2 text-muted-foreground hover:border-foreground hover:text-foreground"
+                className="relative rounded-xl border border-border p-2 text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
               >
                 <Bell className="h-4 w-4" />
-                <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 bg-primary" />
+                <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary shadow-sm shadow-primary/40" />
               </button>
-              <div className="flex items-center gap-2 border border-border bg-card px-2 py-1.5">
-                <div className="grid h-7 w-7 shrink-0 place-items-center bg-foreground text-[11px] font-semibold text-background">
+              <div className="flex items-center gap-2 rounded-xl border border-border bg-card px-2 py-1.5">
+                <div className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-primary to-accent text-[11px] font-semibold text-primary-foreground">
                   MA
                 </div>
                 <div className="hidden min-w-0 leading-tight sm:block">
-                  <p className="truncate text-xs font-medium">{usuarioAtual.nome}</p>
+                  <p className="truncate text-xs font-medium text-foreground">{usuarioAtual.nome}</p>
                   <p className="eyebrow truncate text-muted-foreground">{usuarioAtual.perfil}</p>
                 </div>
                 <ChevronDown className="hidden h-3.5 w-3.5 text-muted-foreground sm:block" />
@@ -172,11 +201,11 @@ export function AppShell({
           </div>
         </header>
 
-        <main className="px-4 py-7 sm:px-6 lg:px-10">
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 border-b border-border pb-6 sm:flex sm:flex-wrap sm:items-end sm:justify-between">
+        <main className="px-4 py-6 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-4 pb-6 sm:flex-row sm:items-end sm:justify-between">
             <div className="min-w-0">
               <p className="eyebrow text-primary">Hepta Project · Governança institucional</p>
-              <h1 className="mt-2 truncate font-display text-[26px] uppercase sm:text-[34px]">
+              <h1 className="mt-2 truncate font-display text-[26px] font-semibold tracking-tight sm:text-[32px]">
                 {title}
               </h1>
               {description && (
@@ -187,10 +216,9 @@ export function AppShell({
             </div>
             {actions && <div className="flex shrink-0 flex-wrap gap-2">{actions}</div>}
           </div>
-          <div className="pt-5">{children}</div>
+          <div className="pt-2">{children}</div>
         </main>
       </div>
-
     </div>
   );
 }
