@@ -10,14 +10,28 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EstrategiaRouteImport } from './routes/estrategia'
+import { Route as IndicadoresRouteImport } from './routes/indicadores'
 import { Route as PortfoliosRouteImport } from './routes/portfolios'
 import { Route as ProgramasRouteImport } from './routes/programas'
+import { Route as RelatoriosRouteImport } from './routes/relatorios'
+import { Route as RiscosRouteImport } from './routes/riscos'
 import { Route as ProjetosIndexRouteImport } from './routes/projetos.index'
 import { Route as ProjetosIdRouteImport } from './routes/projetos.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EstrategiaRoute = EstrategiaRouteImport.update({
+  id: '/estrategia',
+  path: '/estrategia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndicadoresRoute = IndicadoresRouteImport.update({
+  id: '/indicadores',
+  path: '/indicadores',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PortfoliosRoute = PortfoliosRouteImport.update({
@@ -28,6 +42,16 @@ const PortfoliosRoute = PortfoliosRouteImport.update({
 const ProgramasRoute = ProgramasRouteImport.update({
   id: '/programas',
   path: '/programas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RelatoriosRoute = RelatoriosRouteImport.update({
+  id: '/relatorios',
+  path: '/relatorios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RiscosRoute = RiscosRouteImport.update({
+  id: '/riscos',
+  path: '/riscos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjetosIndexRoute = ProjetosIndexRouteImport.update({
@@ -43,44 +67,82 @@ const ProjetosIdRoute = ProjetosIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/estrategia': typeof EstrategiaRoute
+  '/indicadores': typeof IndicadoresRoute
   '/portfolios': typeof PortfoliosRoute
   '/programas': typeof ProgramasRoute
+  '/relatorios': typeof RelatoriosRoute
+  '/riscos': typeof RiscosRoute
   '/projetos/$id': typeof ProjetosIdRoute
   '/projetos/': typeof ProjetosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/estrategia': typeof EstrategiaRoute
+  '/indicadores': typeof IndicadoresRoute
   '/portfolios': typeof PortfoliosRoute
   '/programas': typeof ProgramasRoute
+  '/relatorios': typeof RelatoriosRoute
+  '/riscos': typeof RiscosRoute
   '/projetos/$id': typeof ProjetosIdRoute
   '/projetos': typeof ProjetosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/estrategia': typeof EstrategiaRoute
+  '/indicadores': typeof IndicadoresRoute
   '/portfolios': typeof PortfoliosRoute
   '/programas': typeof ProgramasRoute
+  '/relatorios': typeof RelatoriosRoute
+  '/riscos': typeof RiscosRoute
   '/projetos/$id': typeof ProjetosIdRoute
   '/projetos/': typeof ProjetosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/portfolios' | '/programas' | '/projetos/$id' | '/projetos/'
+  fullPaths:
+    | '/'
+    | '/estrategia'
+    | '/indicadores'
+    | '/portfolios'
+    | '/programas'
+    | '/relatorios'
+    | '/riscos'
+    | '/projetos/$id'
+    | '/projetos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/portfolios' | '/programas' | '/projetos/$id' | '/projetos'
+  to:
+    | '/'
+    | '/estrategia'
+    | '/indicadores'
+    | '/portfolios'
+    | '/programas'
+    | '/relatorios'
+    | '/riscos'
+    | '/projetos/$id'
+    | '/projetos'
   id:
     | '__root__'
     | '/'
+    | '/estrategia'
+    | '/indicadores'
     | '/portfolios'
     | '/programas'
+    | '/relatorios'
+    | '/riscos'
     | '/projetos/$id'
     | '/projetos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EstrategiaRoute: typeof EstrategiaRoute
+  IndicadoresRoute: typeof IndicadoresRoute
   PortfoliosRoute: typeof PortfoliosRoute
   ProgramasRoute: typeof ProgramasRoute
+  RelatoriosRoute: typeof RelatoriosRoute
+  RiscosRoute: typeof RiscosRoute
   ProjetosIdRoute: typeof ProjetosIdRoute
   ProjetosIndexRoute: typeof ProjetosIndexRoute
 }
@@ -92,6 +154,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/estrategia': {
+      id: '/estrategia'
+      path: '/estrategia'
+      fullPath: '/estrategia'
+      preLoaderRoute: typeof EstrategiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/indicadores': {
+      id: '/indicadores'
+      path: '/indicadores'
+      fullPath: '/indicadores'
+      preLoaderRoute: typeof IndicadoresRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portfolios': {
@@ -106,6 +182,20 @@ declare module '@tanstack/react-router' {
       path: '/programas'
       fullPath: '/programas'
       preLoaderRoute: typeof ProgramasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/relatorios': {
+      id: '/relatorios'
+      path: '/relatorios'
+      fullPath: '/relatorios'
+      preLoaderRoute: typeof RelatoriosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/riscos': {
+      id: '/riscos'
+      path: '/riscos'
+      fullPath: '/riscos'
+      preLoaderRoute: typeof RiscosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projetos/': {
@@ -127,8 +217,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EstrategiaRoute: EstrategiaRoute,
+  IndicadoresRoute: IndicadoresRoute,
   PortfoliosRoute: PortfoliosRoute,
   ProgramasRoute: ProgramasRoute,
+  RelatoriosRoute: RelatoriosRoute,
+  RiscosRoute: RiscosRoute,
   ProjetosIdRoute: ProjetosIdRoute,
   ProjetosIndexRoute: ProjetosIndexRoute,
 }
