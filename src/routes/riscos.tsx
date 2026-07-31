@@ -79,8 +79,8 @@ function Riscos() {
           <PanelTitle title="Matriz de calor" hint="probabilidade × impacto" />
           <div className="grid grid-cols-[auto_repeat(5,minmax(0,1fr))] gap-1 text-[11px]">
             {[5, 4, 3, 2, 1].map((p) => (
-              <>
-                <div key={`l-${p}`} className="grid place-items-center pr-1 text-muted-foreground">
+              <Fragment key={`row-${p}`}>
+                <div className="grid place-items-center pr-1 text-muted-foreground">
                   {p}
                 </div>
                 {[1, 2, 3, 4, 5].map((i) => {
