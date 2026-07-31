@@ -27,7 +27,7 @@ export const Route = createFileRoute("/estrategia")({
       },
     ],
   }),
-  component: Estrategia;
+  component: Estrategia,
 });
 
 function Estrategia() {
