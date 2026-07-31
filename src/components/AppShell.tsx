@@ -132,17 +132,17 @@ export function AppShell({
       )}
 
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-20 border-b border-border bg-background/85 backdrop-blur">
+        <header className="sticky top-0 z-20 border-b-2 border-foreground bg-background/90 backdrop-blur">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3 sm:px-6">
             <div className="flex min-w-0 items-center gap-3">
               <button
                 onClick={() => setOpen(true)}
                 aria-label="Abrir menu"
-                className="shrink-0 rounded-md border border-border p-2 lg:hidden"
+                className="shrink-0 border border-foreground p-2 lg:hidden"
               >
                 <Menu className="h-4 w-4" />
               </button>
-              <div className="hidden min-w-0 items-center gap-2 rounded-md border border-border bg-card px-3 py-2 md:flex md:w-80">
+              <div className="hidden min-w-0 items-center gap-2 border border-border bg-card px-3 py-2 md:flex md:w-80">
                 <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
                 <input
                   placeholder="Buscar projetos, riscos, indicadores…"
@@ -153,18 +153,18 @@ export function AppShell({
             <div className="flex shrink-0 items-center gap-2">
               <button
                 aria-label="Notificações"
-                className="relative rounded-md border border-border p-2 text-muted-foreground hover:text-foreground"
+                className="relative border border-border p-2 text-muted-foreground hover:border-foreground hover:text-foreground"
               >
                 <Bell className="h-4 w-4" />
-                <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-destructive" />
+                <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 bg-primary" />
               </button>
-              <div className="flex items-center gap-2 rounded-md border border-border bg-card px-2 py-1.5">
-                <div className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-primary text-[11px] font-semibold text-primary-foreground">
+              <div className="flex items-center gap-2 border border-border bg-card px-2 py-1.5">
+                <div className="grid h-7 w-7 shrink-0 place-items-center bg-foreground text-[11px] font-semibold text-background">
                   MA
                 </div>
                 <div className="hidden min-w-0 leading-tight sm:block">
                   <p className="truncate text-xs font-medium">{usuarioAtual.nome}</p>
-                  <p className="truncate text-[10px] text-muted-foreground">{usuarioAtual.perfil}</p>
+                  <p className="eyebrow truncate text-muted-foreground">{usuarioAtual.perfil}</p>
                 </div>
                 <ChevronDown className="hidden h-3.5 w-3.5 text-muted-foreground sm:block" />
               </div>
@@ -172,19 +172,25 @@ export function AppShell({
           </div>
         </header>
 
-        <main className="px-4 py-6 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 pb-6 sm:flex sm:flex-wrap sm:items-end sm:justify-between">
+        <main className="px-4 py-7 sm:px-6 lg:px-10">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 border-b border-border pb-6 sm:flex sm:flex-wrap sm:items-end sm:justify-between">
             <div className="min-w-0">
-              <h1 className="truncate font-display text-2xl font-bold sm:text-3xl">{title}</h1>
+              <p className="eyebrow text-primary">Hepta Project · Governança institucional</p>
+              <h1 className="mt-2 truncate font-display text-[26px] uppercase sm:text-[34px]">
+                {title}
+              </h1>
               {description && (
-                <p className="mt-1 max-w-2xl text-sm text-muted-foreground">{description}</p>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                  {description}
+                </p>
               )}
             </div>
             {actions && <div className="flex shrink-0 flex-wrap gap-2">{actions}</div>}
           </div>
-          {children}
+          <div className="pt-5">{children}</div>
         </main>
       </div>
+
     </div>
   );
 }
