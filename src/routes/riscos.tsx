@@ -97,7 +97,7 @@ function Riscos() {
                     </div>
                   );
                 })}
-              </>
+              </Fragment>
             ))}
             <div />
             {[1, 2, 3, 4, 5].map((i) => (
