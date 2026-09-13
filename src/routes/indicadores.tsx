@@ -86,7 +86,11 @@ function Indicadores() {
         </>
       }
     >
+      <ViewTabs views={views} ativa={ativa} onChange={setAtiva} />
+
+      {show("kpis") && (
       <div className="grid gap-4 sm:grid-cols-3">
+
         <Stat label="Indicadores cadastrados" value={String(indicadores.length)} />
         <Stat
           label="Dentro da meta"
@@ -99,8 +103,11 @@ function Indicadores() {
           delta={{ texto: "requer atenção", tom: "down" }}
         />
       </div>
+      )}
 
+      {show("dashboard") && (
       <Panel className="mt-4">
+
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 pb-4">
           <h2 className="truncate font-display text-sm font-semibold uppercase tracking-wide">
             Dashboard parametrizável
@@ -160,8 +167,11 @@ function Indicadores() {
           </ResponsiveContainer>
         </div>
       </Panel>
+      )}
 
+      {show("cards") && (
       <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+
         {indicadores.map((i) => {
           const pct = atingimento(i);
           return (
@@ -187,6 +197,8 @@ function Indicadores() {
           );
         })}
       </div>
+      )}
+
     </AppShell>
   );
 }
