@@ -34,6 +34,13 @@ export const Route = createFileRoute("/estrategia")({
 
 function Estrategia() {
   const radar = objetivos.map((o) => ({ objetivo: o.codigo, aderencia: o.aderencia }));
+  const objectiveTones = [
+    { tag: "success" as const, icon: "bg-success/15 text-success" },
+    { tag: "info" as const, icon: "bg-info/15 text-info" },
+    { tag: "warning" as const, icon: "bg-warning/15 text-warning" },
+    { tag: "danger" as const, icon: "bg-destructive/15 text-destructive" },
+    { tag: "accent" as const, icon: "bg-primary/15 text-primary" },
+  ];
 
   return (
     <AppShell
@@ -121,16 +128,15 @@ function Estrategia() {
         <section className="grid gap-4 xl:col-span-7 md:grid-cols-2">
           {objetivos.slice(1).map((o, index) => {
             const vinculados = projetos.filter((p) => p.objetivoId === o.id);
-            const tones = ["success", "info", "warning", "danger", "accent"] as const;
-            const tone = tones[index % tones.length];
+            const tone = objectiveTones[index % objectiveTones.length] ?? objectiveTones[0];
             return (
               <article key={o.id} className="panel group p-5 surface-hover">
                 <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3">
-                  <span className={`grid h-9 w-9 place-items-center rounded-full bg-${tone}/15 text-${tone}`}>
+                  <span className={`grid h-9 w-9 place-items-center rounded-full ${tone.icon}`}>
                     {o.aderencia >= 70 ? <CheckCircle2 className="h-4 w-4" /> : <CircleDot className="h-4 w-4" />}
                   </span>
                   <div className="min-w-0"><p className="eyebrow text-muted-foreground">{o.codigo} · {o.perspectiva}</p><h3 className="mt-1 line-clamp-2 font-display text-base font-semibold">{o.nome}</h3></div>
-                  <Tag tom={tone}>{o.aderencia >= 70 ? "No ritmo" : o.aderencia < 45 ? "Atenção" : "Em progresso"}</Tag>
+                  <Tag tom={tone.tag}>{o.aderencia >= 70 ? "No ritmo" : o.aderencia < 45 ? "Atenção" : "Em progresso"}</Tag>
                 </div>
                 <p className="mt-5 line-clamp-1 text-xs text-muted-foreground">{o.meta}</p>
                 <div className="mt-4"><div className="mb-2 flex justify-between text-xs"><span>{vinculados.length} iniciativas</span><span className="num font-semibold">{o.aderencia}%</span></div><Barra valor={o.aderencia} tom="info" /></div>
