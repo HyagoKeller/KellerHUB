@@ -9,6 +9,7 @@ import {
   Gauge,
   ShieldAlert,
   FileBarChart,
+  Settings,
   Menu,
   X,
   Search,
@@ -28,7 +29,9 @@ const nav = [
   { to: "/indicadores", label: "Indicadores", icon: Gauge },
   { to: "/riscos", label: "Riscos", icon: ShieldAlert },
   { to: "/relatorios", label: "Relatórios", icon: FileBarChart },
+  { to: "/configuracoes", label: "Configurações", icon: Settings },
 ] as const;
+
 
 function Logo({ className }: { className?: string }) {
   return (

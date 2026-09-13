@@ -1,4 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { ViewTabs } from "@/components/ViewTabs";
+import { useViews } from "@/lib/views";
+
 import {
   Bar,
   BarChart,
@@ -64,7 +68,12 @@ const cores = [
 ];
 
 function Dashboard() {
+  const { views } = useViews("executiva");
+  const [ativa, setAtiva] = useState("padrao");
+  const view = views.find((v) => v.id === ativa);
+  const show = (bloco: string) => !view || view.blocos.includes(bloco);
   const orcamento = portfolios.reduce((a, p) => a + p.orcamento, 0);
+
   const executado = portfolios.reduce((a, p) => a + p.executado, 0);
   const criticos = riscos
     .map((r) => ({ ...r, sev: severidade(r.probabilidade, r.impacto) }))
@@ -93,7 +102,11 @@ function Dashboard() {
         </>
       }
     >
+      <ViewTabs views={views} ativa={ativa} onChange={setAtiva} />
+
+      {show("kpis") && (
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
         <Stat label="Portfólios ativos" value={String(portfolios.length)} hint="2 institucionais · 2 temáticos" />
         <Stat
           label="Projetos em carteira"
@@ -113,9 +126,14 @@ function Dashboard() {
           delta={{ texto: "+2 no trimestre", tom: "down" }}
         />
       </div>
+      )}
 
-      <div className="mt-4 grid gap-4 xl:grid-cols-3">
-        <Panel className="xl:col-span-2">
+
+      {(show("execucao") || show("status")) && (
+      <div className={`mt-4 grid gap-4 ${show("execucao") && show("status") ? "xl:grid-cols-3" : ""}`}>
+        {show("execucao") && (
+        <Panel className={show("status") ? "xl:col-span-2" : ""}>
+
           <PanelTitle title="Execução orçamentária acumulada" hint="R$ milhões · 2026" />
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -153,8 +171,11 @@ function Dashboard() {
             </ResponsiveContainer>
           </div>
         </Panel>
+        )}
 
+        {show("status") && (
         <Panel>
+
           <PanelTitle title="Projetos por status" />
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -177,10 +198,16 @@ function Dashboard() {
             </ResponsiveContainer>
           </div>
         </Panel>
+        )}
       </div>
+      )}
 
-      <div className="mt-4 grid gap-4 xl:grid-cols-3">
-        <Panel className="xl:col-span-2">
+
+      {(show("portfolios") || show("riscos")) && (
+      <div className={`mt-4 grid gap-4 ${show("portfolios") && show("riscos") ? "xl:grid-cols-3" : ""}`}>
+        {show("portfolios") && (
+        <Panel className={show("riscos") ? "xl:col-span-2" : ""}>
+
           <PanelTitle title="Portfólios institucionais" hint="progresso e execução" />
           <div className="space-y-4">
             {portfolios.map((p) => (
@@ -208,8 +235,11 @@ function Dashboard() {
             ))}
           </div>
         </Panel>
+        )}
 
+        {show("riscos") && (
         <Panel>
+
           <PanelTitle title="Riscos em destaque" hint="severidade" />
           <ul className="space-y-3">
             {criticos.map((r) => (
@@ -225,10 +255,16 @@ function Dashboard() {
             ))}
           </ul>
         </Panel>
+        )}
       </div>
+      )}
 
-      <div className="mt-4 grid gap-4 xl:grid-cols-3">
-        <Panel className="xl:col-span-2">
+
+      {(show("progresso") || show("auditoria")) && (
+      <div className={`mt-4 grid gap-4 ${show("progresso") && show("auditoria") ? "xl:grid-cols-3" : ""}`}>
+        {show("progresso") && (
+        <Panel className={show("auditoria") ? "xl:col-span-2" : ""}>
+
           <PanelTitle title="Progresso médio por portfólio" />
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
@@ -250,8 +286,11 @@ function Dashboard() {
             </ResponsiveContainer>
           </div>
         </Panel>
+        )}
 
+        {show("auditoria") && (
         <Panel>
+
           <PanelTitle title="Trilha de auditoria" hint="últimos eventos" />
           <ul className="space-y-3">
             {auditoria.slice(0, 5).map((a) => (
@@ -266,7 +305,10 @@ function Dashboard() {
             ))}
           </ul>
         </Panel>
+        )}
       </div>
+      )}
+
     </AppShell>
   );
 }

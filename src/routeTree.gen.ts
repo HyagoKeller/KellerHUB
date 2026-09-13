@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as EstrategiaRouteImport } from './routes/estrategia'
 import { Route as IndicadoresRouteImport } from './routes/indicadores'
 import { Route as PortfoliosRouteImport } from './routes/portfolios'
@@ -22,6 +23,11 @@ import { Route as ProjetosIdRouteImport } from './routes/projetos.$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EstrategiaRoute = EstrategiaRouteImport.update({
@@ -67,6 +73,7 @@ const ProjetosIdRoute = ProjetosIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/estrategia': typeof EstrategiaRoute
   '/indicadores': typeof IndicadoresRoute
   '/portfolios': typeof PortfoliosRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/estrategia': typeof EstrategiaRoute
   '/indicadores': typeof IndicadoresRoute
   '/portfolios': typeof PortfoliosRoute
@@ -90,6 +98,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/configuracoes': typeof ConfiguracoesRoute
   '/estrategia': typeof EstrategiaRoute
   '/indicadores': typeof IndicadoresRoute
   '/portfolios': typeof PortfoliosRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/configuracoes'
     | '/estrategia'
     | '/indicadores'
     | '/portfolios'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/configuracoes'
     | '/estrategia'
     | '/indicadores'
     | '/portfolios'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/configuracoes'
     | '/estrategia'
     | '/indicadores'
     | '/portfolios'
@@ -137,6 +149,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConfiguracoesRoute: typeof ConfiguracoesRoute
   EstrategiaRoute: typeof EstrategiaRoute
   IndicadoresRoute: typeof IndicadoresRoute
   PortfoliosRoute: typeof PortfoliosRoute
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/configuracoes': {
+      id: '/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof ConfiguracoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/estrategia': {
@@ -217,6 +237,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConfiguracoesRoute: ConfiguracoesRoute,
   EstrategiaRoute: EstrategiaRoute,
   IndicadoresRoute: IndicadoresRoute,
   PortfoliosRoute: PortfoliosRoute,

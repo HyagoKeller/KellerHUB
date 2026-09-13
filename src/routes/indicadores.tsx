@@ -11,8 +11,11 @@ import {
   YAxis,
 } from "recharts";
 import { AppShell } from "@/components/AppShell";
+import { ViewTabs } from "@/components/ViewTabs";
 import { Barra, Panel, PanelTitle, Stat, Tag } from "@/components/ui-kit";
 import { indicadores } from "@/lib/mock-data";
+import { useViews } from "@/lib/views";
+
 
 export const Route = createFileRoute("/indicadores")({
   head: () => ({
@@ -44,6 +47,11 @@ function atingimento(i: (typeof indicadores)[number]) {
 function Indicadores() {
   const [selecionados, setSelecionados] = useState<string[]>(["kpi-1", "kpi-3", "kpi-5"]);
   const [periodo, setPeriodo] = useState("Últimos 6 meses");
+  const { views } = useViews("indicadores");
+  const [ativa, setAtiva] = useState("padrao");
+  const view = views.find((v) => v.id === ativa);
+  const show = (bloco: string) => !view || view.blocos.includes(bloco);
+
 
   const toggle = (id: string) =>
     setSelecionados((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
@@ -78,7 +86,11 @@ function Indicadores() {
         </>
       }
     >
+      <ViewTabs views={views} ativa={ativa} onChange={setAtiva} />
+
+      {show("kpis") && (
       <div className="grid gap-4 sm:grid-cols-3">
+
         <Stat label="Indicadores cadastrados" value={String(indicadores.length)} />
         <Stat
           label="Dentro da meta"
@@ -91,8 +103,11 @@ function Indicadores() {
           delta={{ texto: "requer atenção", tom: "down" }}
         />
       </div>
+      )}
 
+      {show("dashboard") && (
       <Panel className="mt-4">
+
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 pb-4">
           <h2 className="truncate font-display text-sm font-semibold uppercase tracking-wide">
             Dashboard parametrizável
@@ -152,8 +167,11 @@ function Indicadores() {
           </ResponsiveContainer>
         </div>
       </Panel>
+      )}
 
+      {show("cards") && (
       <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+
         {indicadores.map((i) => {
           const pct = atingimento(i);
           return (
@@ -179,6 +197,8 @@ function Indicadores() {
           );
         })}
       </div>
+      )}
+
     </AppShell>
   );
 }
