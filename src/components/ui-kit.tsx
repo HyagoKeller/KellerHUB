@@ -14,7 +14,7 @@ export function Panel({
   return (
     <section
       className={cn(
-        "panel p-5",
+        "panel overflow-hidden p-5",
         rule === "ink" && "panel-rule",
         rule === "primary" && "panel-rule-primary",
         rule === "accent" && "panel-rule-accent",
@@ -28,8 +28,8 @@ export function Panel({
 
 export function PanelTitle({ title, hint }: { title: string; hint?: string }) {
   return (
-    <div className="mb-4 grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-3 border-b border-border pb-3">
-      <h2 className="eyebrow truncate text-foreground">{title}</h2>
+    <div className="mb-5 grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-3">
+      <h2 className="truncate font-display text-base font-semibold text-foreground">{title}</h2>
       {hint && <span className="shrink-0 text-[11px] text-muted-foreground">{hint}</span>}
     </div>
   );
@@ -47,9 +47,9 @@ export function Stat({
   hint?: string;
 }) {
   return (
-    <div className="panel panel-rule relative overflow-hidden p-5">
+    <div className="panel panel-rule relative min-h-32 overflow-hidden p-5">
       <p className="eyebrow text-muted-foreground">{label}</p>
-      <p className="num mt-3 text-[30px] font-semibold leading-none text-foreground sm:text-[34px]">
+      <p className="num mt-4 text-[32px] font-bold leading-none text-foreground sm:text-[38px]">
         {value}
       </p>
       <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px]">
