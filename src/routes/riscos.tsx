@@ -29,6 +29,8 @@ export const Route = createFileRoute("/riscos")({
         property: "og:description",
         content: "Matriz de probabilidade × impacto, severidade e planos de mitigação com responsáveis e prazos.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Riscos,

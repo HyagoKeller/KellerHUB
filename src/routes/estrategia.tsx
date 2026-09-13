@@ -27,6 +27,8 @@ export const Route = createFileRoute("/estrategia")({
         property: "og:description",
         content: "Meça o quanto os objetivos estratégicos são atendidos pelos projetos vinculados.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Estrategia,

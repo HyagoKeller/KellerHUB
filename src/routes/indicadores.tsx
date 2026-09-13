@@ -28,6 +28,8 @@ export const Route = createFileRoute("/indicadores")({
         property: "og:description",
         content: "Dashboards parametrizáveis de KPIs com exportação CSV/XLSX para Power BI.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Indicadores,
