@@ -130,9 +130,9 @@ function Dashboard() {
 
 
       {(show("execucao") || show("status")) && (
-      <div className="mt-4 grid gap-4 xl:grid-cols-3">
+      <div className={`mt-4 grid gap-4 ${show("execucao") && show("status") ? "xl:grid-cols-3" : ""}`}>
         {show("execucao") && (
-        <Panel className="xl:col-span-2">
+        <Panel className={show("status") ? "xl:col-span-2" : ""}>
 
           <PanelTitle title="Execução orçamentária acumulada" hint="R$ milhões · 2026" />
           <div className="h-64">
@@ -204,9 +204,9 @@ function Dashboard() {
 
 
       {(show("portfolios") || show("riscos")) && (
-      <div className="mt-4 grid gap-4 xl:grid-cols-3">
+      <div className={`mt-4 grid gap-4 ${show("portfolios") && show("riscos") ? "xl:grid-cols-3" : ""}`}>
         {show("portfolios") && (
-        <Panel className="xl:col-span-2">
+        <Panel className={show("riscos") ? "xl:col-span-2" : ""}>
 
           <PanelTitle title="Portfólios institucionais" hint="progresso e execução" />
           <div className="space-y-4">
@@ -261,9 +261,9 @@ function Dashboard() {
 
 
       {(show("progresso") || show("auditoria")) && (
-      <div className="mt-4 grid gap-4 xl:grid-cols-3">
+      <div className={`mt-4 grid gap-4 ${show("progresso") && show("auditoria") ? "xl:grid-cols-3" : ""}`}>
         {show("progresso") && (
-        <Panel className="xl:col-span-2">
+        <Panel className={show("auditoria") ? "xl:col-span-2" : ""}>
 
           <PanelTitle title="Progresso médio por portfólio" />
           <div className="h-56">
