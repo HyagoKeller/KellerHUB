@@ -11,8 +11,11 @@ import {
   YAxis,
 } from "recharts";
 import { AppShell } from "@/components/AppShell";
+import { ViewTabs } from "@/components/ViewTabs";
 import { Barra, Panel, PanelTitle, Stat, Tag } from "@/components/ui-kit";
 import { indicadores } from "@/lib/mock-data";
+import { useViews } from "@/lib/views";
+
 
 export const Route = createFileRoute("/indicadores")({
   head: () => ({
@@ -44,6 +47,11 @@ function atingimento(i: (typeof indicadores)[number]) {
 function Indicadores() {
   const [selecionados, setSelecionados] = useState<string[]>(["kpi-1", "kpi-3", "kpi-5"]);
   const [periodo, setPeriodo] = useState("Últimos 6 meses");
+  const { views } = useViews("indicadores");
+  const [ativa, setAtiva] = useState("padrao");
+  const view = views.find((v) => v.id === ativa);
+  const show = (bloco: string) => !view || view.blocos.includes(bloco);
+
 
   const toggle = (id: string) =>
     setSelecionados((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
