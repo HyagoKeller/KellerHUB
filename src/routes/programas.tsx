@@ -18,6 +18,8 @@ export const Route = createFileRoute("/programas")({
         property: "og:description",
         content: "Acompanhe metas de programas e a hierarquia portfólio → programa → projeto.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Programas,

@@ -31,6 +31,8 @@ export const Route = createFileRoute("/projetos/$id")({
         { name: "description", content: `Escopo, cronograma, custo, riscos e status reports do projeto ${loaderData.projeto.nome}.` },
         { property: "og:title", content: t },
         { property: "og:description", content: `Acompanhamento detalhado do projeto ${loaderData.projeto.nome}.` },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
     };
   },

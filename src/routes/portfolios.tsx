@@ -18,6 +18,8 @@ export const Route = createFileRoute("/portfolios")({
         property: "og:description",
         content: "Priorize portfólios por score e acompanhe orçamento, progresso e riscos consolidados.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Portfolios,

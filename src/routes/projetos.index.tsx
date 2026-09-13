@@ -18,6 +18,8 @@ export const Route = createFileRoute("/projetos/")({
         property: "og:description",
         content: "Acompanhe prazo, custo, progresso e saúde de toda a carteira de projetos.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Projetos,

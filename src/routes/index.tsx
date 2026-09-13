@@ -40,6 +40,8 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Gestão institucional de portfólios, programas e projetos em uma única plataforma.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Dashboard,

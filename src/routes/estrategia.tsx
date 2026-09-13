@@ -7,9 +7,11 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import { ArrowUpRight, CheckCircle2, CircleDot, Plus, Sparkles } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, Stat, Tag } from "@/components/ui-kit";
-import { objetivos, portfolioDoProjeto, programas, projetos } from "@/lib/mock-data";
+import { Button } from "@/components/ui/button";
+import { objetivos, programas, projetos } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/estrategia")({
   head: () => ({
@@ -25,6 +27,8 @@ export const Route = createFileRoute("/estrategia")({
         property: "og:description",
         content: "Meça o quanto os objetivos estratégicos são atendidos pelos projetos vinculados.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Estrategia,
@@ -32,18 +36,23 @@ export const Route = createFileRoute("/estrategia")({
 
 function Estrategia() {
   const radar = objetivos.map((o) => ({ objetivo: o.codigo, aderencia: o.aderencia }));
+  const objectiveTones = [
+    { tag: "success" as const, icon: "bg-success/15 text-success" },
+    { tag: "info" as const, icon: "bg-info/15 text-info" },
+    { tag: "warning" as const, icon: "bg-warning/15 text-warning" },
+    { tag: "danger" as const, icon: "bg-destructive/15 text-destructive" },
+    { tag: "accent" as const, icon: "bg-primary/15 text-primary" },
+  ];
 
   return (
     <AppShell
       title="Gestão Estratégica"
       description="Objetivos e metas institucionais com alinhamento rastreável dos projetos e programas que os sustentam."
       actions={
-        <button className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
-          Novo objetivo
-        </button>
+        <Button><Plus /> Novo objetivo</Button>
       }
     >
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Stat label="Objetivos estratégicos" value={String(objetivos.length)} />
         <Stat
           label="Aderência média"
@@ -54,55 +63,24 @@ function Estrategia() {
           value={String(projetos.length + programas.length)}
           hint={`${projetos.length} projetos · ${programas.length} programas`}
         />
+        <Stat label="Objetivos no ritmo" value="4 de 6" delta={{ texto: "+1 no trimestre", tom: "up" }} />
       </div>
 
-      <div className="mt-4 grid gap-4 xl:grid-cols-3">
-        <Panel className="xl:col-span-2">
-          <PanelTitle title="Objetivos estratégicos" hint="aderência das iniciativas" />
-          <ul className="space-y-3">
-            {objetivos.map((o) => {
-              const vinculados = projetos.filter((p) => p.objetivoId === o.id);
-              return (
-                <li key={o.id} className="rounded-lg border border-border p-4">
-                  <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
-                    <div className="min-w-0">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Tag tom="accent">{o.codigo}</Tag>
-                        <Tag>{o.perspectiva}</Tag>
-                      </div>
-                      <p className="mt-2 truncate font-medium">{o.nome}</p>
-                      <p className="truncate text-xs text-muted-foreground">
-                        Meta: {o.meta} · Responsável: {o.responsavel}
-                      </p>
-                    </div>
-                    <div className="shrink-0 text-right">
-                      <p className="num font-display text-xl font-bold">{o.aderencia}%</p>
-                      <p className="text-[11px] text-muted-foreground">aderência</p>
-                    </div>
-                  </div>
-                  <div className="mt-3">
-                    <Barra valor={o.aderencia} />
-                  </div>
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {vinculados.map((p) => (
-                      <span
-                        key={p.id}
-                        className="truncate rounded-md border border-border px-2 py-1 text-[11px] text-muted-foreground"
-                      >
-                        {p.nome} · {portfolioDoProjeto(p)?.nome}
-                      </span>
-                    ))}
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+      <div className="mt-4 grid gap-4 xl:grid-cols-12">
+        <Panel rule="primary" className="relative xl:col-span-8">
+          <div className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary"><Sparkles className="h-5 w-5" /></div>
+          <p className="eyebrow text-primary">Objetivo prioritário</p>
+          <h2 className="mt-4 max-w-2xl font-display text-2xl font-bold sm:text-3xl">{objetivos[0].nome}</h2>
+          <p className="mt-3 text-sm text-muted-foreground">{objetivos[0].meta} · liderança de {objetivos[0].responsavel}</p>
+          <div className="mt-8 grid gap-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+            <div><div className="mb-2 flex justify-between text-xs"><span className="font-semibold">Aderência consolidada</span><span className="num">{objetivos[0].aderencia}%</span></div><Barra valor={objetivos[0].aderencia} tom="info" /></div>
+            <Button variant="outline">Abrir mapa <ArrowUpRight /></Button>
+          </div>
         </Panel>
 
-        <div className="space-y-4">
-          <Panel>
+        <Panel className="xl:col-span-4">
             <PanelTitle title="Desempenho estratégico" />
-            <div className="h-72">
+            <div className="h-56">
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart data={radar} outerRadius="72%">
                   <PolarGrid stroke="var(--color-border)" />
@@ -124,11 +102,11 @@ function Estrategia() {
                 </RadarChart>
               </ResponsiveContainer>
             </div>
-          </Panel>
+        </Panel>
 
-          <Panel>
+        <Panel className="xl:col-span-5">
             <PanelTitle title="Perspectivas" />
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-4 text-sm">
               {["Cidadão", "Processos", "Governança", "Pessoas"].map((perspectiva) => {
                 const grupo = objetivos.filter((o) => o.perspectiva === perspectiva);
                 const media = grupo.length
@@ -147,8 +125,27 @@ function Estrategia() {
                 );
               })}
             </ul>
-          </Panel>
-        </div>
+        </Panel>
+
+        <section className="grid gap-4 xl:col-span-7 md:grid-cols-2">
+          {objetivos.slice(1).map((o, index) => {
+            const vinculados = projetos.filter((p) => p.objetivoId === o.id);
+            const tone = objectiveTones[index % objectiveTones.length] ?? objectiveTones[0];
+            return (
+              <article key={o.id} className="panel group p-5 surface-hover">
+                <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3">
+                  <span className={`grid h-9 w-9 place-items-center rounded-full ${tone.icon}`}>
+                    {o.aderencia >= 70 ? <CheckCircle2 className="h-4 w-4" /> : <CircleDot className="h-4 w-4" />}
+                  </span>
+                  <div className="min-w-0"><p className="eyebrow text-muted-foreground">{o.codigo} · {o.perspectiva}</p><h3 className="mt-1 line-clamp-2 font-display text-base font-semibold">{o.nome}</h3></div>
+                  <Tag tom={tone.tag}>{o.aderencia >= 70 ? "No ritmo" : o.aderencia < 45 ? "Atenção" : "Em progresso"}</Tag>
+                </div>
+                <p className="mt-5 line-clamp-1 text-xs text-muted-foreground">{o.meta}</p>
+                <div className="mt-4"><div className="mb-2 flex justify-between text-xs"><span>{vinculados.length} iniciativas</span><span className="num font-semibold">{o.aderencia}%</span></div><Barra valor={o.aderencia} tom="info" /></div>
+              </article>
+            );
+          })}
+        </section>
       </div>
     </AppShell>
   );
