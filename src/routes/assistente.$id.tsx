@@ -20,6 +20,8 @@ import {
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { useConversas } from "@/lib/assistente-conversas";
 import { usuarioAtual } from "@/lib/mock-data";
+import { useMotorIA } from "@/lib/ai-provedores";
+
 import { cn } from "@/lib/utils";
 import marca from "@/assets/assistente-ia.png";
 
@@ -185,12 +187,22 @@ function Assistente() {
                   registradas na trilha de auditoria.
                 </span>
               </p>
+              <p className="flex items-start gap-2">
+                <Cpu className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                <span>
+                  Motor em uso:{" "}
+                  <strong className="text-foreground">{motor.nome}</strong>
+                  {motor.tipo === "externo" ? " (serviço externo autorizado)" : " (interno)"}. Pode
+                  ser trocado em Configurações, sem mudar nada na plataforma.
+                </span>
+              </p>
 
               <div className="flex flex-wrap gap-1.5">
                 <Tag tom="info">Riscos</Tag>
                 <Tag tom="accent">Indicadores</Tag>
                 <Tag tom="success">Sumários executivos</Tag>
               </div>
+
             </div>
           </Panel>
         </div>
