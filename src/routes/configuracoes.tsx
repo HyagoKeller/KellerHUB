@@ -213,6 +213,109 @@ function Configuracoes() {
         </div>
       </Panel>
 
+      <Panel className="mt-4" rule="primary">
+        <PanelTitle title="Motor de IA" hint="substituível a qualquer momento" />
+        <p className="mb-4 max-w-3xl text-xs leading-relaxed text-muted-foreground">
+          O assistente é independente do fornecedor: troque o motor sem alterar módulos, dados ou
+          telas da plataforma. Os motores internos já estão incluídos no contrato, sem cobrança por
+          consulta, requisição ou volume de texto.
+        </p>
+
+        <div className="grid gap-3 md:grid-cols-3">
+          {motoresIA.map((m) => {
+            const ativo = m.id === motorConfig.motorId;
+            return (
+              <button
+                key={m.id}
+                type="button"
+                onClick={() => salvarMotor({ motorId: m.id })}
+                className={cn(
+                  "rounded-2xl border p-4 text-left transition-colors",
+                  ativo
+                    ? "border-primary bg-primary/10"
+                    : "border-border bg-card/60 hover:border-primary/40",
+                )}
+              >
+                <div className="flex flex-wrap items-center gap-2">
+                  <Cpu className={cn("h-4 w-4", ativo ? "text-primary" : "text-muted-foreground")} />
+                  <p className="font-display text-sm font-semibold">{m.nome}</p>
+                  <Tag tom={m.tipo === "interno" ? "success" : "info"}>
+                    {m.tipo === "interno" ? "Interno" : "Externo"}
+                  </Tag>
+                </div>
+                <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                  {m.descricao}
+                </p>
+                <p className="mt-2 text-[11px] text-muted-foreground">
+                  {m.fornecedor}
+                  {m.incluidoNoContrato ? " · sem custo por consulta" : " · credencial da organização"}
+                </p>
+              </button>
+            );
+          })}
+        </div>
+
+        {motor.tipo === "externo" && (
+          <div className="mt-4 grid gap-4 rounded-2xl border border-warning/40 bg-warning/5 p-4">
+            <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
+              <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
+              <span>
+                É vedado enviar dados pessoais, sensíveis, restritos ou sigilosos a ferramentas
+                externas de IA sem autorização prévia e expressa da contratante. Os dados também não
+                podem ser usados para treinamento de modelos de terceiros.
+              </span>
+            </p>
+
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs text-foreground">
+                Autorização expressa registrada para uso do motor externo
+              </p>
+              <Toggle
+                on={motorConfig.autorizacaoExterna}
+                onClick={() => salvarMotor({ autorizacaoExterna: !motorConfig.autorizacaoExterna })}
+                label="Autorizar motor externo de IA"
+              />
+            </div>
+
+            <div className="grid gap-3 md:grid-cols-3">
+              <label className="grid gap-1.5 text-xs">
+                <span className="eyebrow text-muted-foreground">Endpoint do serviço</span>
+                <input
+                  value={motorConfig.endpoint}
+                  onChange={(e) => salvarMotor({ endpoint: e.target.value })}
+                  placeholder="https://api.fornecedor.com/v1"
+                  className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
+                />
+              </label>
+              <label className="grid gap-1.5 text-xs">
+                <span className="eyebrow text-muted-foreground">Modelo</span>
+                <input
+                  value={motorConfig.modelo}
+                  onChange={(e) => salvarMotor({ modelo: e.target.value })}
+                  placeholder={motor.modelo || "nome-do-modelo"}
+                  className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
+                />
+              </label>
+              <label className="grid gap-1.5 text-xs">
+                <span className="eyebrow text-muted-foreground">Segredo com a credencial</span>
+                <input
+                  value={motorConfig.segredo}
+                  onChange={(e) => salvarMotor({ segredo: e.target.value })}
+                  placeholder="IA_EXTERNA_API_KEY"
+                  className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
+                />
+              </label>
+            </div>
+            <p className="text-[11px] text-muted-foreground">
+              A credencial fica guardada apenas no cofre de segredos do ambiente; nunca é gravada
+              nesta tela nem enviada ao navegador.
+            </p>
+          </div>
+        )}
+      </Panel>
+
+
+
       <Panel className="mt-4" rule="accent">
         <PanelTitle title="Segmentação por perfil" hint="controle de acesso" />
         <div className="overflow-x-auto">
