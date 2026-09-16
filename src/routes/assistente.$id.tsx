@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import { MessageSquarePlus, ShieldCheck, Trash2, Lock } from "lucide-react";
@@ -57,7 +57,6 @@ function Assistente() {
   const navigate = useNavigate();
   const { conversas, criar, remover, salvarMensagens } = useConversas();
   const [erro, setErro] = useState<string | null>(null);
-  const campo = useRef<HTMLTextAreaElement | null>(null);
 
   const conversa = useMemo(() => conversas.find((c) => c.id === id), [conversas, id]);
   const iniciais = useMemo<UIMessage[]>(() => conversa?.mensagens ?? [], [conversa?.id]);
@@ -85,7 +84,9 @@ function Assistente() {
   }, [messages, carregando, id, salvarMensagens]);
 
   useEffect(() => {
-    campo.current?.focus();
+    if (typeof document === "undefined") return;
+    const area = document.querySelector<HTMLTextAreaElement>("textarea[data-assistente]");
+    area?.focus();
   }, [id, carregando]);
 
   const enviar = async (texto: string) => {
@@ -259,7 +260,8 @@ function Assistente() {
               }}
             >
               <PromptInputTextarea
-                ref={campo}
+                data-assistente=""
+                autoFocus
                 placeholder="Ex.: consolide os riscos críticos e gere um sumário para o comitê."
               />
               <PromptInputFooter className="justify-end">

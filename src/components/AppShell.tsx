@@ -8,6 +8,7 @@ import {
   Target,
   Gauge,
   ShieldAlert,
+  BrainCircuit,
   FileBarChart,
   Settings,
   Menu,
@@ -29,6 +30,7 @@ const nav = [
   { to: "/indicadores", label: "Indicadores", icon: Gauge },
   { to: "/riscos", label: "Riscos", icon: ShieldAlert },
   { to: "/relatorios", label: "Relatórios", icon: FileBarChart },
+  { to: "/assistente", label: "Assistente IA", icon: BrainCircuit },
   { to: "/configuracoes", label: "Configurações", icon: Settings },
 ] as const;
 
