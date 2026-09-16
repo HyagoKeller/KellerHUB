@@ -171,12 +171,15 @@ function Assistente() {
             <div className="grid gap-3 text-xs text-muted-foreground">
               <p className="flex items-start gap-2">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-success" />
-                As respostas usam apenas os registros da plataforma liberados para o perfil{" "}
-                <strong className="text-foreground">{usuarioAtual.perfil}</strong>.
+                <span>
+                  As respostas usam apenas os registros da plataforma liberados para o perfil{" "}
+                  <strong className="text-foreground">{usuarioAtual.perfil}</strong>.
+                </span>
               </p>
               <p className="flex items-start gap-2">
                 <Lock className="mt-0.5 h-4 w-4 shrink-0 text-info" />
-                Dados sensíveis não são compartilhados fora da plataforma e as consultas ficam
+                <span>
+                  Dados sensíveis não são compartilhados fora da plataforma e as consultas ficam
                 registradas na trilha de auditoria.
               </p>
               <div className="flex flex-wrap gap-1.5">
