@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { MessageSquarePlus, ShieldCheck, Trash2, Lock } from "lucide-react";
+import { Cpu, MessageSquarePlus, ShieldCheck, Trash2, Lock } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Panel, PanelTitle, Tag } from "@/components/ui-kit";
 import {
