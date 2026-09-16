@@ -180,8 +180,10 @@ function Assistente() {
                 <Lock className="mt-0.5 h-4 w-4 shrink-0 text-info" />
                 <span>
                   Dados sensíveis não são compartilhados fora da plataforma e as consultas ficam
-                registradas na trilha de auditoria.
+                  registradas na trilha de auditoria.
+                </span>
               </p>
+
               <div className="flex flex-wrap gap-1.5">
                 <Tag tom="info">Riscos</Tag>
                 <Tag tom="accent">Indicadores</Tag>
