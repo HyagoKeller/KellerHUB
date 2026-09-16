@@ -17,6 +17,9 @@ import { Route as PortfoliosRouteImport } from './routes/portfolios'
 import { Route as ProgramasRouteImport } from './routes/programas'
 import { Route as RelatoriosRouteImport } from './routes/relatorios'
 import { Route as RiscosRouteImport } from './routes/riscos'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AssistenteIndexRouteImport } from './routes/assistente.index'
+import { Route as AssistenteIdRouteImport } from './routes/assistente.$id'
 import { Route as ProjetosIndexRouteImport } from './routes/projetos.index'
 import { Route as ProjetosIdRouteImport } from './routes/projetos.$id'
 
@@ -60,6 +63,21 @@ const RiscosRoute = RiscosRouteImport.update({
   path: '/riscos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistenteIndexRoute = AssistenteIndexRouteImport.update({
+  id: '/assistente/',
+  path: '/assistente/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistenteIdRoute = AssistenteIdRouteImport.update({
+  id: '/assistente/$id',
+  path: '/assistente/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProjetosIndexRoute = ProjetosIndexRouteImport.update({
   id: '/projetos/',
   path: '/projetos/',
@@ -80,7 +98,10 @@ export interface FileRoutesByFullPath {
   '/programas': typeof ProgramasRoute
   '/relatorios': typeof RelatoriosRoute
   '/riscos': typeof RiscosRoute
+  '/api/chat': typeof ApiChatRoute
+  '/assistente/$id': typeof AssistenteIdRoute
   '/projetos/$id': typeof ProjetosIdRoute
+  '/assistente/': typeof AssistenteIndexRoute
   '/projetos/': typeof ProjetosIndexRoute
 }
 export interface FileRoutesByTo {
@@ -92,7 +113,10 @@ export interface FileRoutesByTo {
   '/programas': typeof ProgramasRoute
   '/relatorios': typeof RelatoriosRoute
   '/riscos': typeof RiscosRoute
+  '/api/chat': typeof ApiChatRoute
+  '/assistente/$id': typeof AssistenteIdRoute
   '/projetos/$id': typeof ProjetosIdRoute
+  '/assistente': typeof AssistenteIndexRoute
   '/projetos': typeof ProjetosIndexRoute
 }
 export interface FileRoutesById {
@@ -105,7 +129,10 @@ export interface FileRoutesById {
   '/programas': typeof ProgramasRoute
   '/relatorios': typeof RelatoriosRoute
   '/riscos': typeof RiscosRoute
+  '/api/chat': typeof ApiChatRoute
+  '/assistente/$id': typeof AssistenteIdRoute
   '/projetos/$id': typeof ProjetosIdRoute
+  '/assistente/': typeof AssistenteIndexRoute
   '/projetos/': typeof ProjetosIndexRoute
 }
 export interface FileRouteTypes {
@@ -119,7 +146,10 @@ export interface FileRouteTypes {
     | '/programas'
     | '/relatorios'
     | '/riscos'
+    | '/api/chat'
+    | '/assistente/$id'
     | '/projetos/$id'
+    | '/assistente/'
     | '/projetos/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -131,7 +161,10 @@ export interface FileRouteTypes {
     | '/programas'
     | '/relatorios'
     | '/riscos'
+    | '/api/chat'
+    | '/assistente/$id'
     | '/projetos/$id'
+    | '/assistente'
     | '/projetos'
   id:
     | '__root__'
@@ -143,7 +176,10 @@ export interface FileRouteTypes {
     | '/programas'
     | '/relatorios'
     | '/riscos'
+    | '/api/chat'
+    | '/assistente/$id'
     | '/projetos/$id'
+    | '/assistente/'
     | '/projetos/'
   fileRoutesById: FileRoutesById
 }
@@ -156,7 +192,10 @@ export interface RootRouteChildren {
   ProgramasRoute: typeof ProgramasRoute
   RelatoriosRoute: typeof RelatoriosRoute
   RiscosRoute: typeof RiscosRoute
+  ApiChatRoute: typeof ApiChatRoute
+  AssistenteIdRoute: typeof AssistenteIdRoute
   ProjetosIdRoute: typeof ProjetosIdRoute
+  AssistenteIndexRoute: typeof AssistenteIndexRoute
   ProjetosIndexRoute: typeof ProjetosIndexRoute
 }
 
@@ -218,6 +257,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RiscosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistente/': {
+      id: '/assistente/'
+      path: '/assistente'
+      fullPath: '/assistente/'
+      preLoaderRoute: typeof AssistenteIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistente/$id': {
+      id: '/assistente/$id'
+      path: '/assistente/$id'
+      fullPath: '/assistente/$id'
+      preLoaderRoute: typeof AssistenteIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/projetos/': {
       id: '/projetos/'
       path: '/projetos'
@@ -244,7 +304,10 @@ const rootRouteChildren: RootRouteChildren = {
   ProgramasRoute: ProgramasRoute,
   RelatoriosRoute: RelatoriosRoute,
   RiscosRoute: RiscosRoute,
+  ApiChatRoute: ApiChatRoute,
+  AssistenteIdRoute: AssistenteIdRoute,
   ProjetosIdRoute: ProjetosIdRoute,
+  AssistenteIndexRoute: AssistenteIndexRoute,
   ProjetosIndexRoute: ProjetosIndexRoute,
 }
 export const routeTree = rootRouteImport
