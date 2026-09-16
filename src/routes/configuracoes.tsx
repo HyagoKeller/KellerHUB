@@ -85,6 +85,14 @@ const integracoesIniciais: Integracao[] = [
     conectado: false,
   },
   {
+    id: "kiro",
+    nome: "Kiro",
+    descricao: "Assistente de especificações e tarefas técnicas vinculado às entregas dos projetos.",
+    categoria: "Execução",
+    conectado: false,
+  },
+
+  {
     id: "sso",
     nome: "SSO SAML / Entra ID",
     descricao: "Autenticação corporativa com provisionamento automático de usuários.",
