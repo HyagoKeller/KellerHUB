@@ -17,6 +17,7 @@ import { Route as PortfoliosRouteImport } from './routes/portfolios'
 import { Route as ProgramasRouteImport } from './routes/programas'
 import { Route as RelatoriosRouteImport } from './routes/relatorios'
 import { Route as RiscosRouteImport } from './routes/riscos'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ProjetosIndexRouteImport } from './routes/projetos.index'
 import { Route as ProjetosIdRouteImport } from './routes/projetos.$id'
 
@@ -60,6 +61,11 @@ const RiscosRoute = RiscosRouteImport.update({
   path: '/riscos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProjetosIndexRoute = ProjetosIndexRouteImport.update({
   id: '/projetos/',
   path: '/projetos/',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/programas': typeof ProgramasRoute
   '/relatorios': typeof RelatoriosRoute
   '/riscos': typeof RiscosRoute
+  '/api/chat': typeof ApiChatRoute
   '/projetos/$id': typeof ProjetosIdRoute
   '/projetos/': typeof ProjetosIndexRoute
 }
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/programas': typeof ProgramasRoute
   '/relatorios': typeof RelatoriosRoute
   '/riscos': typeof RiscosRoute
+  '/api/chat': typeof ApiChatRoute
   '/projetos/$id': typeof ProjetosIdRoute
   '/projetos': typeof ProjetosIndexRoute
 }
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/programas': typeof ProgramasRoute
   '/relatorios': typeof RelatoriosRoute
   '/riscos': typeof RiscosRoute
+  '/api/chat': typeof ApiChatRoute
   '/projetos/$id': typeof ProjetosIdRoute
   '/projetos/': typeof ProjetosIndexRoute
 }
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/programas'
     | '/relatorios'
     | '/riscos'
+    | '/api/chat'
     | '/projetos/$id'
     | '/projetos/'
   fileRoutesByTo: FileRoutesByTo
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/programas'
     | '/relatorios'
     | '/riscos'
+    | '/api/chat'
     | '/projetos/$id'
     | '/projetos'
   id:
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/programas'
     | '/relatorios'
     | '/riscos'
+    | '/api/chat'
     | '/projetos/$id'
     | '/projetos/'
   fileRoutesById: FileRoutesById
@@ -156,6 +168,7 @@ export interface RootRouteChildren {
   ProgramasRoute: typeof ProgramasRoute
   RelatoriosRoute: typeof RelatoriosRoute
   RiscosRoute: typeof RiscosRoute
+  ApiChatRoute: typeof ApiChatRoute
   ProjetosIdRoute: typeof ProjetosIdRoute
   ProjetosIndexRoute: typeof ProjetosIndexRoute
 }
@@ -218,6 +231,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RiscosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/projetos/': {
       id: '/projetos/'
       path: '/projetos'
@@ -244,6 +264,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProgramasRoute: ProgramasRoute,
   RelatoriosRoute: RelatoriosRoute,
   RiscosRoute: RiscosRoute,
+  ApiChatRoute: ApiChatRoute,
   ProjetosIdRoute: ProjetosIdRoute,
   ProjetosIndexRoute: ProjetosIndexRoute,
 }
