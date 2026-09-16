@@ -34,7 +34,7 @@ function AssistenteIndex() {
   }, [navigate]);
 
   return (
-    <AppShell titulo="Assistente de Governança" descricao="Abrindo a sua última consulta…">
+    <AppShell title="Assistente de Governança" description="Abrindo a sua última consulta…">
       <div className="grid h-64 place-items-center text-sm text-muted-foreground">
         Carregando o assistente…
       </div>
