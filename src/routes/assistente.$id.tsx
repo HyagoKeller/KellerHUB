@@ -60,14 +60,15 @@ function Assistente() {
 
   const conversa = useMemo(() => conversas.find((c) => c.id === id), [conversas, id]);
   const iniciais = useMemo<UIMessage[]>(() => conversa?.mensagens ?? [], [conversa?.id]);
+  const { config: motorConfig, motor } = useMotorIA();
 
   const transporte = useMemo(
     () =>
       new DefaultChatTransport({
         api: "/api/chat",
-        body: { perfil: usuarioAtual.perfil },
+        body: { perfil: usuarioAtual.perfil, motor: motorConfig },
       }),
-    [],
+    [motorConfig],
   );
 
   const { messages, sendMessage, status, stop } = useChat({
@@ -76,6 +77,7 @@ function Assistente() {
     transport: transporte,
     onError: (e) => setErro(e.message || "Falha ao consultar o assistente."),
   });
+
 
   const carregando = status === "submitted" || status === "streaming";
 
