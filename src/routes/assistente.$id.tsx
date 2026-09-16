@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { MessageSquarePlus, ShieldCheck, Trash2, Lock } from "lucide-react";
+import { Cpu, MessageSquarePlus, ShieldCheck, Trash2, Lock } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Panel, PanelTitle, Tag } from "@/components/ui-kit";
 import {
@@ -20,6 +20,8 @@ import {
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { useConversas } from "@/lib/assistente-conversas";
 import { usuarioAtual } from "@/lib/mock-data";
+import { useMotorIA } from "@/lib/ai-provedores";
+
 import { cn } from "@/lib/utils";
 import marca from "@/assets/assistente-ia.png";
 
@@ -60,14 +62,15 @@ function Assistente() {
 
   const conversa = useMemo(() => conversas.find((c) => c.id === id), [conversas, id]);
   const iniciais = useMemo<UIMessage[]>(() => conversa?.mensagens ?? [], [conversa?.id]);
+  const { config: motorConfig, motor } = useMotorIA();
 
   const transporte = useMemo(
     () =>
       new DefaultChatTransport({
         api: "/api/chat",
-        body: { perfil: usuarioAtual.perfil },
+        body: { perfil: usuarioAtual.perfil, motor: motorConfig },
       }),
-    [],
+    [motorConfig],
   );
 
   const { messages, sendMessage, status, stop } = useChat({
@@ -76,6 +79,7 @@ function Assistente() {
     transport: transporte,
     onError: (e) => setErro(e.message || "Falha ao consultar o assistente."),
   });
+
 
   const carregando = status === "submitted" || status === "streaming";
 
@@ -183,12 +187,22 @@ function Assistente() {
                   registradas na trilha de auditoria.
                 </span>
               </p>
+              <p className="flex items-start gap-2">
+                <Cpu className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                <span>
+                  Motor em uso:{" "}
+                  <strong className="text-foreground">{motor.nome}</strong>
+                  {motor.tipo === "externo" ? " (serviço externo autorizado)" : " (interno)"}. Pode
+                  ser trocado em Configurações, sem mudar nada na plataforma.
+                </span>
+              </p>
 
               <div className="flex flex-wrap gap-1.5">
                 <Tag tom="info">Riscos</Tag>
                 <Tag tom="accent">Indicadores</Tag>
                 <Tag tom="success">Sumários executivos</Tag>
               </div>
+
             </div>
           </Panel>
         </div>
