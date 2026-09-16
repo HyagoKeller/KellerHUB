@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Check, Link2, Plus, Trash2 } from "lucide-react";
+import { Check, Cpu, Link2, Plus, ShieldAlert, Trash2 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Panel, PanelTitle, Tag } from "@/components/ui-kit";
 import { cn } from "@/lib/utils";
 import type { Perfil } from "@/lib/mock-data";
 import { blocosPorEscopo, useViews, type EscopoView } from "@/lib/views";
+import { motoresIA, useMotorIA } from "@/lib/ai-provedores";
+
 
 export const Route = createFileRoute("/configuracoes")({
   head: () => ({
@@ -139,6 +141,8 @@ function Toggle({ on, onClick, label }: { on: boolean; onClick: () => void; labe
 function Configuracoes() {
   const [integracoes, setIntegracoes] = useState(integracoesIniciais);
   const { views, criar, remover } = useViews();
+  const { config: motorConfig, salvar: salvarMotor, motor } = useMotorIA();
+
 
   const [escopo, setEscopo] = useState<EscopoView>("executiva");
   const [nome, setNome] = useState("");
