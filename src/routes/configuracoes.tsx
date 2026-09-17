@@ -1,12 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Check, Cpu, Link2, Plus, ShieldAlert, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  Check,
+  Cpu,
+  ImageUp,
+  Link2,
+  Moon,
+  Plus,
+  RotateCcw,
+  Save,
+  ShieldAlert,
+  Sun,
+  Trash2,
+} from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Panel, PanelTitle, Tag } from "@/components/ui-kit";
 import { cn } from "@/lib/utils";
 import type { Perfil } from "@/lib/mock-data";
+import { organizacoes } from "@/lib/mock-data";
 import { blocosPorEscopo, useViews, type EscopoView } from "@/lib/views";
 import { motoresIA, useMotorIA } from "@/lib/ai-provedores";
+import { paletas, usePortal, type ConfigPortal, type PaletaId } from "@/lib/portal";
+
 
 
 export const Route = createFileRoute("/configuracoes")({
