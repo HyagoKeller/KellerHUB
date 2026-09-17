@@ -132,11 +132,12 @@ function Assistente() {
         </button>
       }
     >
-      <div className="grid gap-5 xl:grid-cols-[280px_minmax(0,1fr)]">
-        <div className="grid content-start gap-5">
-          <Panel rule="primary">
+      <div className="grid min-w-0 grid-cols-1 gap-5 xl:grid-cols-[280px_minmax(0,1fr)]">
+        <div className="grid min-w-0 content-start gap-5">
+          <Panel className="min-w-0" rule="primary">
             <PanelTitle title="Suas consultas" hint="neste navegador" />
-            <div className="grid gap-1.5">
+            <div className="grid min-w-0 gap-1.5">
+
               {conversas.length === 0 && (
                 <p className="text-xs text-muted-foreground">
                   Nenhuma consulta registrada ainda.
