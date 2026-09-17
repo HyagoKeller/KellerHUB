@@ -110,34 +110,6 @@
   --sidebar-ring: oklch(0.56 0.22 285);
 }
 
-/* Paletas alternativas: trocam apenas a cor de marca, mantendo neutros e cores de status. */
-[data-paleta="teal"] {
-  --primary: oklch(0.62 0.11 187);
-  --ring: var(--primary);
-  --sidebar-primary: var(--primary);
-  --chart-1: var(--primary);
-}
-
-[data-paleta="ambar"] {
-  --primary: oklch(0.68 0.15 62);
-  --ring: var(--primary);
-  --sidebar-primary: var(--primary);
-  --chart-1: var(--primary);
-}
-
-[data-paleta="magenta"] {
-  --primary: oklch(0.6 0.22 340);
-  --ring: var(--primary);
-  --sidebar-primary: var(--primary);
-  --chart-1: var(--primary);
-}
-
-[data-paleta="grafite"] {
-  --primary: oklch(0.55 0.02 285);
-  --ring: var(--primary);
-  --sidebar-primary: var(--primary);
-  --chart-1: var(--primary);
-}
 
 
 .dark {
