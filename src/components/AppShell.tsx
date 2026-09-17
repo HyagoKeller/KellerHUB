@@ -209,6 +209,21 @@ export function AppShell({
               <Button
                 variant="outline"
                 size="icon"
+                onClick={alternarModo}
+                aria-label={config.modo === "escuro" ? "Ativar modo claro" : "Ativar modo escuro"}
+                title={config.modo === "escuro" ? "Modo claro" : "Modo escuro"}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                {config.modo === "escuro" ? (
+                  <Sun className="h-4 w-4" />
+                ) : (
+                  <Moon className="h-4 w-4" />
+                )}
+              </Button>
+              <Button
+
+                variant="outline"
+                size="icon"
                 aria-label="Notificações"
                 className="relative text-muted-foreground hover:text-foreground"
               >
