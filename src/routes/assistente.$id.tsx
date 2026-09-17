@@ -132,11 +132,12 @@ function Assistente() {
         </button>
       }
     >
-      <div className="grid gap-5 xl:grid-cols-[280px_minmax(0,1fr)]">
-        <div className="grid content-start gap-5">
-          <Panel rule="primary">
+      <div className="grid min-w-0 grid-cols-1 gap-5 xl:grid-cols-[280px_minmax(0,1fr)]">
+        <div className="grid min-w-0 content-start gap-5">
+          <Panel className="min-w-0" rule="primary">
             <PanelTitle title="Suas consultas" hint="neste navegador" />
-            <div className="grid gap-1.5">
+            <div className="grid min-w-0 gap-1.5">
+
               {conversas.length === 0 && (
                 <p className="text-xs text-muted-foreground">
                   Nenhuma consulta registrada ainda.
@@ -146,10 +147,11 @@ function Assistente() {
                 <div
                   key={c.id}
                   className={cn(
-                    "flex items-center gap-1 rounded-xl border border-transparent px-1 transition",
+                    "flex min-w-0 items-center gap-1 rounded-xl border border-transparent px-1 transition",
                     c.id === id ? "border-primary/40 bg-primary/10" : "hover:bg-muted/40",
                   )}
                 >
+
                   <Link
                     to="/assistente/$id"
                     params={{ id: c.id }}
@@ -207,7 +209,7 @@ function Assistente() {
           </Panel>
         </div>
 
-        <Panel className="flex min-h-[70vh] flex-col p-0" rule="none">
+        <Panel className="flex min-h-[70vh] min-w-0 flex-col p-0" rule="none">
           <div className="flex items-center gap-3 border-b border-border/60 px-5 py-4">
             <img
               src={marca}
@@ -252,13 +254,14 @@ function Assistente() {
 
               {messages.map((m) => (
                 <Message key={m.id} from={m.role}>
-                  <MessageContent>
+                  <MessageContent className="break-words">
                     <MessageResponse>
                       {m.parts
                         .map((p) => (p.type === "text" ? p.text : ""))
                         .join("")}
                     </MessageResponse>
                   </MessageContent>
+
                 </Message>
               ))}
 

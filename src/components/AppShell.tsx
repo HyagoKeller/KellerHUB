@@ -16,10 +16,14 @@ import {
   Search,
   Bell,
   ChevronDown,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { usuarioAtual, organizacoes } from "@/lib/mock-data";
+import { usePortal } from "@/lib/portal";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+
 
 const nav = [
   { to: "/", label: "Visão executiva", icon: LayoutDashboard, exact: true },
@@ -35,43 +39,52 @@ const nav = [
 ] as const;
 
 
-function Logo({ className }: { className?: string }) {
+function Logo({ className, logo, nome }: { className?: string; logo?: string; nome?: string }) {
   return (
     <div className={cn("flex items-center gap-3", className)}>
-      <div className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          aria-label="Hepta logo"
-        >
-          <path
-            d="M12 2L20.66 7V17L12 22L3.34 17V7L12 2Z"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M12 7V17M7 10V17M17 10V17"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
+      {logo ? (
+        <img
+          src={logo}
+          alt={`Logo de ${nome || "organização"}`}
+          className="h-10 w-10 shrink-0 rounded-xl object-contain"
+        />
+      ) : (
+        <div className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            aria-label="Hepta logo"
+          >
+            <path
+              d="M12 2L20.66 7V17L12 22L3.34 17V7L12 2Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M12 7V17M7 10V17M17 10V17"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+      )}
       <div className="min-w-0">
         <p className="truncate font-display text-base font-bold text-sidebar-accent-foreground">
-          Hepta
+          {nome || "Hepta"}
         </p>
         <p className="eyebrow truncate text-sidebar-foreground/50">Project PPM</p>
       </div>
     </div>
   );
 }
+
 
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -101,10 +114,12 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
+  const { config } = usePortal();
+  const nomeOrg = config.organizacao || organizacoes[0].nome;
   return (
     <div className="flex h-full flex-col bg-sidebar py-5">
       <div className="px-5 pb-5">
-        <Logo />
+        <Logo logo={config.logo} nome={config.organizacao || undefined} />
       </div>
       <div className="px-3 pb-3">
         <div className="h-px bg-sidebar-border/60" />
@@ -114,8 +129,9 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
         <div className="rounded-xl border border-sidebar-border bg-sidebar-accent/60 p-4">
           <p className="eyebrow text-sidebar-foreground/50">Organização</p>
           <p className="mt-1.5 truncate text-sm font-medium text-sidebar-accent-foreground">
-            {organizacoes[0].nome}
+            {nomeOrg}
           </p>
+
           <div className="mt-3 h-px bg-sidebar-border/40" />
           <p className="eyebrow mt-3 text-sidebar-foreground/50">Perfil</p>
           <p className="mt-1 text-xs font-medium text-sidebar-primary">{usuarioAtual.perfil}</p>
@@ -137,6 +153,8 @@ export function AppShell({
   children: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const { config, alternarModo } = usePortal();
+
 
   return (
     <div className="min-h-screen w-full bg-background">
@@ -189,6 +207,21 @@ export function AppShell({
             </div>
             <div className="flex shrink-0 items-center gap-2">
               <Button
+                variant="outline"
+                size="icon"
+                onClick={alternarModo}
+                aria-label={config.modo === "escuro" ? "Ativar modo claro" : "Ativar modo escuro"}
+                title={config.modo === "escuro" ? "Modo claro" : "Modo escuro"}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                {config.modo === "escuro" ? (
+                  <Sun className="h-4 w-4" />
+                ) : (
+                  <Moon className="h-4 w-4" />
+                )}
+              </Button>
+              <Button
+
                 variant="outline"
                 size="icon"
                 aria-label="Notificações"

@@ -1,12 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Check, Cpu, Link2, Plus, ShieldAlert, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  Check,
+  Cpu,
+  ImageUp,
+  Link2,
+  Moon,
+  Plus,
+  RotateCcw,
+  Save,
+  ShieldAlert,
+  Sun,
+  Trash2,
+} from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Panel, PanelTitle, Tag } from "@/components/ui-kit";
 import { cn } from "@/lib/utils";
 import type { Perfil } from "@/lib/mock-data";
+import { organizacoes } from "@/lib/mock-data";
 import { blocosPorEscopo, useViews, type EscopoView } from "@/lib/views";
 import { motoresIA, useMotorIA } from "@/lib/ai-provedores";
+import { paletas, usePortal, type ConfigPortal, type PaletaId } from "@/lib/portal";
+
 
 
 export const Route = createFileRoute("/configuracoes")({
@@ -142,6 +157,18 @@ function Configuracoes() {
   const [integracoes, setIntegracoes] = useState(integracoesIniciais);
   const { views, criar, remover } = useViews();
   const { config: motorConfig, salvar: salvarMotor, motor } = useMotorIA();
+  const { config: portalConfig, salvar: salvarPortal } = usePortal();
+
+  const [rascunhoMotor, setRascunhoMotor] = useState(motorConfig);
+  useEffect(() => setRascunhoMotor(motorConfig), [motorConfig]);
+  const motorAlterado = JSON.stringify(rascunhoMotor) !== JSON.stringify(motorConfig);
+  const motorRascunho = motoresIA.find((m) => m.id === rascunhoMotor.motorId) ?? motoresIA[0]!;
+
+  const [rascunhoPortal, setRascunhoPortal] = useState<ConfigPortal>(portalConfig);
+  useEffect(() => setRascunhoPortal(portalConfig), [portalConfig]);
+  const portalAlterado = JSON.stringify(rascunhoPortal) !== JSON.stringify(portalConfig);
+
+
 
 
   const [escopo, setEscopo] = useState<EscopoView>("executiva");
@@ -173,6 +200,166 @@ function Configuracoes() {
       description="Integrações institucionais, segmentação de acesso por perfil e criação de views personalizadas sem alterar as visões padrão."
     >
       <Panel rule="primary">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h2 className="truncate font-display text-base font-semibold text-foreground">
+              Identidade do portal
+            </h2>
+            <p className="mt-1 text-[11px] text-muted-foreground">
+              {portalAlterado
+                ? "Alterações não salvas — clique em Salvar para aplicar."
+                : "Nome, logo, paleta e modo de exibição da organização."}
+            </p>
+          </div>
+          <div className="flex shrink-0 gap-2">
+            <button
+              type="button"
+              onClick={() => setRascunhoPortal(portalConfig)}
+              disabled={!portalAlterado}
+              className="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40"
+            >
+              <RotateCcw className="h-3.5 w-3.5" /> Cancelar
+            </button>
+            <button
+              type="button"
+              onClick={() => salvarPortal(rascunhoPortal)}
+              disabled={!portalAlterado}
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
+            >
+              <Save className="h-3.5 w-3.5" /> Salvar
+            </button>
+          </div>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="grid content-start gap-4">
+            <label className="grid gap-1.5 text-xs">
+              <span className="eyebrow text-muted-foreground">Nome da organização</span>
+              <input
+                value={rascunhoPortal.organizacao}
+                onChange={(e) =>
+                  setRascunhoPortal((r) => ({ ...r, organizacao: e.target.value }))
+                }
+                placeholder={organizacoes[0].nome}
+                className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
+              />
+            </label>
+
+            <div className="grid gap-2 text-xs">
+              <span className="eyebrow text-muted-foreground">Logo da organização</span>
+              <div className="flex items-center gap-3">
+                <div className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-xl border border-border bg-card">
+                  {rascunhoPortal.logo ? (
+                    <img
+                      src={rascunhoPortal.logo}
+                      alt="Logo carregada"
+                      className="h-full w-full object-contain"
+                    />
+                  ) : (
+                    <ImageUp className="h-5 w-5 text-muted-foreground" />
+                  )}
+                </div>
+                <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-border px-3 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground">
+                  <ImageUp className="h-3.5 w-3.5" /> Enviar imagem
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                    className="hidden"
+                    onChange={(e) => {
+                      const arquivo = e.target.files?.[0];
+                      if (!arquivo) return;
+                      const leitor = new FileReader();
+                      leitor.onload = () =>
+                        setRascunhoPortal((r) => ({ ...r, logo: String(leitor.result) }));
+                      leitor.readAsDataURL(arquivo);
+                    }}
+                  />
+                </label>
+                {rascunhoPortal.logo && (
+                  <button
+                    type="button"
+                    onClick={() => setRascunhoPortal((r) => ({ ...r, logo: "" }))}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-destructive"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" /> Remover
+                  </button>
+                )}
+              </div>
+              <p className="text-[11px] text-muted-foreground">
+                A imagem fica guardada apenas neste navegador, em PNG, JPG, SVG ou WEBP.
+              </p>
+            </div>
+
+            <div className="grid gap-2 text-xs">
+              <span className="eyebrow text-muted-foreground">Modo de exibição</span>
+              <div className="flex gap-2">
+                {(["claro", "escuro"] as const).map((m) => (
+                  <button
+                    key={m}
+                    type="button"
+                    onClick={() => setRascunhoPortal((r) => ({ ...r, modo: m }))}
+                    className={cn(
+                      "inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold transition-colors",
+                      rascunhoPortal.modo === m
+                        ? "border-primary bg-primary/10 text-foreground"
+                        : "border-border text-muted-foreground hover:text-foreground",
+                    )}
+                  >
+                    {m === "claro" ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+                    Modo {m}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid content-start gap-2 text-xs">
+            <span className="eyebrow text-muted-foreground">Paleta de cores</span>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {paletas.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() =>
+                    setRascunhoPortal((r) => ({ ...r, paleta: p.id as PaletaId }))
+                  }
+                  className={cn(
+                    "flex items-center gap-3 rounded-2xl border p-3 text-left transition-colors",
+                    rascunhoPortal.paleta === p.id
+                      ? "border-primary bg-primary/10"
+                      : "border-border bg-card/60 hover:border-primary/40",
+                  )}
+                >
+                  <span className="flex shrink-0 gap-1">
+                    {p.amostra.map((c) => (
+                      <span
+                        key={c}
+                        className="h-6 w-3 rounded-full"
+                        style={{ backgroundColor: c }}
+                      />
+                    ))}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block truncate font-display text-sm font-semibold">
+                      {p.nome}
+                    </span>
+                    <span className="block truncate text-[11px] text-muted-foreground">
+                      {p.descricao}
+                    </span>
+                  </span>
+                </button>
+              ))}
+            </div>
+            <p className="text-[11px] text-muted-foreground">
+              As paletas alteram apenas a cor de marca; neutros e cores de status (verde, amarelo,
+              vermelho) permanecem os mesmos para não mudar a leitura dos painéis.
+            </p>
+          </div>
+        </div>
+      </Panel>
+
+      <Panel className="mt-4" rule="primary">
+
         <PanelTitle title="Integrações" hint="conexões institucionais" />
         <div className="grid gap-3 md:grid-cols-2">
           {integracoes.map((i) => (
@@ -214,7 +401,36 @@ function Configuracoes() {
       </Panel>
 
       <Panel className="mt-4" rule="primary">
-        <PanelTitle title="Motor de IA" hint="substituível a qualquer momento" />
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h2 className="truncate font-display text-base font-semibold text-foreground">
+              Motor de IA
+            </h2>
+            <p className="mt-1 text-[11px] text-muted-foreground">
+              {motorAlterado
+                ? "Alterações não salvas — clique em Salvar para aplicar."
+                : `Em uso: ${motor.nome}`}
+            </p>
+          </div>
+          <div className="flex shrink-0 gap-2">
+            <button
+              type="button"
+              onClick={() => setRascunhoMotor(motorConfig)}
+              disabled={!motorAlterado}
+              className="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40"
+            >
+              <RotateCcw className="h-3.5 w-3.5" /> Cancelar
+            </button>
+            <button
+              type="button"
+              onClick={() => salvarMotor(rascunhoMotor)}
+              disabled={!motorAlterado}
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
+            >
+              <Save className="h-3.5 w-3.5" /> Salvar
+            </button>
+          </div>
+        </div>
         <p className="mb-4 max-w-3xl text-xs leading-relaxed text-muted-foreground">
           O assistente é independente do fornecedor: troque o motor sem alterar módulos, dados ou
           telas da plataforma. Os motores internos já estão incluídos no contrato, sem cobrança por
@@ -223,12 +439,12 @@ function Configuracoes() {
 
         <div className="grid gap-3 md:grid-cols-3">
           {motoresIA.map((m) => {
-            const ativo = m.id === motorConfig.motorId;
+            const ativo = m.id === rascunhoMotor.motorId;
             return (
               <button
                 key={m.id}
                 type="button"
-                onClick={() => salvarMotor({ motorId: m.id })}
+                onClick={() => setRascunhoMotor((r) => ({ ...r, motorId: m.id }))}
                 className={cn(
                   "rounded-2xl border p-4 text-left transition-colors",
                   ativo
@@ -255,7 +471,7 @@ function Configuracoes() {
           })}
         </div>
 
-        {motor.tipo === "externo" && (
+        {motorRascunho.tipo === "externo" && (
           <div className="mt-4 grid gap-4 rounded-2xl border border-warning/40 bg-warning/5 p-4">
             <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
               <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
@@ -271,8 +487,10 @@ function Configuracoes() {
                 Autorização expressa registrada para uso do motor externo
               </p>
               <Toggle
-                on={motorConfig.autorizacaoExterna}
-                onClick={() => salvarMotor({ autorizacaoExterna: !motorConfig.autorizacaoExterna })}
+                on={rascunhoMotor.autorizacaoExterna}
+                onClick={() =>
+                  setRascunhoMotor((r) => ({ ...r, autorizacaoExterna: !r.autorizacaoExterna }))
+                }
                 label="Autorizar motor externo de IA"
               />
             </div>
@@ -281,8 +499,8 @@ function Configuracoes() {
               <label className="grid gap-1.5 text-xs">
                 <span className="eyebrow text-muted-foreground">Endpoint do serviço</span>
                 <input
-                  value={motorConfig.endpoint}
-                  onChange={(e) => salvarMotor({ endpoint: e.target.value })}
+                  value={rascunhoMotor.endpoint}
+                  onChange={(e) => setRascunhoMotor((r) => ({ ...r, endpoint: e.target.value }))}
                   placeholder="https://api.fornecedor.com/v1"
                   className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
                 />
@@ -290,17 +508,17 @@ function Configuracoes() {
               <label className="grid gap-1.5 text-xs">
                 <span className="eyebrow text-muted-foreground">Modelo</span>
                 <input
-                  value={motorConfig.modelo}
-                  onChange={(e) => salvarMotor({ modelo: e.target.value })}
-                  placeholder={motor.modelo || "nome-do-modelo"}
+                  value={rascunhoMotor.modelo}
+                  onChange={(e) => setRascunhoMotor((r) => ({ ...r, modelo: e.target.value }))}
+                  placeholder={motorRascunho.modelo || "nome-do-modelo"}
                   className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
                 />
               </label>
               <label className="grid gap-1.5 text-xs">
                 <span className="eyebrow text-muted-foreground">Segredo com a credencial</span>
                 <input
-                  value={motorConfig.segredo}
-                  onChange={(e) => salvarMotor({ segredo: e.target.value })}
+                  value={rascunhoMotor.segredo}
+                  onChange={(e) => setRascunhoMotor((r) => ({ ...r, segredo: e.target.value }))}
                   placeholder="IA_EXTERNA_API_KEY"
                   className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
                 />
@@ -313,6 +531,7 @@ function Configuracoes() {
           </div>
         )}
       </Panel>
+
 
 
 
