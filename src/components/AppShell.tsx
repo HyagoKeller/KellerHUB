@@ -114,10 +114,12 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
+  const { config } = usePortal();
+  const nomeOrg = config.organizacao || organizacoes[0].nome;
   return (
     <div className="flex h-full flex-col bg-sidebar py-5">
       <div className="px-5 pb-5">
-        <Logo />
+        <Logo logo={config.logo} nome={config.organizacao || undefined} />
       </div>
       <div className="px-3 pb-3">
         <div className="h-px bg-sidebar-border/60" />
@@ -127,8 +129,9 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
         <div className="rounded-xl border border-sidebar-border bg-sidebar-accent/60 p-4">
           <p className="eyebrow text-sidebar-foreground/50">Organização</p>
           <p className="mt-1.5 truncate text-sm font-medium text-sidebar-accent-foreground">
-            {organizacoes[0].nome}
+            {nomeOrg}
           </p>
+
           <div className="mt-3 h-px bg-sidebar-border/40" />
           <p className="eyebrow mt-3 text-sidebar-foreground/50">Perfil</p>
           <p className="mt-1 text-xs font-medium text-sidebar-primary">{usuarioAtual.perfil}</p>
