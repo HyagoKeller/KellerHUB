@@ -229,7 +229,36 @@ function Configuracoes() {
       </Panel>
 
       <Panel className="mt-4" rule="primary">
-        <PanelTitle title="Motor de IA" hint="substituível a qualquer momento" />
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h2 className="truncate font-display text-base font-semibold text-foreground">
+              Motor de IA
+            </h2>
+            <p className="mt-1 text-[11px] text-muted-foreground">
+              {motorAlterado
+                ? "Alterações não salvas — clique em Salvar para aplicar."
+                : `Em uso: ${motor.nome}`}
+            </p>
+          </div>
+          <div className="flex shrink-0 gap-2">
+            <button
+              type="button"
+              onClick={() => setRascunhoMotor(motorConfig)}
+              disabled={!motorAlterado}
+              className="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40"
+            >
+              <RotateCcw className="h-3.5 w-3.5" /> Cancelar
+            </button>
+            <button
+              type="button"
+              onClick={() => salvarMotor(rascunhoMotor)}
+              disabled={!motorAlterado}
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
+            >
+              <Save className="h-3.5 w-3.5" /> Salvar
+            </button>
+          </div>
+        </div>
         <p className="mb-4 max-w-3xl text-xs leading-relaxed text-muted-foreground">
           O assistente é independente do fornecedor: troque o motor sem alterar módulos, dados ou
           telas da plataforma. Os motores internos já estão incluídos no contrato, sem cobrança por
@@ -238,12 +267,12 @@ function Configuracoes() {
 
         <div className="grid gap-3 md:grid-cols-3">
           {motoresIA.map((m) => {
-            const ativo = m.id === motorConfig.motorId;
+            const ativo = m.id === rascunhoMotor.motorId;
             return (
               <button
                 key={m.id}
                 type="button"
-                onClick={() => salvarMotor({ motorId: m.id })}
+                onClick={() => setRascunhoMotor((r) => ({ ...r, motorId: m.id }))}
                 className={cn(
                   "rounded-2xl border p-4 text-left transition-colors",
                   ativo
@@ -270,7 +299,7 @@ function Configuracoes() {
           })}
         </div>
 
-        {motor.tipo === "externo" && (
+        {motorRascunho.tipo === "externo" && (
           <div className="mt-4 grid gap-4 rounded-2xl border border-warning/40 bg-warning/5 p-4">
             <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
               <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
@@ -286,8 +315,10 @@ function Configuracoes() {
                 Autorização expressa registrada para uso do motor externo
               </p>
               <Toggle
-                on={motorConfig.autorizacaoExterna}
-                onClick={() => salvarMotor({ autorizacaoExterna: !motorConfig.autorizacaoExterna })}
+                on={rascunhoMotor.autorizacaoExterna}
+                onClick={() =>
+                  setRascunhoMotor((r) => ({ ...r, autorizacaoExterna: !r.autorizacaoExterna }))
+                }
                 label="Autorizar motor externo de IA"
               />
             </div>
@@ -296,8 +327,8 @@ function Configuracoes() {
               <label className="grid gap-1.5 text-xs">
                 <span className="eyebrow text-muted-foreground">Endpoint do serviço</span>
                 <input
-                  value={motorConfig.endpoint}
-                  onChange={(e) => salvarMotor({ endpoint: e.target.value })}
+                  value={rascunhoMotor.endpoint}
+                  onChange={(e) => setRascunhoMotor((r) => ({ ...r, endpoint: e.target.value }))}
                   placeholder="https://api.fornecedor.com/v1"
                   className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
                 />
@@ -305,17 +336,17 @@ function Configuracoes() {
               <label className="grid gap-1.5 text-xs">
                 <span className="eyebrow text-muted-foreground">Modelo</span>
                 <input
-                  value={motorConfig.modelo}
-                  onChange={(e) => salvarMotor({ modelo: e.target.value })}
-                  placeholder={motor.modelo || "nome-do-modelo"}
+                  value={rascunhoMotor.modelo}
+                  onChange={(e) => setRascunhoMotor((r) => ({ ...r, modelo: e.target.value }))}
+                  placeholder={motorRascunho.modelo || "nome-do-modelo"}
                   className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
                 />
               </label>
               <label className="grid gap-1.5 text-xs">
                 <span className="eyebrow text-muted-foreground">Segredo com a credencial</span>
                 <input
-                  value={motorConfig.segredo}
-                  onChange={(e) => salvarMotor({ segredo: e.target.value })}
+                  value={rascunhoMotor.segredo}
+                  onChange={(e) => setRascunhoMotor((r) => ({ ...r, segredo: e.target.value }))}
                   placeholder="IA_EXTERNA_API_KEY"
                   className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
                 />
@@ -328,6 +359,7 @@ function Configuracoes() {
           </div>
         )}
       </Panel>
+
 
 
 
