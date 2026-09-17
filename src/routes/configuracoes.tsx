@@ -188,6 +188,166 @@ function Configuracoes() {
       description="Integrações institucionais, segmentação de acesso por perfil e criação de views personalizadas sem alterar as visões padrão."
     >
       <Panel rule="primary">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h2 className="truncate font-display text-base font-semibold text-foreground">
+              Identidade do portal
+            </h2>
+            <p className="mt-1 text-[11px] text-muted-foreground">
+              {portalAlterado
+                ? "Alterações não salvas — clique em Salvar para aplicar."
+                : "Nome, logo, paleta e modo de exibição da organização."}
+            </p>
+          </div>
+          <div className="flex shrink-0 gap-2">
+            <button
+              type="button"
+              onClick={() => setRascunhoPortal(portalConfig)}
+              disabled={!portalAlterado}
+              className="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40"
+            >
+              <RotateCcw className="h-3.5 w-3.5" /> Cancelar
+            </button>
+            <button
+              type="button"
+              onClick={() => salvarPortal(rascunhoPortal)}
+              disabled={!portalAlterado}
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
+            >
+              <Save className="h-3.5 w-3.5" /> Salvar
+            </button>
+          </div>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="grid content-start gap-4">
+            <label className="grid gap-1.5 text-xs">
+              <span className="eyebrow text-muted-foreground">Nome da organização</span>
+              <input
+                value={rascunhoPortal.organizacao}
+                onChange={(e) =>
+                  setRascunhoPortal((r) => ({ ...r, organizacao: e.target.value }))
+                }
+                placeholder={organizacoes[0].nome}
+                className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
+              />
+            </label>
+
+            <div className="grid gap-2 text-xs">
+              <span className="eyebrow text-muted-foreground">Logo da organização</span>
+              <div className="flex items-center gap-3">
+                <div className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-xl border border-border bg-card">
+                  {rascunhoPortal.logo ? (
+                    <img
+                      src={rascunhoPortal.logo}
+                      alt="Logo carregada"
+                      className="h-full w-full object-contain"
+                    />
+                  ) : (
+                    <ImageUp className="h-5 w-5 text-muted-foreground" />
+                  )}
+                </div>
+                <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-border px-3 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground">
+                  <ImageUp className="h-3.5 w-3.5" /> Enviar imagem
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                    className="hidden"
+                    onChange={(e) => {
+                      const arquivo = e.target.files?.[0];
+                      if (!arquivo) return;
+                      const leitor = new FileReader();
+                      leitor.onload = () =>
+                        setRascunhoPortal((r) => ({ ...r, logo: String(leitor.result) }));
+                      leitor.readAsDataURL(arquivo);
+                    }}
+                  />
+                </label>
+                {rascunhoPortal.logo && (
+                  <button
+                    type="button"
+                    onClick={() => setRascunhoPortal((r) => ({ ...r, logo: "" }))}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-destructive"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" /> Remover
+                  </button>
+                )}
+              </div>
+              <p className="text-[11px] text-muted-foreground">
+                A imagem fica guardada apenas neste navegador, em PNG, JPG, SVG ou WEBP.
+              </p>
+            </div>
+
+            <div className="grid gap-2 text-xs">
+              <span className="eyebrow text-muted-foreground">Modo de exibição</span>
+              <div className="flex gap-2">
+                {(["claro", "escuro"] as const).map((m) => (
+                  <button
+                    key={m}
+                    type="button"
+                    onClick={() => setRascunhoPortal((r) => ({ ...r, modo: m }))}
+                    className={cn(
+                      "inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold transition-colors",
+                      rascunhoPortal.modo === m
+                        ? "border-primary bg-primary/10 text-foreground"
+                        : "border-border text-muted-foreground hover:text-foreground",
+                    )}
+                  >
+                    {m === "claro" ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+                    Modo {m}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid content-start gap-2 text-xs">
+            <span className="eyebrow text-muted-foreground">Paleta de cores</span>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {paletas.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() =>
+                    setRascunhoPortal((r) => ({ ...r, paleta: p.id as PaletaId }))
+                  }
+                  className={cn(
+                    "flex items-center gap-3 rounded-2xl border p-3 text-left transition-colors",
+                    rascunhoPortal.paleta === p.id
+                      ? "border-primary bg-primary/10"
+                      : "border-border bg-card/60 hover:border-primary/40",
+                  )}
+                >
+                  <span className="flex shrink-0 gap-1">
+                    {p.amostra.map((c) => (
+                      <span
+                        key={c}
+                        className="h-6 w-3 rounded-full"
+                        style={{ backgroundColor: c }}
+                      />
+                    ))}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block truncate font-display text-sm font-semibold">
+                      {p.nome}
+                    </span>
+                    <span className="block truncate text-[11px] text-muted-foreground">
+                      {p.descricao}
+                    </span>
+                  </span>
+                </button>
+              ))}
+            </div>
+            <p className="text-[11px] text-muted-foreground">
+              As paletas alteram apenas a cor de marca; neutros e cores de status (verde, amarelo,
+              vermelho) permanecem os mesmos para não mudar a leitura dos painéis.
+            </p>
+          </div>
+        </div>
+      </Panel>
+
+      <Panel className="mt-4" rule="primary">
+
         <PanelTitle title="Integrações" hint="conexões institucionais" />
         <div className="grid gap-3 md:grid-cols-2">
           {integracoes.map((i) => (
