@@ -39,43 +39,52 @@ const nav = [
 ] as const;
 
 
-function Logo({ className }: { className?: string }) {
+function Logo({ className, logo, nome }: { className?: string; logo?: string; nome?: string }) {
   return (
     <div className={cn("flex items-center gap-3", className)}>
-      <div className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          aria-label="Hepta logo"
-        >
-          <path
-            d="M12 2L20.66 7V17L12 22L3.34 17V7L12 2Z"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M12 7V17M7 10V17M17 10V17"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
+      {logo ? (
+        <img
+          src={logo}
+          alt={`Logo de ${nome || "organização"}`}
+          className="h-10 w-10 shrink-0 rounded-xl object-contain"
+        />
+      ) : (
+        <div className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            aria-label="Hepta logo"
+          >
+            <path
+              d="M12 2L20.66 7V17L12 22L3.34 17V7L12 2Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M12 7V17M7 10V17M17 10V17"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+      )}
       <div className="min-w-0">
         <p className="truncate font-display text-base font-bold text-sidebar-accent-foreground">
-          Hepta
+          {nome || "Hepta"}
         </p>
         <p className="eyebrow truncate text-sidebar-foreground/50">Project PPM</p>
       </div>
     </div>
   );
 }
+
 
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
