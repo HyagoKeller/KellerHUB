@@ -153,6 +153,8 @@ export function AppShell({
   children: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const { config, alternarModo } = usePortal();
+
 
   return (
     <div className="min-h-screen w-full bg-background">
