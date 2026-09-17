@@ -16,10 +16,14 @@ import {
   Search,
   Bell,
   ChevronDown,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { usuarioAtual, organizacoes } from "@/lib/mock-data";
+import { usePortal } from "@/lib/portal";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+
 
 const nav = [
   { to: "/", label: "Visão executiva", icon: LayoutDashboard, exact: true },
