@@ -157,6 +157,18 @@ function Configuracoes() {
   const [integracoes, setIntegracoes] = useState(integracoesIniciais);
   const { views, criar, remover } = useViews();
   const { config: motorConfig, salvar: salvarMotor, motor } = useMotorIA();
+  const { config: portalConfig, salvar: salvarPortal } = usePortal();
+
+  const [rascunhoMotor, setRascunhoMotor] = useState(motorConfig);
+  useEffect(() => setRascunhoMotor(motorConfig), [motorConfig]);
+  const motorAlterado = JSON.stringify(rascunhoMotor) !== JSON.stringify(motorConfig);
+  const motorRascunho = motoresIA.find((m) => m.id === rascunhoMotor.motorId) ?? motoresIA[0]!;
+
+  const [rascunhoPortal, setRascunhoPortal] = useState<ConfigPortal>(portalConfig);
+  useEffect(() => setRascunhoPortal(portalConfig), [portalConfig]);
+  const portalAlterado = JSON.stringify(rascunhoPortal) !== JSON.stringify(portalConfig);
+
+
 
 
   const [escopo, setEscopo] = useState<EscopoView>("executiva");
