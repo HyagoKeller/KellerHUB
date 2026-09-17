@@ -147,10 +147,11 @@ function Assistente() {
                 <div
                   key={c.id}
                   className={cn(
-                    "flex items-center gap-1 rounded-xl border border-transparent px-1 transition",
+                    "flex min-w-0 items-center gap-1 rounded-xl border border-transparent px-1 transition",
                     c.id === id ? "border-primary/40 bg-primary/10" : "hover:bg-muted/40",
                   )}
                 >
+
                   <Link
                     to="/assistente/$id"
                     params={{ id: c.id }}
@@ -208,7 +209,7 @@ function Assistente() {
           </Panel>
         </div>
 
-        <Panel className="flex min-h-[70vh] flex-col p-0" rule="none">
+        <Panel className="flex min-h-[70vh] min-w-0 flex-col p-0" rule="none">
           <div className="flex items-center gap-3 border-b border-border/60 px-5 py-4">
             <img
               src={marca}
@@ -253,13 +254,14 @@ function Assistente() {
 
               {messages.map((m) => (
                 <Message key={m.id} from={m.role}>
-                  <MessageContent>
+                  <MessageContent className="break-words">
                     <MessageResponse>
                       {m.parts
                         .map((p) => (p.type === "text" ? p.text : ""))
                         .join("")}
                     </MessageResponse>
                   </MessageContent>
+
                 </Message>
               ))}
 
