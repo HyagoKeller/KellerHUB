@@ -1,7 +1,8 @@
 import { useSyncExternalStore } from "react";
 import {
   portfolios as portfoliosIniciais,
-  programas,
+  programas as programasIniciais,
+  type Programa,
   projetos as projetosIniciais,
   type Portfolio,
   type Projeto,
@@ -36,6 +37,7 @@ export const pontoTom: Record<TomEtiqueta, string> = {
 type Estado = {
   projetos: Projeto[];
   portfolios: Portfolio[];
+  programas: Programa[];
   etiquetas: Record<ColunaEtiqueta, Etiqueta[]>;
 };
 
@@ -44,6 +46,7 @@ const et = (nome: string, tom: TomEtiqueta): Etiqueta => ({ id: nome, nome, tom 
 const inicial: Estado = {
   projetos: projetosIniciais,
   portfolios: portfoliosIniciais,
+  programas: programasIniciais,
   etiquetas: {
     metodologia: [et("PMBOK", "cinza"), et("Ágil", "ciano"), et("Híbrida", "roxo")],
     status: [
@@ -130,6 +133,16 @@ export const carteira = {
   removerPortfolio(id: string) {
     definir((e) => ({ ...e, portfolios: e.portfolios.filter((x) => x.id !== id) }));
   },
+  salvarPrograma(p: Omit<Programa, "id"> & { id?: string }) {
+    definir((e) => {
+      if (p.id && e.programas.some((x) => x.id === p.id))
+        return { ...e, programas: e.programas.map((x) => (x.id === p.id ? (p as Programa) : x)) };
+      return { ...e, programas: [...e.programas, { ...p, id: novoId("pg") } as Programa] };
+    });
+  },
+  removerPrograma(id: string) {
+    definir((e) => ({ ...e, programas: e.programas.filter((x) => x.id !== id) }));
+  },
   salvarEtiquetas(coluna: ColunaEtiqueta, lista: Etiqueta[], renomes: Record<string, string>) {
     definir((e) => {
       const campo = coluna;
@@ -148,7 +161,8 @@ export const carteira = {
 };
 
 export const portfolioDe = (p: Projeto, lista: Portfolio[]) => {
-  const pg = programas.find((x) => x.id === p.programaId);
+  carregar();
+  const pg = estado.programas.find((x) => x.id === p.programaId);
   return lista.find((x) => x.id === pg?.portfolioId);
 };
 
