@@ -14,7 +14,7 @@ export function Panel({
   return (
     <section
       className={cn(
-        "panel overflow-hidden p-5",
+        "panel overflow-hidden p-5 backdrop-blur-2xl",
         rule === "ink" && "panel-rule",
         rule === "primary" && "panel-rule-primary",
         rule === "accent" && "panel-rule-accent",

@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Use semantic Liquid Glass tokens and translucent shared surfaces globally; this keeps light/dark themes consistent and avoids one-off visual styling.

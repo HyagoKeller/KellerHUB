@@ -51,6 +51,17 @@ export const paletas: Paleta[] = [
 export type ConfigPortal = {
   organizacao: string;
   logo: string;
+  mensagemInicioSessao: string;
+  logoInicioSessao: string;
+  idioma: string;
+  fusoHorario: string;
+  localizacao: string;
+  formatoMonetario: string;
+  tamanhoMaximoArquivoMb: number;
+  extensoesProibidas: string;
+  sitesPermitidos: string;
+  nomeAssistente: string;
+  iconeAssistente: string;
   paleta: PaletaId;
   modo: Modo;
 };
@@ -58,6 +69,17 @@ export type ConfigPortal = {
 export const configPortalPadrao: ConfigPortal = {
   organizacao: "",
   logo: "",
+  mensagemInicioSessao: "Bem-vindo ao ambiente de gestão de portfólios, programas e projetos.",
+  logoInicioSessao: "",
+  idioma: "Português",
+  fusoHorario: "America/Sao_Paulo",
+  localizacao: "Brasil",
+  formatoMonetario: "1.000,00",
+  tamanhoMaximoArquivoMb: 25,
+  extensoesProibidas: "exe, bat, msi",
+  sitesPermitidos: "*.gov.br, *.microsoft.com, *.google.com",
+  nomeAssistente: "Assistente de Governança",
+  iconeAssistente: "",
   paleta: "indigo",
   modo: "escuro",
 };
