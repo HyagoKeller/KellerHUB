@@ -155,6 +155,7 @@ export function AppShell({
 }) {
   const [open, setOpen] = useState(false);
   const { config, alternarModo } = usePortal();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
 
   return (
@@ -263,7 +264,7 @@ export function AppShell({
           <div className="pt-2">{children}</div>
         </main>
       </div>
-      <AssistenteFlutuante />
+      {!pathname.startsWith("/assistente") && <AssistenteFlutuante />}
     </div>
   );
 }
