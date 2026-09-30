@@ -62,6 +62,7 @@ export type ConfigPortal = {
   sitesPermitidos: string;
   nomeAssistente: string;
   iconeAssistente: string;
+  estiloAssistente: "orbita" | "prisma" | "nexo" | "personalizado";
   paleta: PaletaId;
   modo: Modo;
 };
@@ -80,6 +81,7 @@ export const configPortalPadrao: ConfigPortal = {
   sitesPermitidos: "*.gov.br, *.microsoft.com, *.google.com",
   nomeAssistente: "Assistente de Governança",
   iconeAssistente: "",
+  estiloAssistente: "orbita",
   paleta: "indigo",
   modo: "escuro",
 };
