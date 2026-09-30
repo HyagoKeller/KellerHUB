@@ -1,8 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { ChevronRight, Pencil } from "lucide-react";
+import { FormPrograma } from "@/components/FormulariosCarteira";
+import { useCarteira } from "@/lib/carteira";
+import type { Programa } from "@/lib/mock-data";
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, SaudeTag, Stat } from "@/components/ui-kit";
-import { portfolios, programas, projetos } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/programas")({
   head: () => ({
@@ -26,12 +29,14 @@ export const Route = createFileRoute("/programas")({
 });
 
 function Programas() {
+  const { portfolios, programas, projetos } = useCarteira();
+  const [form, setForm] = useState<{ aberto: boolean; programa?: Programa }>({ aberto: false });
   return (
     <AppShell
       title="Gestão de Programas"
       description="Metas, objetivos e projetos subordinados, com visualização hierárquica portfólio → programa → projeto."
       actions={
-        <button className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
+        <button onClick={() => setForm({ aberto: true })} className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
           Novo programa
         </button>
       }
@@ -44,7 +49,7 @@ function Programas() {
         />
         <Stat
           label="Progresso médio"
-          value={`${Math.round(programas.reduce((a, p) => a + p.progresso, 0) / programas.length)}%`}
+          value={`${Math.round(programas.reduce((a, p) => a + p.progresso, 0) / Math.max(1, programas.length))}%`}
         />
       </div>
 
@@ -63,7 +68,12 @@ function Programas() {
                     <h3 className="truncate font-display text-lg font-semibold">{pg.nome}</h3>
                     <p className="mt-1 text-sm text-muted-foreground">{pg.objetivo}</p>
                   </div>
-                  <SaudeTag saude={pg.saude} />
+                  <div className="flex items-center gap-2">
+                    <SaudeTag saude={pg.saude} />
+                    <button aria-label="Editar programa" onClick={() => setForm({ aberto: true, programa: pg })} className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground">
+                      <Pencil className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
                 </div>
 
                 <div className="mt-4 flex items-center gap-3">
@@ -144,6 +154,7 @@ function Programas() {
           </ul>
         </Panel>
       </div>
+      <FormPrograma aberto={form.aberto} programa={form.programa} onClose={() => setForm({ aberto: false })} />
     </AppShell>
   );
 }

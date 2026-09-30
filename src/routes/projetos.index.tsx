@@ -6,7 +6,7 @@ import { Barra, Panel, SaudeTag, Stat } from "@/components/ui-kit";
 import { EtiquetaCelula } from "@/components/EtiquetaCelula";
 import { FormProjeto } from "@/components/FormulariosCarteira";
 import { carteira, portfolioDe, useCarteira } from "@/lib/carteira";
-import { moeda, programas, type Projeto } from "@/lib/mock-data";
+import { moeda, type Projeto } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/projetos/")({
   head: () => ({
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/projetos/")({
 });
 
 function Projetos() {
-  const { projetos, portfolios, etiquetas } = useCarteira();
+  const { projetos, portfolios, etiquetas, programas } = useCarteira();
   const filtros = ["Todas", ...etiquetas.metodologia.map((e) => e.nome)];
   const [filtro, setFiltro] = useState<string>("Todas");
   const [form, setForm] = useState<{ aberto: boolean; projeto?: Projeto }>({ aberto: false });

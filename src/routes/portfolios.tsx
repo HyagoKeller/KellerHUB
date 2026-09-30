@@ -6,7 +6,7 @@ import { FormPortfolio } from "@/components/FormulariosCarteira";
 import { carteira, useCarteira } from "@/lib/carteira";
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, SaudeTag, Stat, Tag } from "@/components/ui-kit";
-import { moeda, programas, type Portfolio } from "@/lib/mock-data";
+import { moeda, type Portfolio } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/portfolios")({
   head: () => ({
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/portfolios")({
 });
 
 function Portfolios() {
-  const { portfolios, etiquetas } = useCarteira();
+  const { portfolios, etiquetas, programas } = useCarteira();
   const [form, setForm] = useState<{ aberto: boolean; portfolio?: Portfolio }>({ aberto: false });
   const media = portfolios.length
     ? Math.round(portfolios.reduce((a, p) => a + p.progresso, 0) / portfolios.length)
