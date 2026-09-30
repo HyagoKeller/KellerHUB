@@ -7,13 +7,13 @@ import { portfolios, programas, projetos } from "@/lib/mock-data";
 export const Route = createFileRoute("/programas")({
   head: () => ({
     meta: [
-      { title: "Programas — Hepta Project PPM" },
+      { title: "Programas — Plataforma PPM" },
       {
         name: "description",
         content:
           "Programas institucionais com metas, objetivos e hierarquia rastreável entre portfólio, programa e projetos.",
       },
-      { property: "og:title", content: "Programas — Hepta Project PPM" },
+      { property: "og:title", content: "Programas — Plataforma PPM" },
       {
         property: "og:description",
         content: "Acompanhe metas de programas e a hierarquia portfólio → programa → projeto.",

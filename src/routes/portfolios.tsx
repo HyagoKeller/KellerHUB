@@ -7,13 +7,13 @@ import { moeda, portfolios, programas } from "@/lib/mock-data";
 export const Route = createFileRoute("/portfolios")({
   head: () => ({
     meta: [
-      { title: "Portfólios — Hepta Project PPM" },
+      { title: "Portfólios — Plataforma PPM" },
       {
         name: "description",
         content:
           "Cadastro, priorização e visão consolidada de portfólios institucionais e temáticos com indicadores agregados.",
       },
-      { property: "og:title", content: "Portfólios — Hepta Project PPM" },
+      { property: "og:title", content: "Portfólios — Plataforma PPM" },
       {
         property: "og:description",
         content: "Priorize portfólios por score e acompanhe orçamento, progresso e riscos consolidados.",

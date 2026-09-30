@@ -20,13 +20,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/relatorios")({
   head: () => ({
     meta: [
-      { title: "Relatórios e Publicação — Hepta Project PPM" },
+      { title: "Relatórios e Publicação — Plataforma PPM" },
       {
         name: "description",
         content:
           "Publicação de painéis com link público ou link autenticado restrito a perfis liberados, exportação em CSV, XLSX e JSON e trilha de auditoria.",
       },
-      { property: "og:title", content: "Relatórios e Publicação — Hepta Project PPM" },
+      { property: "og:title", content: "Relatórios e Publicação — Plataforma PPM" },
       {
         property: "og:description",
         content:
