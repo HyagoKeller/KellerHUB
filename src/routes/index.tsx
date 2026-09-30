@@ -33,13 +33,13 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Visão Executiva — Hepta Project PPM" },
+      { title: "Visão Executiva — Plataforma PPM" },
       {
         name: "description",
         content:
           "Painel executivo consolidado de portfólios, programas, projetos, indicadores e riscos institucionais.",
       },
-      { property: "og:title", content: "Visão Executiva — Hepta Project PPM" },
+      { property: "og:title", content: "Visão Executiva — Plataforma PPM" },
       {
         property: "og:description",
         content: "Gestão institucional de portfólios, programas e projetos em uma única plataforma.",

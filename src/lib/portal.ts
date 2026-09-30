@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 export type Modo = "claro" | "escuro";
 
-export type PaletaId = "indigo" | "teal" | "ambar" | "magenta" | "grafite";
+export type PaletaId = "azul" | "indigo" | "verde" | "teal" | "ambar" | "magenta" | "grafite";
 
 export type Paleta = {
   id: PaletaId;
@@ -17,10 +17,22 @@ export type Paleta = {
 
 export const paletas: Paleta[] = [
   {
+    id: "azul",
+    nome: "Azul fluido (padrão)",
+    descricao: "Azul luminoso com profundidade e transparência.",
+    amostra: ["#0A84FF", "#64D2FF", "#30D158"],
+  },
+  {
     id: "indigo",
-    nome: "Índigo (padrão)",
-    descricao: "Identidade original do Hepta Project.",
+    nome: "Índigo profundo",
+    descricao: "Contraste sofisticado para ambientes executivos.",
     amostra: ["#6161FF", "#FFCB00", "#00C875"],
+  },
+  {
+    id: "verde",
+    nome: "Verde vital",
+    descricao: "Verde equilibrado para operações e sustentabilidade.",
+    amostra: ["#24A865", "#6EDB9A", "#0A84FF"],
   },
   {
     id: "teal",
@@ -82,7 +94,7 @@ export const configPortalPadrao: ConfigPortal = {
   nomeAssistente: "Assistente de Governança",
   iconeAssistente: "",
   estiloAssistente: "orbita",
-  paleta: "indigo",
+  paleta: "azul",
   modo: "escuro",
 };
 
@@ -95,7 +107,16 @@ const assinantes = new Set<(c: ConfigPortal) => void>();
 function ler(): ConfigPortal {
   try {
     const bruto = localStorage.getItem(CHAVE);
-    if (bruto) return { ...configPortalPadrao, ...(JSON.parse(bruto) as ConfigPortal) };
+    if (bruto) {
+      const salvo = { ...configPortalPadrao, ...(JSON.parse(bruto) as ConfigPortal) };
+      const chaveMigracao = "portal.paleta-padrao-azul.v1";
+      if (!localStorage.getItem(chaveMigracao) && salvo.paleta === "indigo") {
+        salvo.paleta = "azul";
+        localStorage.setItem(CHAVE, JSON.stringify(salvo));
+      }
+      localStorage.setItem(chaveMigracao, "1");
+      return salvo;
+    }
   } catch {
     /* armazenamento indisponível */
   }

@@ -56,7 +56,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --shadow-panel: 0 1px 1px oklch(0 0 0 / 0.18), 0 8px 28px -18px oklch(0 0 0 / 0.7);
+  --shadow-panel: 0 1px 1px oklch(1 0 0 / 0.72), 0 18px 48px -28px oklch(0.38 0.1 250 / 0.32);
   --shadow-lift: 0 18px 45px -24px oklch(0 0 0 / 0.85);
   --glow-primary: 0 0 24px -7px oklch(0.61 0.22 285 / 0.5);
 
@@ -69,21 +69,21 @@
 :root {
   --radius: 0.75rem;
 
-  /* Modo claro — papel institucional */
-  --paper: oklch(0.99 0.003 285);
-  --ink: oklch(0.24 0.015 285);
-  --background: oklch(0.975 0.004 285);
-  --foreground: oklch(0.24 0.015 285);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.24 0.015 285);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.24 0.015 285);
-  --primary: oklch(0.56 0.22 285);
+  /* Modo claro — vidro óptico sobre uma base azul atmosférica */
+  --paper: oklch(0.985 0.01 242);
+  --ink: oklch(0.22 0.025 252);
+  --background: oklch(0.955 0.025 242);
+  --foreground: oklch(0.22 0.025 252);
+  --card: oklch(1 0 0 / 0.62);
+  --card-foreground: oklch(0.22 0.025 252);
+  --popover: oklch(0.99 0.008 242 / 0.88);
+  --popover-foreground: oklch(0.22 0.025 252);
+  --primary: oklch(0.58 0.2 252);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.94 0.008 285);
-  --secondary-foreground: oklch(0.28 0.015 285);
-  --muted: oklch(0.945 0.008 285);
-  --muted-foreground: oklch(0.48 0.015 285);
+  --secondary: oklch(0.92 0.025 242 / 0.72);
+  --secondary-foreground: oklch(0.28 0.025 252);
+  --muted: oklch(0.91 0.02 242 / 0.68);
+  --muted-foreground: oklch(0.46 0.03 252);
   --accent: oklch(0.78 0.16 82);
   --accent-foreground: oklch(0.22 0.02 85);
   --destructive: oklch(0.58 0.21 22);
@@ -94,29 +94,30 @@
   --warning-foreground: oklch(0.22 0.02 85);
   --info: oklch(0.56 0.15 235);
   --info-foreground: oklch(1 0 0);
-  --border: oklch(0.9 0.008 285);
-  --input: oklch(0.9 0.008 285);
-  --ring: oklch(0.56 0.22 285);
-  --chart-1: oklch(0.56 0.22 285);
+  --border: oklch(0.78 0.035 242 / 0.62);
+  --input: oklch(0.8 0.035 242 / 0.68);
+  --ring: oklch(0.58 0.2 252);
+  --chart-1: oklch(0.58 0.2 252);
   --chart-2: oklch(0.6 0.16 153);
   --chart-3: oklch(0.74 0.16 82);
   --chart-4: oklch(0.56 0.15 235);
   --chart-5: oklch(0.58 0.21 22);
-  --sidebar: oklch(1 0 0);
-  --sidebar-foreground: oklch(0.4 0.015 285);
-  --sidebar-primary: oklch(0.56 0.22 285);
+  --sidebar: oklch(0.99 0.01 242 / 0.7);
+  --sidebar-foreground: oklch(0.39 0.03 252);
+  --sidebar-primary: oklch(0.58 0.2 252);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.955 0.008 285);
-  --sidebar-accent-foreground: oklch(0.24 0.015 285);
-  --sidebar-border: oklch(0.9 0.008 285);
-  --sidebar-ring: oklch(0.56 0.22 285);
-  --glass: oklch(1 0 0 / 0.68);
-  --glass-highlight: oklch(1 0 0 / 0.9);
+  --sidebar-accent: oklch(0.93 0.025 242 / 0.75);
+  --sidebar-accent-foreground: oklch(0.22 0.025 252);
+  --sidebar-border: oklch(0.8 0.035 242 / 0.58);
+  --sidebar-ring: oklch(0.58 0.2 252);
+  --glass: oklch(0.985 0.012 242 / 0.58);
+  --glass-highlight: oklch(1 0 0 / 0.82);
 }
 
 
 
 .dark {
+  --shadow-panel: 0 1px 1px oklch(0 0 0 / 0.18), 0 8px 28px -18px oklch(0 0 0 / 0.7);
   --paper: oklch(0.2 0.01 285);
   --ink: oklch(0.96 0.01 100);
   --background: oklch(0.195 0.01 285);
@@ -125,7 +126,7 @@
   --card-foreground: oklch(0.95 0.01 85);
   --popover: oklch(0.29 0.014 285);
   --popover-foreground: oklch(0.95 0.01 85);
-  --primary: oklch(0.62 0.22 285);
+  --primary: oklch(0.66 0.18 252);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.32 0.018 285);
   --secondary-foreground: oklch(0.95 0.01 85);
@@ -143,25 +144,64 @@
   --info-foreground: oklch(1 0 0);
   --border: oklch(0.36 0.014 285);
   --input: oklch(0.36 0.014 285);
-  --ring: oklch(0.62 0.22 285);
-  --chart-1: oklch(0.62 0.22 285);
+  --ring: oklch(0.66 0.18 252);
+  --chart-1: oklch(0.66 0.18 252);
   --chart-2: oklch(0.73 0.19 153);
   --chart-3: oklch(0.84 0.17 92);
   --chart-4: oklch(0.7 0.15 235);
   --chart-5: oklch(0.67 0.2 22);
   --sidebar: oklch(0.16 0.01 285);
   --sidebar-foreground: oklch(0.77 0.012 100);
-  --sidebar-primary: oklch(0.62 0.22 285);
+  --sidebar-primary: oklch(0.66 0.18 252);
   --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-accent: oklch(0.25 0.018 285);
   --sidebar-accent-foreground: oklch(0.95 0.01 85);
   --sidebar-border: oklch(0.29 0.012 285);
-  --sidebar-ring: oklch(0.62 0.22 285);
+  --sidebar-ring: oklch(0.66 0.18 252);
   --glass: oklch(0.3 0.012 285 / 0.62);
   --glass-highlight: oklch(0.95 0.01 85 / 0.16);
 }
 
 /* Paletas alternativas: trocam apenas a cor de marca; neutros e cores de status permanecem. */
+[data-paleta="azul"] {
+  --primary: oklch(0.58 0.2 252);
+  --ring: var(--primary);
+  --sidebar-primary: var(--primary);
+  --chart-1: var(--primary);
+}
+.dark[data-paleta="azul"] {
+  --primary: oklch(0.66 0.18 252);
+  --ring: var(--primary);
+  --sidebar-primary: var(--primary);
+  --chart-1: var(--primary);
+}
+
+[data-paleta="indigo"] {
+  --primary: oklch(0.56 0.22 285);
+  --ring: var(--primary);
+  --sidebar-primary: var(--primary);
+  --chart-1: var(--primary);
+}
+.dark[data-paleta="indigo"] {
+  --primary: oklch(0.62 0.22 285);
+  --ring: var(--primary);
+  --sidebar-primary: var(--primary);
+  --chart-1: var(--primary);
+}
+
+[data-paleta="verde"] {
+  --primary: oklch(0.58 0.15 152);
+  --ring: var(--primary);
+  --sidebar-primary: var(--primary);
+  --chart-1: var(--primary);
+}
+.dark[data-paleta="verde"] {
+  --primary: oklch(0.69 0.16 152);
+  --ring: var(--primary);
+  --sidebar-primary: var(--primary);
+  --chart-1: var(--primary);
+}
+
 [data-paleta="teal"] {
   --primary: oklch(0.58 0.11 187);
   --ring: var(--primary);
@@ -266,8 +306,15 @@
 }
 
 .liquid-workspace {
-  background-image: linear-gradient(135deg, color-mix(in oklab, var(--color-primary) 7%, transparent), transparent 30%, color-mix(in oklab, var(--color-info) 4%, transparent));
+  background-image:
+    linear-gradient(128deg, color-mix(in oklab, var(--color-primary) 13%, transparent), transparent 34%),
+    linear-gradient(310deg, color-mix(in oklab, var(--color-info) 12%, transparent), transparent 42%),
+    linear-gradient(180deg, color-mix(in oklab, var(--color-paper) 76%, transparent), transparent);
   background-attachment: fixed;
+}
+
+.dark .liquid-workspace {
+  background-image: linear-gradient(135deg, color-mix(in oklab, var(--color-primary) 7%, transparent), transparent 30%, color-mix(in oklab, var(--color-info) 4%, transparent));
 }
 
 .panel input:not([type="file"]),
