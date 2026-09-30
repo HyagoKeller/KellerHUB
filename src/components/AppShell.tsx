@@ -157,8 +157,8 @@ export function AppShell({
 
 
   return (
-    <div className="min-h-screen w-full bg-background">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-sidebar-border bg-sidebar lg:block">
+    <div className="liquid-workspace min-h-screen w-full bg-background">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-sidebar-border bg-sidebar/80 backdrop-blur-3xl lg:block">
         <SidebarBody />
       </aside>
 
@@ -185,7 +185,7 @@ export function AppShell({
       )}
 
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-20 border-b border-border bg-background/90 backdrop-blur-xl">
+        <header className="sticky top-0 z-20 border-b border-border/70 bg-background/65 backdrop-blur-3xl">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
             <div className="flex min-w-0 items-center gap-3">
               <Button

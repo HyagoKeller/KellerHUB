@@ -21,6 +21,7 @@ import { Shimmer } from "@/components/ai-elements/shimmer";
 import { useConversas } from "@/lib/assistente-conversas";
 import { usuarioAtual } from "@/lib/mock-data";
 import { useMotorIA } from "@/lib/ai-provedores";
+import { usePortal } from "@/lib/portal";
 
 import { cn } from "@/lib/utils";
 import marca from "@/assets/assistente-ia.png";
@@ -63,6 +64,9 @@ function Assistente() {
   const conversa = useMemo(() => conversas.find((c) => c.id === id), [conversas, id]);
   const iniciais = useMemo<UIMessage[]>(() => conversa?.mensagens ?? [], [conversa?.id]);
   const { config: motorConfig, motor } = useMotorIA();
+  const { config: portalConfig } = usePortal();
+  const nomeAssistente = portalConfig.nomeAssistente || "Assistente de Governança";
+  const iconeAssistente = portalConfig.iconeAssistente || marca;
 
   const transporte = useMemo(
     () =>
@@ -119,7 +123,7 @@ function Assistente() {
 
   return (
     <AppShell
-      title="Assistente de Governança"
+      title={nomeAssistente}
       description="Consultas em linguagem natural sobre os dados da plataforma, respeitando o seu perfil de acesso."
       actions={
         <button
@@ -173,7 +177,7 @@ function Assistente() {
           </Panel>
 
           <Panel>
-            <PanelTitle title="Governança da IA" />
+            <PanelTitle title={nomeAssistente} />
             <div className="grid gap-3 text-xs text-muted-foreground">
               <p className="flex items-start gap-2">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-success" />
@@ -212,8 +216,8 @@ function Assistente() {
         <Panel className="flex min-h-[70vh] min-w-0 flex-col p-0" rule="none">
           <div className="flex items-center gap-3 border-b border-border/60 px-5 py-4">
             <img
-              src={marca}
-              alt="Assistente de Governança do Hepta Project"
+               src={iconeAssistente}
+               alt={nomeAssistente}
               width={816}
               height={816}
               loading="lazy"
