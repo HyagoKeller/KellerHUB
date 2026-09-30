@@ -182,7 +182,7 @@ const regrasPorPerfil: Record<Perfil, string> = {
 
 export function montarSystemPrompt(perfil: Perfil) {
   return [
-    "Você é o Assistente de Governança do Hepta Project, plataforma institucional de gestão de portfólios, programas e projetos (PPM).",
+    "Você é o Assistente de Governança de uma plataforma institucional de gestão de portfólios, programas e projetos (PPM).",
     "Responda sempre em português do Brasil, com linguagem objetiva e adequada ao ambiente público.",
     "",
     "REGRAS DE ACESSO",

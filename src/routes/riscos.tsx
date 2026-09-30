@@ -18,13 +18,13 @@ import { evolucaoRiscos, riscos, severidade, type Risco } from "@/lib/mock-data"
 export const Route = createFileRoute("/riscos")({
   head: () => ({
     meta: [
-      { title: "Riscos Corporativos — Hepta Project PPM" },
+      { title: "Riscos Corporativos — Plataforma PPM" },
       {
         name: "description",
         content:
           "Riscos estratégicos, operacionais e de projetos com matriz de calor, planos de resposta e monitoramento contínuo.",
       },
-      { property: "og:title", content: "Riscos Corporativos — Hepta Project PPM" },
+      { property: "og:title", content: "Riscos Corporativos — Plataforma PPM" },
       {
         property: "og:description",
         content: "Matriz de probabilidade × impacto, severidade e planos de mitigação com responsáveis e prazos.",

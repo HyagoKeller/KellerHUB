@@ -20,13 +20,13 @@ import { useViews } from "@/lib/views";
 export const Route = createFileRoute("/indicadores")({
   head: () => ({
     meta: [
-      { title: "Indicadores de Desempenho — Hepta Project PPM" },
+      { title: "Indicadores de Desempenho — Plataforma PPM" },
       {
         name: "description",
         content:
           "Cadastro de KPIs com fórmula, meta, periodicidade, histórico de valores e exportação em formatos abertos.",
       },
-      { property: "og:title", content: "Indicadores de Desempenho — Hepta Project PPM" },
+      { property: "og:title", content: "Indicadores de Desempenho — Plataforma PPM" },
       {
         property: "og:description",
         content: "Dashboards parametrizáveis de KPIs com exportação CSV/XLSX para Power BI.",

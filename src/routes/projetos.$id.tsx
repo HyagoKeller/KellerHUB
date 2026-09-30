@@ -22,9 +22,9 @@ export const Route = createFileRoute("/projetos/$id")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Projeto indisponível — Hepta Project" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Projeto indisponível — Plataforma PPM" }, { name: "robots", content: "noindex" }] };
     }
-    const t = `${loaderData.projeto.nome} — Hepta Project PPM`;
+    const t = `${loaderData.projeto.nome} — Plataforma PPM`;
     return {
       meta: [
         { title: t },

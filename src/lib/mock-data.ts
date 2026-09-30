@@ -1,4 +1,4 @@
-// Dados de demonstração do protótipo Hepta Project v2.
+// Dados de demonstração da plataforma PPM.
 // Substituir por consultas ao banco quando o backend for habilitado.
 
 export type Saude = "verde" | "amarelo" | "vermelho";

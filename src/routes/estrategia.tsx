@@ -16,13 +16,13 @@ import { objetivos, programas, projetos } from "@/lib/mock-data";
 export const Route = createFileRoute("/estrategia")({
   head: () => ({
     meta: [
-      { title: "Gestão Estratégica — Hepta Project PPM" },
+      { title: "Gestão Estratégica — Plataforma PPM" },
       {
         name: "description",
         content:
           "Objetivos estratégicos institucionais, metas e alinhamento de projetos e programas ao planejamento.",
       },
-      { property: "og:title", content: "Gestão Estratégica — Hepta Project PPM" },
+      { property: "og:title", content: "Gestão Estratégica — Plataforma PPM" },
       {
         property: "og:description",
         content: "Meça o quanto os objetivos estratégicos são atendidos pelos projetos vinculados.",

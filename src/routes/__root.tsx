@@ -77,13 +77,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Hepta Project — Plataforma PPM institucional" },
+      { title: "Plataforma PPM institucional" },
       {
         name: "description",
         content:
           "Plataforma SaaS de gestão de portfólios, programas e projetos para uso institucional.",
       },
-      { property: "og:title", content: "Hepta Project — Plataforma PPM institucional" },
+      { property: "og:title", content: "Plataforma PPM institucional" },
       {
         property: "og:description",
         content: "Portfólios, programas, projetos, estratégia, indicadores e riscos em um só lugar.",
