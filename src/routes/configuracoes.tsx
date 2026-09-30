@@ -202,7 +202,7 @@ function Configuracoes() {
   const [rascunhoMotor, setRascunhoMotor] = useState(motorConfig);
   useEffect(() => setRascunhoMotor(motorConfig), [motorConfig]);
   const motorAlterado = JSON.stringify(rascunhoMotor) !== JSON.stringify(motorConfig);
-  const motorRascunho = motoresIA.find((m) => m.id === rascunhoMotor.motorId) ?? motoresIA[0]!;
+  const motorRascunho = motoresIA.find((m) => m.id === rascunhoMotor.motorId) ?? motoresIA[0];
 
   const [rascunhoPortal, setRascunhoPortal] = useState<ConfigPortal>(portalConfig);
   useEffect(() => setRascunhoPortal(portalConfig), [portalConfig]);
@@ -586,7 +586,7 @@ function Configuracoes() {
           })}
         </div>
 
-        {motorRascunho.tipo === "externo" && (
+        {motorRascunho?.tipo === "externo" && (
           <div className="mt-4 grid gap-4 rounded-2xl border border-warning/40 bg-warning/5 p-4">
             <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
               <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
@@ -625,7 +625,7 @@ function Configuracoes() {
                 <input
                   value={rascunhoMotor.modelo}
                   onChange={(e) => setRascunhoMotor((r) => ({ ...r, modelo: e.target.value }))}
-                  placeholder={motorRascunho.modelo || "nome-do-modelo"}
+                   placeholder={motorRascunho.modelo || "nome-do-modelo"}
                   className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
                 />
               </label>
