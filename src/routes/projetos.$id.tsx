@@ -8,7 +8,6 @@ import { Barra, Panel, PanelTitle, SaudeTag, Stat, Tag } from "@/components/ui-k
 import {
   cronograma,
   moeda,
-  programas,
   projetos,
   riscos,
   severidade,
@@ -54,7 +53,7 @@ function DetalheProjeto() {
 }
 
 function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
-  const { portfolios } = useCarteira();
+  const { portfolios, programas } = useCarteira();
   const [editar, setEditar] = useState(false);
   const [aba, setAba] = useState<(typeof abas)[number]>(
     projeto.metodologia === "Ágil" ? "Kanban" : "Cronograma",
