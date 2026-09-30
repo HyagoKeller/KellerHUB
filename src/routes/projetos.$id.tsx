@@ -1,11 +1,13 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { EtiquetaCelula } from "@/components/EtiquetaCelula";
+import { FormProjeto } from "@/components/FormulariosCarteira";
+import { carteira, portfolioDe, useCarteira } from "@/lib/carteira";
 import { useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, SaudeTag, Stat, Tag } from "@/components/ui-kit";
 import {
   cronograma,
   moeda,
-  portfolioDoProjeto,
   programas,
   projetos,
   riscos,
@@ -16,21 +18,17 @@ import {
 
 export const Route = createFileRoute("/projetos/$id")({
   loader: ({ params }) => {
-    const projeto = projetos.find((p) => p.id === params.id);
-    if (!projeto) throw notFound();
-    return { projeto };
+    const base = projetos.find((p) => p.id === params.id);
+    return { id: params.id, nome: base?.nome ?? "Projeto" };
   },
   head: ({ loaderData }) => {
-    if (!loaderData) {
-      return { meta: [{ title: "Projeto indisponível — Plataforma PPM" }, { name: "robots", content: "noindex" }] };
-    }
-    const t = `${loaderData.projeto.nome} — Plataforma PPM`;
+    const t = `${loaderData?.nome ?? "Projeto"} — Plataforma PPM`;
     return {
       meta: [
         { title: t },
-        { name: "description", content: `Escopo, cronograma, custo, riscos e status reports do projeto ${loaderData.projeto.nome}.` },
+        { name: "description", content: `Escopo, cronograma, custo, riscos e status reports do projeto ${loaderData?.nome ?? "do projeto"}.` },
         { property: "og:title", content: t },
-        { property: "og:description", content: `Acompanhamento detalhado do projeto ${loaderData.projeto.nome}.` },
+        { property: "og:description", content: `Acompanhamento detalhado do projeto ${loaderData?.nome ?? "do projeto"}.` },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
@@ -42,12 +40,27 @@ export const Route = createFileRoute("/projetos/$id")({
 const abas = ["Visão geral", "Cronograma", "Kanban", "Riscos", "Status reports"] as const;
 
 function DetalheProjeto() {
-  const { projeto } = Route.useLoaderData();
+  const { id } = Route.useLoaderData();
+  const { projetos: lista } = useCarteira();
+  const projeto = lista.find((p) => p.id === id);
+  if (!projeto) {
+    return (
+      <AppShell title="Projeto não encontrado" description="Ele pode ter sido excluído.">
+        <Link to="/projetos" className="text-sm text-primary hover:underline">Voltar para projetos</Link>
+      </AppShell>
+    );
+  }
+  return <Detalhe key={projeto.id} projeto={projeto} />;
+}
+
+function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
+  const { portfolios } = useCarteira();
+  const [editar, setEditar] = useState(false);
   const [aba, setAba] = useState<(typeof abas)[number]>(
     projeto.metodologia === "Ágil" ? "Kanban" : "Cronograma",
   );
   const programa = programas.find((p) => p.id === projeto.programaId);
-  const portfolio = portfolioDoProjeto(projeto);
+  const portfolio = portfolioDe(projeto, portfolios);
   const riscosProjeto = riscos.filter((r) => r.origem === portfolio?.nome || r.categoria === "Projeto").slice(0, 4);
   const totalSemanas = 90;
 
@@ -63,6 +76,12 @@ function DetalheProjeto() {
           >
             Voltar
           </Link>
+          <button
+            onClick={() => setEditar(true)}
+            className="rounded-md border border-border bg-card px-3 py-2 text-sm font-medium hover:bg-muted"
+          >
+            Editar projeto
+          </button>
           <button className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
             Novo status report
           </button>
@@ -85,7 +104,16 @@ function DetalheProjeto() {
           <p className="text-xs uppercase tracking-wide text-muted-foreground">Saúde e metodologia</p>
           <div className="flex flex-wrap gap-2">
             <SaudeTag saude={projeto.saude} />
-            <Tag tom="accent">{projeto.metodologia}</Tag>
+            <EtiquetaCelula
+              coluna="metodologia"
+              valor={projeto.metodologia}
+              onChange={(v) => carteira.atualizarProjeto(projeto.id, { metodologia: v })}
+            />
+            <EtiquetaCelula
+              coluna="status"
+              valor={projeto.status}
+              onChange={(v) => carteira.atualizarProjeto(projeto.id, { status: v })}
+            />
           </div>
         </div>
       </div>
@@ -247,6 +275,7 @@ function DetalheProjeto() {
           </Panel>
         )}
       </div>
+      <FormProjeto aberto={editar} projeto={projeto} onClose={() => setEditar(false)} />
     </AppShell>
   );
 }

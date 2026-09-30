@@ -2,8 +2,8 @@
 // Substituir por consultas ao banco quando o backend for habilitado.
 
 export type Saude = "verde" | "amarelo" | "vermelho";
-export type StatusProjeto = "Planejamento" | "Em execução" | "Em risco" | "Suspenso" | "Concluído";
-export type Metodologia = "PMBOK" | "Ágil" | "Híbrida";
+export type StatusProjeto = string;
+export type Metodologia = string;
 export type Perfil = "Técnico" | "Gestor" | "Alta Administração";
 
 export const organizacoes = [
@@ -21,7 +21,7 @@ export const usuarioAtual = {
 export type Portfolio = {
   id: string;
   nome: string;
-  tipo: "Institucional" | "Temático";
+  tipo: string;
   responsavel: string;
   orcamento: number;
   executado: number;
