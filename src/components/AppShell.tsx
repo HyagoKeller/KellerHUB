@@ -118,7 +118,7 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
   const { config } = usePortal();
   const nomeOrg = config.organizacao || organizacoes[0].nome;
   return (
-    <div className="flex h-full flex-col bg-sidebar py-5">
+    <div className="flex h-full flex-col bg-sidebar/72 py-5 backdrop-blur-3xl">
       <div className="px-5 pb-5">
         <Logo logo={config.logo} nome={config.organizacao || undefined} />
       </div>
@@ -127,7 +127,7 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
       </div>
       <NavList onNavigate={onNavigate} />
       <div className="mt-auto px-5 pt-6">
-        <div className="rounded-xl border border-sidebar-border bg-sidebar-accent/60 p-4">
+        <div className="glass-control rounded-xl p-4">
           <p className="eyebrow text-sidebar-foreground/50">Organização</p>
           <p className="mt-1.5 truncate text-sm font-medium text-sidebar-accent-foreground">
             {nomeOrg}
@@ -160,7 +160,7 @@ export function AppShell({
 
   return (
     <div className="liquid-workspace min-h-screen w-full bg-background">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-sidebar-border bg-sidebar/80 backdrop-blur-3xl lg:block">
+       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-sidebar-border/70 bg-sidebar/66 shadow-2xl shadow-background/30 backdrop-blur-3xl lg:block">
         <SidebarBody />
       </aside>
 
@@ -171,7 +171,7 @@ export function AppShell({
             onClick={() => setOpen(false)}
             aria-hidden
           />
-          <div className="absolute inset-y-0 left-0 w-72 border-r border-sidebar-border bg-sidebar">
+          <div className="absolute inset-y-0 left-0 w-72 border-r border-sidebar-border/70 bg-sidebar/88 shadow-2xl backdrop-blur-3xl">
             <Button
               variant="ghost"
               size="icon"
@@ -187,7 +187,7 @@ export function AppShell({
       )}
 
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-20 border-b border-border/70 bg-background/65 backdrop-blur-3xl">
+        <header className="sticky top-0 z-20 border-b border-border/60 bg-background/48 shadow-lg shadow-background/20 backdrop-blur-3xl">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
             <div className="flex min-w-0 items-center gap-3">
               <Button
@@ -199,7 +199,7 @@ export function AppShell({
               >
                 <Menu className="h-4 w-4" />
               </Button>
-              <div className="hidden min-w-0 items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 transition-colors focus-within:border-primary md:flex md:w-96">
+              <div className="glass-control hidden min-w-0 items-center gap-2 rounded-xl px-3 py-2 transition-colors focus-within:border-primary md:flex md:w-96">
                 <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
                 <input
                   placeholder="Buscar projetos, riscos, indicadores…"
@@ -232,7 +232,7 @@ export function AppShell({
                 <Bell className="h-4 w-4" />
                 <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary shadow-sm shadow-primary/40" />
               </Button>
-              <div className="flex items-center gap-2 rounded-xl border border-border bg-card px-2 py-1.5 transition-colors hover:border-primary/50">
+              <div className="glass-control flex items-center gap-2 rounded-xl px-2 py-1.5 transition-colors hover:border-primary/50">
                 <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-success text-[11px] font-bold text-success-foreground">
                   MA
                 </div>
