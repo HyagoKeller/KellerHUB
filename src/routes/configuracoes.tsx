@@ -2,7 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   Check,
+  Bot,
   Cpu,
+  Globe2,
+  HardDrive,
   ImageUp,
   Link2,
   Moon,
@@ -15,6 +18,7 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Panel, PanelTitle, Tag } from "@/components/ui-kit";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { Perfil } from "@/lib/mock-data";
 import { organizacoes } from "@/lib/mock-data";
@@ -121,6 +125,42 @@ const integracoesIniciais: Integracao[] = [
 
 const perfis: Perfil[] = ["Técnico", "Gestor", "Alta Administração"];
 
+const idiomas = [
+  "Español", "English (US)", "English (UK)", "Português", "Français", "Deutsch",
+  "Català", "Italiano", "Nederlands", "Ελληνικά",
+];
+
+const fusosHorarios = [
+  ["America/Sao_Paulo", "Brasília · São Paulo"],
+  ["America/Manaus", "Manaus"],
+  ["America/Belem", "Belém"],
+  ["America/Fortaleza", "Fortaleza"],
+  ["America/Recife", "Recife"],
+  ["America/Bahia", "Salvador"],
+  ["America/Cuiaba", "Cuiabá"],
+  ["America/Rio_Branco", "Rio Branco"],
+  ["America/Noronha", "Fernando de Noronha"],
+  ["America/New_York", "Nova York"],
+  ["America/Los_Angeles", "Los Angeles"],
+  ["Europe/London", "Londres"],
+  ["Europe/Lisbon", "Lisboa"],
+  ["Europe/Madrid", "Madri"],
+  ["Europe/Paris", "Paris"],
+  ["Europe/Berlin", "Berlim"],
+  ["Asia/Tokyo", "Tóquio"],
+  ["Asia/Dubai", "Dubai"],
+  ["Australia/Sydney", "Sydney"],
+  ["UTC", "UTC"],
+] as const;
+
+const localizacoes = [
+  "Brasil", "Argentina", "Chile", "Colômbia", "México", "Estados Unidos", "Canadá",
+  "Portugal", "Espanha", "França", "Alemanha", "Itália", "Países Baixos", "Bélgica",
+  "Reino Unido", "Irlanda", "Suíça", "Grécia", "Japão", "Austrália",
+];
+
+const formatosMonetarios = ["1,000.00", "1.000,00", "1000.00", "1000,00", "1 000.00", "1 000,00"];
+
 const permissoes = [
   { recurso: "Cadastro de projetos e cronogramas", tecnico: "Editar", gestor: "Editar", alta: "Ler" },
   { recurso: "Portfólios e priorização", tecnico: "Ler", gestor: "Editar", alta: "Editar" },
@@ -192,6 +232,12 @@ function Configuracoes() {
     criar({ nome: nome.trim(), escopo, blocos, perfis: perfisView });
     setNome("");
     setBlocos([]);
+  };
+
+  const carregarImagem = (arquivo: File, campo: "logo" | "logoInicioSessao" | "iconeAssistente") => {
+    const leitor = new FileReader();
+    leitor.onload = () => setRascunhoPortal((r) => ({ ...r, [campo]: String(leitor.result) }));
+    leitor.readAsDataURL(arquivo);
   };
 
   return (
@@ -355,6 +401,75 @@ function Configuracoes() {
               vermelho) permanecem os mesmos para não mudar a leitura dos painéis.
             </p>
           </div>
+        </div>
+      </Panel>
+
+      <Panel className="mt-4" rule="primary">
+        <PanelTitle title="Experiência de acesso e assistente" hint="identidade institucional" />
+        <div className="grid gap-5 lg:grid-cols-2">
+          <div className="grid content-start gap-4">
+            <label className="grid gap-1.5 text-xs">
+              <span className="eyebrow text-muted-foreground">Mensagem de início de sessão</span>
+              <textarea
+                value={rascunhoPortal.mensagemInicioSessao}
+                onChange={(e) => setRascunhoPortal((r) => ({ ...r, mensagemInicioSessao: e.target.value }))}
+                rows={3}
+                className="rounded-xl border border-border px-3 py-2 text-sm outline-none focus:border-primary"
+              />
+            </label>
+            <div className="grid gap-2 text-xs">
+              <span className="eyebrow text-muted-foreground">Logo de início de sessão</span>
+              <div className="flex items-center gap-3">
+                <div className="glass-control grid h-14 w-24 shrink-0 place-items-center overflow-hidden rounded-xl">
+                  {rascunhoPortal.logoInicioSessao ? <img src={rascunhoPortal.logoInicioSessao} alt="Logo de início de sessão" className="h-full w-full object-contain p-1" /> : <ImageUp className="h-5 w-5 text-muted-foreground" />}
+                </div>
+                <Button variant="outline" size="sm" asChild>
+                  <label className="cursor-pointer"><ImageUp /> Enviar logo<input type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" className="hidden" onChange={(e) => { const arquivo = e.target.files?.[0]; if (arquivo) carregarImagem(arquivo, "logoInicioSessao"); }} /></label>
+                </Button>
+                {rascunhoPortal.logoInicioSessao && <Button variant="ghost" size="sm" onClick={() => setRascunhoPortal((r) => ({ ...r, logoInicioSessao: "" }))} className="text-destructive"><Trash2 /> Remover</Button>}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid content-start gap-4">
+            <label className="grid gap-1.5 text-xs">
+              <span className="eyebrow text-muted-foreground">Nome do assistente de governança</span>
+              <div className="relative"><Bot className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><input value={rascunhoPortal.nomeAssistente} onChange={(e) => setRascunhoPortal((r) => ({ ...r, nomeAssistente: e.target.value }))} className="w-full rounded-xl border border-border py-2 pl-10 pr-3 text-sm outline-none focus:border-primary" /></div>
+            </label>
+            <div className="grid gap-2 text-xs">
+              <span className="eyebrow text-muted-foreground">Ícone do assistente</span>
+              <div className="flex items-center gap-3">
+                <div className="glass-control grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-xl">
+                  {rascunhoPortal.iconeAssistente ? <img src={rascunhoPortal.iconeAssistente} alt="Ícone do assistente" className="h-full w-full object-cover" /> : <Bot className="h-5 w-5 text-primary" />}
+                </div>
+                <Button variant="outline" size="sm" asChild>
+                  <label className="cursor-pointer"><ImageUp /> Enviar ícone<input type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" className="hidden" onChange={(e) => { const arquivo = e.target.files?.[0]; if (arquivo) carregarImagem(arquivo, "iconeAssistente"); }} /></label>
+                </Button>
+                {rascunhoPortal.iconeAssistente && <Button variant="ghost" size="sm" onClick={() => setRascunhoPortal((r) => ({ ...r, iconeAssistente: "" }))} className="text-destructive"><Trash2 /> Remover</Button>}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Panel>
+
+      <Panel className="mt-4" rule="accent">
+        <PanelTitle title="Preferências regionais e segurança de conteúdo" hint="aplicadas ao portal" />
+        <div className="grid gap-5 lg:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="grid gap-1.5 text-xs"><span className="eyebrow text-muted-foreground">Idioma</span><select value={rascunhoPortal.idioma} onChange={(e) => setRascunhoPortal((r) => ({ ...r, idioma: e.target.value }))} className="rounded-xl border border-border px-3 py-2 text-sm outline-none focus:border-primary">{idiomas.map((item) => <option key={item}>{item}</option>)}</select></label>
+            <label className="grid gap-1.5 text-xs"><span className="eyebrow text-muted-foreground">Localização geográfica</span><select value={rascunhoPortal.localizacao} onChange={(e) => setRascunhoPortal((r) => ({ ...r, localizacao: e.target.value }))} className="rounded-xl border border-border px-3 py-2 text-sm outline-none focus:border-primary">{localizacoes.map((item) => <option key={item}>{item}</option>)}</select></label>
+            <label className="grid gap-1.5 text-xs sm:col-span-2"><span className="eyebrow text-muted-foreground">Fuso horário</span><select value={rascunhoPortal.fusoHorario} onChange={(e) => setRascunhoPortal((r) => ({ ...r, fusoHorario: e.target.value }))} className="rounded-xl border border-border px-3 py-2 text-sm outline-none focus:border-primary">{fusosHorarios.map(([valor, rotulo]) => <option key={valor} value={valor}>{rotulo} · {valor}</option>)}</select></label>
+            <label className="grid gap-1.5 text-xs sm:col-span-2"><span className="eyebrow text-muted-foreground">Formato de valores monetários</span><select value={rascunhoPortal.formatoMonetario} onChange={(e) => setRascunhoPortal((r) => ({ ...r, formatoMonetario: e.target.value }))} className="rounded-xl border border-border px-3 py-2 text-sm outline-none focus:border-primary">{formatosMonetarios.map((item) => <option key={item}>{item}</option>)}</select></label>
+          </div>
+          <div className="grid content-start gap-4">
+            <label className="grid gap-1.5 text-xs"><span className="eyebrow flex items-center gap-2 text-muted-foreground"><HardDrive className="h-3.5 w-3.5" /> Tamanho máximo de arquivos em MB</span><input type="number" min={1} max={2048} value={rascunhoPortal.tamanhoMaximoArquivoMb} onChange={(e) => setRascunhoPortal((r) => ({ ...r, tamanhoMaximoArquivoMb: Number(e.target.value) }))} className="rounded-xl border border-border px-3 py-2 text-sm outline-none focus:border-primary" /></label>
+            <label className="grid gap-1.5 text-xs"><span className="eyebrow text-muted-foreground">Extensões proibidas</span><input value={rascunhoPortal.extensoesProibidas} onChange={(e) => setRascunhoPortal((r) => ({ ...r, extensoesProibidas: e.target.value }))} placeholder="exe, bat, msi" className="rounded-xl border border-border px-3 py-2 text-sm outline-none focus:border-primary" /><span className="text-[11px] text-muted-foreground">Separe as extensões por vírgulas.</span></label>
+            <label className="grid gap-1.5 text-xs"><span className="eyebrow flex items-center gap-2 text-muted-foreground"><Globe2 className="h-3.5 w-3.5" /> Sites permitidos</span><textarea value={rascunhoPortal.sitesPermitidos} onChange={(e) => setRascunhoPortal((r) => ({ ...r, sitesPermitidos: e.target.value }))} rows={3} placeholder="*.gov.br, portal.exemplo.org/*" className="rounded-xl border border-border px-3 py-2 text-sm outline-none focus:border-primary" /><span className="text-[11px] text-muted-foreground">Aceita curingas nos endereços. Separe cada padrão por vírgula.</span></label>
+          </div>
+        </div>
+        <div className="mt-5 flex items-center justify-between gap-3 border-t border-border/60 pt-4">
+          <p className="text-xs text-muted-foreground">{portalAlterado ? "Há alterações não salvas nestas preferências." : "Todas as preferências estão salvas."}</p>
+          <div className="flex gap-2"><Button variant="outline" size="sm" disabled={!portalAlterado} onClick={() => setRascunhoPortal(portalConfig)}><RotateCcw /> Cancelar</Button><Button size="sm" disabled={!portalAlterado} onClick={() => salvarPortal(rascunhoPortal)}><Save /> Salvar preferências</Button></div>
         </div>
       </Panel>
 
