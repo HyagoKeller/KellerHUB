@@ -1,8 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell } from "@/components/AppShell";
-import { Barra, Panel, SaudeTag, Stat, Tag } from "@/components/ui-kit";
-import { moeda, portfolioDoProjeto, programas, projetos, type Metodologia } from "@/lib/mock-data";
+import { Pencil } from "lucide-react";
+import { Barra, Panel, SaudeTag, Stat } from "@/components/ui-kit";
+import { EtiquetaCelula } from "@/components/EtiquetaCelula";
+import { FormProjeto } from "@/components/FormulariosCarteira";
+import { carteira, portfolioDe, useCarteira } from "@/lib/carteira";
+import { moeda, programas, type Projeto } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/projetos/")({
   head: () => ({
@@ -25,10 +29,11 @@ export const Route = createFileRoute("/projetos/")({
   component: Projetos,
 });
 
-const filtros: (Metodologia | "Todas")[] = ["Todas", "PMBOK", "Ágil", "Híbrida"];
-
 function Projetos() {
-  const [filtro, setFiltro] = useState<Metodologia | "Todas">("Todas");
+  const { projetos, portfolios, etiquetas } = useCarteira();
+  const filtros = ["Todas", ...etiquetas.metodologia.map((e) => e.nome)];
+  const [filtro, setFiltro] = useState<string>("Todas");
+  const [form, setForm] = useState<{ aberto: boolean; projeto?: Projeto }>({ aberto: false });
   const lista = projetos.filter((p) => filtro === "Todas" || p.metodologia === filtro);
 
   return (
@@ -36,7 +41,10 @@ function Projetos() {
       title="Gestão de Projetos"
       description="Carteira completa com controle de escopo, prazo, custo, qualidade, riscos e recursos, por metodologia."
       actions={
-        <button className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
+        <button
+          onClick={() => setForm({ aberto: true })}
+          className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+        >
           Novo projeto
         </button>
       }
@@ -69,16 +77,18 @@ function Projetos() {
       </div>
 
       <Panel className="mt-4 overflow-x-auto p-0">
-        <table className="w-full min-w-[860px] text-sm">
+        <table className="w-full min-w-[1040px] text-sm">
           <thead>
             <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
               <th className="px-5 py-3 font-medium">Projeto</th>
               <th className="px-5 py-3 font-medium">Portfólio</th>
               <th className="px-5 py-3 font-medium">Metodologia</th>
+              <th className="px-5 py-3 font-medium">Status</th>
               <th className="px-5 py-3 font-medium">Prazo</th>
               <th className="px-5 py-3 font-medium">Custo</th>
               <th className="px-5 py-3 font-medium">Progresso</th>
               <th className="px-5 py-3 font-medium">Saúde</th>
+              <th className="px-3 py-3" />
             </tr>
           </thead>
           <tbody>
@@ -95,12 +105,21 @@ function Projetos() {
                     </Link>
                   </td>
                   <td className="max-w-[160px] truncate px-5 py-3 text-muted-foreground">
-                    {portfolioDoProjeto(p)?.nome}
+                    {portfolioDe(p, portfolios)?.nome}
                   </td>
                   <td className="px-5 py-3">
-                    <Tag tom={p.metodologia === "Ágil" ? "info" : p.metodologia === "PMBOK" ? "neutro" : "accent"}>
-                      {p.metodologia}
-                    </Tag>
+                    <EtiquetaCelula
+                      coluna="metodologia"
+                      valor={p.metodologia}
+                      onChange={(v) => carteira.atualizarProjeto(p.id, { metodologia: v })}
+                    />
+                  </td>
+                  <td className="px-5 py-3">
+                    <EtiquetaCelula
+                      coluna="status"
+                      valor={p.status}
+                      onChange={(v) => carteira.atualizarProjeto(p.id, { status: v })}
+                    />
                   </td>
                   <td className="num whitespace-nowrap px-5 py-3 text-xs text-muted-foreground">
                     {new Date(p.inicio).toLocaleDateString("pt-BR")} →{" "}
@@ -118,12 +137,22 @@ function Projetos() {
                   <td className="px-5 py-3">
                     <SaudeTag saude={p.saude} />
                   </td>
+                  <td className="px-3 py-3">
+                    <button
+                      aria-label={`Editar ${p.nome}`}
+                      onClick={() => setForm({ aberto: true, projeto: p })}
+                      className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </button>
+                  </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
       </Panel>
+      <FormProjeto aberto={form.aberto} projeto={form.projeto} onClose={() => setForm({ aberto: false })} />
     </AppShell>
   );
 }
