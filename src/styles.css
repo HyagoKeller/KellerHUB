@@ -56,9 +56,9 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --shadow-panel: 0 1px 1px oklch(1 0 0 / 0.72), 0 18px 48px -28px oklch(0.38 0.1 250 / 0.32);
-  --shadow-lift: 0 18px 45px -24px oklch(0 0 0 / 0.85);
-  --glow-primary: 0 0 24px -7px oklch(0.61 0.22 285 / 0.5);
+  --shadow-panel: 0 1px 0 oklch(1 0 0 / 0.72), 0 18px 52px -30px oklch(0.32 0.1 252 / 0.32), 0 4px 14px -8px oklch(0.32 0.08 252 / 0.18);
+  --shadow-lift: 0 28px 64px -32px oklch(0.24 0.1 252 / 0.42), 0 8px 22px -12px oklch(0.24 0.08 252 / 0.22);
+  --glow-primary: 0 0 28px -9px color-mix(in oklab, var(--primary) 48%, transparent);
 
   --color-ink: var(--ink);
   --color-paper: var(--paper);
@@ -78,7 +78,7 @@
   --card-foreground: oklch(0.22 0.025 252);
   --popover: oklch(0.99 0.008 242 / 0.88);
   --popover-foreground: oklch(0.22 0.025 252);
-  --primary: oklch(0.58 0.2 252);
+  --primary: oklch(0.53 0.19 252);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.92 0.025 242 / 0.72);
   --secondary-foreground: oklch(0.28 0.025 252);
@@ -96,28 +96,29 @@
   --info-foreground: oklch(1 0 0);
   --border: oklch(0.78 0.035 242 / 0.62);
   --input: oklch(0.8 0.035 242 / 0.68);
-  --ring: oklch(0.58 0.2 252);
-  --chart-1: oklch(0.58 0.2 252);
+  --ring: oklch(0.53 0.19 252);
+  --chart-1: oklch(0.53 0.19 252);
   --chart-2: oklch(0.6 0.16 153);
   --chart-3: oklch(0.74 0.16 82);
   --chart-4: oklch(0.56 0.15 235);
   --chart-5: oklch(0.58 0.21 22);
   --sidebar: oklch(0.99 0.01 242 / 0.7);
   --sidebar-foreground: oklch(0.39 0.03 252);
-  --sidebar-primary: oklch(0.58 0.2 252);
+  --sidebar-primary: oklch(0.53 0.19 252);
   --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-accent: oklch(0.93 0.025 242 / 0.75);
   --sidebar-accent-foreground: oklch(0.22 0.025 252);
   --sidebar-border: oklch(0.8 0.035 242 / 0.58);
   --sidebar-ring: oklch(0.58 0.2 252);
-  --glass: oklch(0.985 0.012 242 / 0.58);
-  --glass-highlight: oklch(1 0 0 / 0.82);
+  --glass: oklch(0.985 0.012 242 / 0.48);
+  --glass-highlight: oklch(1 0 0 / 0.76);
 }
 
 
 
 .dark {
-  --shadow-panel: 0 1px 1px oklch(0 0 0 / 0.18), 0 8px 28px -18px oklch(0 0 0 / 0.7);
+  --shadow-panel: inset 0 1px 0 oklch(1 0 0 / 0.1), inset 0 -1px 0 oklch(0 0 0 / 0.24), 0 22px 50px -26px oklch(0 0 0 / 0.88), 0 7px 18px -12px oklch(0 0 0 / 0.72);
+  --shadow-lift: inset 0 1px 0 oklch(1 0 0 / 0.13), 0 34px 70px -30px oklch(0 0 0 / 0.94), 0 10px 24px -14px color-mix(in oklab, var(--primary) 28%, transparent);
   --paper: oklch(0.2 0.01 285);
   --ink: oklch(0.96 0.01 100);
   --background: oklch(0.195 0.01 285);
@@ -126,7 +127,7 @@
   --card-foreground: oklch(0.95 0.01 85);
   --popover: oklch(0.29 0.014 285);
   --popover-foreground: oklch(0.95 0.01 85);
-  --primary: oklch(0.66 0.18 252);
+  --primary: oklch(0.58 0.17 252);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.32 0.018 285);
   --secondary-foreground: oklch(0.95 0.01 85);
@@ -144,33 +145,33 @@
   --info-foreground: oklch(1 0 0);
   --border: oklch(0.36 0.014 285);
   --input: oklch(0.36 0.014 285);
-  --ring: oklch(0.66 0.18 252);
-  --chart-1: oklch(0.66 0.18 252);
+  --ring: oklch(0.58 0.17 252);
+  --chart-1: oklch(0.58 0.17 252);
   --chart-2: oklch(0.73 0.19 153);
   --chart-3: oklch(0.84 0.17 92);
   --chart-4: oklch(0.7 0.15 235);
   --chart-5: oklch(0.67 0.2 22);
   --sidebar: oklch(0.16 0.01 285);
   --sidebar-foreground: oklch(0.77 0.012 100);
-  --sidebar-primary: oklch(0.66 0.18 252);
+  --sidebar-primary: oklch(0.58 0.17 252);
   --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-accent: oklch(0.25 0.018 285);
   --sidebar-accent-foreground: oklch(0.95 0.01 85);
   --sidebar-border: oklch(0.29 0.012 285);
   --sidebar-ring: oklch(0.66 0.18 252);
-  --glass: oklch(0.3 0.012 285 / 0.62);
-  --glass-highlight: oklch(0.95 0.01 85 / 0.16);
+  --glass: oklch(0.285 0.018 264 / 0.54);
+  --glass-highlight: oklch(0.9 0.035 245 / 0.1);
 }
 
 /* Paletas alternativas: trocam apenas a cor de marca; neutros e cores de status permanecem. */
 [data-paleta="azul"] {
-  --primary: oklch(0.58 0.2 252);
+  --primary: oklch(0.53 0.19 252);
   --ring: var(--primary);
   --sidebar-primary: var(--primary);
   --chart-1: var(--primary);
 }
 .dark[data-paleta="azul"] {
-  --primary: oklch(0.66 0.18 252);
+  --primary: oklch(0.58 0.17 252);
   --ring: var(--primary);
   --sidebar-primary: var(--primary);
   --chart-1: var(--primary);
@@ -286,43 +287,61 @@
 }
 
 @utility panel {
-  background: linear-gradient(145deg, var(--glass-highlight), transparent 34%), var(--glass);
-  border: 1px solid color-mix(in oklab, var(--color-border) 72%, var(--color-foreground) 10%);
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(145deg, var(--glass-highlight), transparent 30%),
+    linear-gradient(165deg, color-mix(in oklab, var(--glass) 92%, var(--color-primary) 8%), var(--glass));
+  border: 1px solid color-mix(in oklab, var(--color-border) 68%, var(--color-foreground) 12%);
   border-radius: var(--radius-xl);
-  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-foreground) 12%, transparent), var(--shadow-panel);
-  backdrop-filter: blur(24px) saturate(135%);
+  box-shadow: var(--shadow-panel);
+  backdrop-filter: blur(30px) saturate(145%);
   transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(115deg, color-mix(in oklab, var(--color-foreground) 7%, transparent), transparent 22%, transparent 74%, color-mix(in oklab, var(--color-primary) 5%, transparent));
+    box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-foreground) 9%, transparent);
+  }
   &:hover {
     border-color: color-mix(in oklab, var(--color-primary) 32%, var(--color-border));
     box-shadow: var(--shadow-lift);
+    transform: translateY(-1px);
   }
 }
 
 @utility glass-control {
-  background-color: color-mix(in oklab, var(--glass) 76%, transparent);
-  border: 1px solid color-mix(in oklab, var(--color-border) 78%, var(--color-foreground) 8%);
-  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-foreground) 9%, transparent);
-  backdrop-filter: blur(18px) saturate(130%);
+  background: linear-gradient(145deg, color-mix(in oklab, var(--glass-highlight) 52%, transparent), transparent 42%), color-mix(in oklab, var(--glass) 78%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-border) 74%, var(--color-foreground) 10%);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-foreground) 9%, transparent), 0 8px 20px -16px oklch(0 0 0 / 0.7);
+  backdrop-filter: blur(22px) saturate(140%);
 }
 
 .liquid-workspace {
   background-image:
-    linear-gradient(128deg, color-mix(in oklab, var(--color-primary) 13%, transparent), transparent 34%),
-    linear-gradient(310deg, color-mix(in oklab, var(--color-info) 12%, transparent), transparent 42%),
+    radial-gradient(ellipse 80% 46% at 88% -8%, color-mix(in oklab, var(--color-primary) 18%, transparent), transparent 64%),
+    linear-gradient(128deg, color-mix(in oklab, var(--color-primary) 10%, transparent), transparent 36%),
+    linear-gradient(310deg, color-mix(in oklab, var(--color-info) 9%, transparent), transparent 44%),
     linear-gradient(180deg, color-mix(in oklab, var(--color-paper) 76%, transparent), transparent);
   background-attachment: fixed;
 }
 
 .dark .liquid-workspace {
-  background-image: linear-gradient(135deg, color-mix(in oklab, var(--color-primary) 7%, transparent), transparent 30%, color-mix(in oklab, var(--color-info) 4%, transparent));
+  background-image:
+    radial-gradient(ellipse 76% 42% at 86% -8%, color-mix(in oklab, var(--color-primary) 14%, transparent), transparent 65%),
+    linear-gradient(135deg, color-mix(in oklab, var(--color-primary) 5%, transparent), transparent 34%, color-mix(in oklab, var(--color-info) 3%, transparent));
 }
 
 .panel input:not([type="file"]),
 .panel select,
 .panel textarea {
-  background-color: color-mix(in oklab, var(--glass) 70%, transparent);
-  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-foreground) 8%, transparent);
-  backdrop-filter: blur(14px);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--glass-highlight) 32%, transparent), transparent 55%), color-mix(in oklab, var(--glass) 68%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-foreground) 8%, transparent), 0 7px 18px -16px oklch(0 0 0 / 0.72);
+  backdrop-filter: blur(18px) saturate(135%);
 }
 
 @utility panel-rule {
