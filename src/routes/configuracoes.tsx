@@ -19,6 +19,7 @@ import {
 import { AppShell } from "@/components/AppShell";
 import { Panel, PanelTitle, Tag } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
+import { AssistenteMarca, estilosAssistente, type EstiloAssistente } from "@/components/AssistenteMarca";
 import { cn } from "@/lib/utils";
 import type { Perfil } from "@/lib/mock-data";
 import { organizacoes } from "@/lib/mock-data";
@@ -240,6 +241,23 @@ function Configuracoes() {
     leitor.readAsDataURL(arquivo);
   };
 
+  const carregarIconeAssistente = (arquivo: File) => {
+    const formatos = ["image/png", "image/jpeg", "image/webp", "image/svg+xml"];
+    if (!formatos.includes(arquivo.type) || arquivo.size > 1024 * 1024) return;
+    const leitor = new FileReader();
+    leitor.onload = () => {
+      const url = String(leitor.result);
+      const imagem = new Image();
+      imagem.onload = () => {
+        const proporcao = imagem.width / imagem.height;
+        if (proporcao < 0.8 || proporcao > 1.25) return;
+        setRascunhoPortal((r) => ({ ...r, iconeAssistente: url, estiloAssistente: "personalizado" }));
+      };
+      imagem.src = url;
+    };
+    leitor.readAsDataURL(arquivo);
+  };
+
   return (
     <AppShell
       title="Configurações"
@@ -437,16 +455,22 @@ function Configuracoes() {
               <div className="relative"><Bot className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><input value={rascunhoPortal.nomeAssistente} onChange={(e) => setRascunhoPortal((r) => ({ ...r, nomeAssistente: e.target.value }))} className="w-full rounded-xl border border-border py-2 pl-10 pr-3 text-sm outline-none focus:border-primary" /></div>
             </label>
             <div className="grid gap-2 text-xs">
-              <span className="eyebrow text-muted-foreground">Ícone do assistente</span>
-              <div className="flex items-center gap-3">
-                <div className="glass-control grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-xl">
-                  {rascunhoPortal.iconeAssistente ? <img src={rascunhoPortal.iconeAssistente} alt="Ícone do assistente" className="h-full w-full object-cover" /> : <Bot className="h-5 w-5 text-primary" />}
-                </div>
-                <Button variant="outline" size="sm" asChild>
-                  <label className="cursor-pointer"><ImageUp /> Enviar ícone<input type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" className="hidden" onChange={(e) => { const arquivo = e.target.files?.[0]; if (arquivo) carregarImagem(arquivo, "iconeAssistente"); }} /></label>
-                </Button>
-                {rascunhoPortal.iconeAssistente && <Button variant="ghost" size="sm" onClick={() => setRascunhoPortal((r) => ({ ...r, iconeAssistente: "" }))} className="text-destructive"><Trash2 /> Remover</Button>}
+              <span className="eyebrow text-muted-foreground">Identidade visual do assistente</span>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {estilosAssistente.map((item) => {
+                  const selecionado = (rascunhoPortal.estiloAssistente || "orbita") === item.id;
+                  const personalizadoIndisponivel = item.id === "personalizado" && !rascunhoPortal.iconeAssistente;
+                  return <Button key={item.id} type="button" variant="outline" disabled={personalizadoIndisponivel} onClick={() => setRascunhoPortal((r) => ({ ...r, estiloAssistente: item.id as EstiloAssistente }))} className={cn("h-auto min-w-0 justify-start whitespace-normal rounded-xl p-3 text-left", selecionado && "border-primary bg-primary/10")}>
+                    <AssistenteMarca estilo={item.id} imagem={rascunhoPortal.iconeAssistente} className="h-10 w-10 shrink-0 rounded-xl" />
+                    <span className="min-w-0"><span className="block truncate text-xs font-semibold">{item.nome}</span><span className="block text-[10px] font-normal text-muted-foreground">{item.descricao}</span></span>
+                  </Button>;
+                })}
               </div>
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <Button variant="outline" size="sm" asChild><label className="cursor-pointer"><ImageUp /> Enviar marca própria<input type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" className="hidden" onChange={(e) => { const arquivo = e.target.files?.[0]; if (arquivo) carregarIconeAssistente(arquivo); }} /></label></Button>
+                {rascunhoPortal.iconeAssistente && <Button variant="ghost" size="sm" onClick={() => setRascunhoPortal((r) => ({ ...r, iconeAssistente: "", estiloAssistente: "orbita" }))} className="text-destructive"><Trash2 /> Remover marca própria</Button>}
+              </div>
+              <p className="text-[11px] leading-relaxed text-muted-foreground">Marca quadrada, PNG, JPG, WEBP ou SVG, com até 1 MB. Proporções fora do padrão não são aplicadas.</p>
             </div>
           </div>
         </div>

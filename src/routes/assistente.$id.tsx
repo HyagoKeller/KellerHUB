@@ -22,9 +22,9 @@ import { useConversas } from "@/lib/assistente-conversas";
 import { usuarioAtual } from "@/lib/mock-data";
 import { useMotorIA } from "@/lib/ai-provedores";
 import { usePortal } from "@/lib/portal";
+import { AssistenteMarca, type EstiloAssistente } from "@/components/AssistenteMarca";
 
 import { cn } from "@/lib/utils";
-import marca from "@/assets/assistente-ia.png";
 
 export const Route = createFileRoute("/assistente/$id")({
   head: () => ({
@@ -66,7 +66,7 @@ function Assistente() {
   const { config: motorConfig, motor } = useMotorIA();
   const { config: portalConfig } = usePortal();
   const nomeAssistente = portalConfig.nomeAssistente || "Assistente de Governança";
-  const iconeAssistente = portalConfig.iconeAssistente || marca;
+  const estiloAssistente = (portalConfig.estiloAssistente || "orbita") as EstiloAssistente;
 
   const transporte = useMemo(
     () =>
@@ -215,14 +215,7 @@ function Assistente() {
 
         <Panel className="flex min-h-[70vh] min-w-0 flex-col p-0" rule="none">
           <div className="flex items-center gap-3 border-b border-border/60 px-5 py-4">
-            <img
-               src={iconeAssistente}
-               alt={nomeAssistente}
-              width={816}
-              height={816}
-              loading="lazy"
-              className="h-9 w-9 rounded-xl bg-muted/40 p-1"
-            />
+            <AssistenteMarca estilo={estiloAssistente} imagem={portalConfig.iconeAssistente} className="h-9 w-9 rounded-xl" />
             <div className="min-w-0">
               <p className="truncate font-display text-sm font-semibold text-foreground">
                 {conversa?.titulo ?? "Nova consulta"}

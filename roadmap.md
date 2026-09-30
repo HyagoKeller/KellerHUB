@@ -5,3 +5,4 @@
 - [x] Reconstruir Gestão Estratégica em composição bento
 - [x] Validar telas principais em desktop e mobile
 - [x] Aplicar a direção Executive Liquid Glass e configurações institucionais avançadas
+- [ ] Adicionar assistente flutuante global e identidade visual controlada

@@ -23,6 +23,7 @@ import { usuarioAtual, organizacoes } from "@/lib/mock-data";
 import { usePortal } from "@/lib/portal";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { AssistenteFlutuante } from "@/components/AssistenteFlutuante";
 
 
 const nav = [
@@ -262,6 +263,7 @@ export function AppShell({
           <div className="pt-2">{children}</div>
         </main>
       </div>
+      <AssistenteFlutuante />
     </div>
   );
 }
