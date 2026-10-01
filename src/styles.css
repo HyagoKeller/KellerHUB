@@ -523,3 +523,10 @@
   }
 
 }
+
+/* Responsividade: conteúdo nunca força largura além da tela */
+@layer base {
+  main .grid > *, main .flex > * { min-width: 0; }
+  main select, main input, main textarea { max-width: 100%; min-width: 0; }
+  main img, main svg, main video { max-width: 100%; }
+}

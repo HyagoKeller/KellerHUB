@@ -48,9 +48,9 @@ export function Stat({
   hint?: string;
 }) {
   return (
-    <div className="panel panel-rule relative min-h-32 overflow-hidden p-6">
-      <p className="eyebrow text-muted-foreground">{label}</p>
-      <p className="num mt-4 text-[32px] font-semibold leading-none text-foreground sm:text-[38px]">
+    <div className="panel panel-rule @container relative min-h-32 min-w-0 overflow-hidden p-5 sm:p-6">
+      <p className="eyebrow truncate text-muted-foreground">{label}</p>
+      <p className="num mt-4 whitespace-nowrap text-[clamp(1.25rem,11cqi,2.375rem)] font-semibold leading-none text-foreground">
         {value}
       </p>
       <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px]">
