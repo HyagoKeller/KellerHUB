@@ -81,7 +81,7 @@ function Logo({ className, logo, nome }: { className?: string; logo?: string; no
         <p className="truncate font-display text-base font-semibold text-sidebar-accent-foreground">
           {nome || "Keller Hub"}
         </p>
-        <p className="eyebrow truncate text-sidebar-foreground/50">Keller Hub</p>
+        <p className="eyebrow truncate text-sidebar-foreground/50">Gestão PPM</p>
       </div>
     </div>
   );
