@@ -1,18 +1,19 @@
-# Welcome to your Lovable project
+# Keller Hub
 
-This project was built with [Lovable](https://lovable.dev).
+Plataforma de gestão de portfólios, programas e projetos, com estratégia, indicadores, riscos, relatórios, auditoria e controle de acesso por perfil e área.
 
-## Build with Lovable
+## Documentação
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+- [Manuais de acesso](docs/manuais/README.md)
+- [Governança de acessos](docs/manuais/governanca-de-acessos.md)
+- [Manual do Administrador e PMO](docs/manuais/administrador-pmo.md)
+- [Manual do perfil Técnico](docs/manuais/tecnico.md)
+- [Manual do perfil Gestor](docs/manuais/gestor.md)
+- [Manual do perfil Alta Administração](docs/manuais/alta-administracao.md)
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+## Desenvolvimento
 
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Requer Node.js e npm.
 
 ```sh
 git clone <this-repository-url>
@@ -21,7 +22,7 @@ npm i
 npm run dev
 ```
 
-## Built with
+## Tecnologias
 
 - TanStack Start
 - TypeScript
