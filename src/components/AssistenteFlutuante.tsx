@@ -106,7 +106,7 @@ export function AssistenteFlutuante() {
 
   return (
     <>
-      <Button onClick={abrir} aria-label={`Abrir ${nome}`} className={cn("fixed bottom-5 right-5 z-40 h-14 rounded-full px-3 shadow-2xl shadow-primary/30", aberto && "pointer-events-none opacity-0")}>
+      <Button onClick={abrir} aria-label={`Abrir ${nome}`} className={cn("fixed bottom-5 right-5 z-40 h-12 rounded-lg px-3 shadow-xl", aberto && "pointer-events-none opacity-0")}>
         <AssistenteMarca estilo={estilo} imagem={config.iconeAssistente} className="h-9 w-9 shrink-0 rounded-full" />
         <span className="hidden max-w-44 truncate pr-2 sm:block">{nome}</span>
       </Button>

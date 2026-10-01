@@ -18,7 +18,7 @@ export function ViewTabs({
       <button
         onClick={() => onChange("padrao")}
         className={cn(
-          "inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all",
+          "inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
           ativa === "padrao"
             ? "border-primary bg-primary text-primary-foreground shadow-lg shadow-primary/20"
             : "border-border bg-card text-muted-foreground hover:text-foreground",
@@ -34,7 +34,7 @@ export function ViewTabs({
             onChange(v.id);
           }}
           className={cn(
-            "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all",
+            "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
             ativa === v.id
               ? "border-primary bg-primary text-primary-foreground shadow-lg shadow-primary/20"
               : "border-border bg-card text-muted-foreground hover:text-foreground",
