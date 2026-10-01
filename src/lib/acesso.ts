@@ -217,8 +217,14 @@ function passa(c: Ctx, id: string, areaId: string) {
   if (o.visibilidade === "compartilhada" && o.compartilhadoCom.some((x) => minhas.includes(x))) return true;
   return area.visibilidade === "Aberta";
 }
+function concedido(c: Ctx, id: string) {
+  const o = acessoDe(c.e, id);
+  const minhas = areasDoUsuario(c.e, c.u).map((a) => a.id);
+  return o.convidados.some((x) => x.usuarioId === c.u.id) || (o.visibilidade === "compartilhada" && o.compartilhadoCom.some((x) => minhas.includes(x)));
+}
+// Um compartilhamento/convite no item dá acesso de leitura ao caminho até ele, exceto se um pai for privado.
 const visivel = (c: Ctx, ch: { ids: string[]; areaId: string }) =>
-  ch.ids.every((id) => passa(c, id, ch.areaId)) &&
+  ch.ids.every((id, i) => passa(c, id, ch.areaId) || (acessoDe(c.e, id).visibilidade !== "privada" && ch.ids.slice(i + 1).some((d) => concedido(c, d)))) &&
   (c.e.filtroAreas.length === 0 || c.e.filtroAreas.includes(ch.areaId));
 
 /** Visibilidade efetiva: o filho nunca é menos restrito que o pai. */
