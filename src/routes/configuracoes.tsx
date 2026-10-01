@@ -17,6 +17,8 @@ import {
   Trash2,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import { AreasConfig, SegmentacaoPerfil } from "@/components/AreasConfig";
+import { useAcessoEstado } from "@/lib/acesso";
 import { Panel, PanelTitle, Tag } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { AssistenteMarca, estilosAssistente, type EstiloAssistente } from "@/components/AssistenteMarca";
@@ -216,6 +218,7 @@ function Configuracoes() {
   const [nome, setNome] = useState("");
   const [blocos, setBlocos] = useState<string[]>([]);
   const [perfisView, setPerfisView] = useState<Perfil[]>(["Gestor"]);
+  const estadoAcesso = useAcessoEstado();
 
   const alternar = (id: string) =>
     setIntegracoes((atual) =>
@@ -674,33 +677,8 @@ function Configuracoes() {
 
 
 
-      <Panel className="mt-4" rule="accent">
-        <PanelTitle title="Segmentação por perfil" hint="controle de acesso" />
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] text-sm">
-            <thead>
-              <tr className="border-b border-border text-left">
-                <th className="eyebrow pb-3 pr-4 text-muted-foreground">Recurso</th>
-                {perfis.map((p) => (
-                  <th key={p} className="eyebrow pb-3 pr-4 text-muted-foreground">
-                    {p}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {permissoes.map((r) => (
-                <tr key={r.recurso} className="border-b border-border/60">
-                  <td className="py-3 pr-4 text-sm">{r.recurso}</td>
-                  <td className="py-3 pr-4 text-xs text-muted-foreground">{r.tecnico}</td>
-                  <td className="py-3 pr-4 text-xs text-muted-foreground">{r.gestor}</td>
-                  <td className="py-3 pr-4 text-xs text-muted-foreground">{r.alta}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Panel>
+      <AreasConfig />
+      <SegmentacaoPerfil />
 
       <div className="mt-4 grid gap-4 xl:grid-cols-2">
         <Panel>
