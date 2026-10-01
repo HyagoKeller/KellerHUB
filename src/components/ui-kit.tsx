@@ -1,3 +1,4 @@
+import type React from "react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import type { Saude } from "@/lib/mock-data";
@@ -42,7 +43,7 @@ export function Stat({
   hint,
 }: {
   label: string;
-  value: string;
+  value: React.ReactNode;
   delta?: { texto: string; tom: "up" | "down" | "flat" };
   hint?: string;
 }) {
