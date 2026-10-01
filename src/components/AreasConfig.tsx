@@ -3,7 +3,8 @@ import { Lock, Pencil, Plus, Unlock } from "lucide-react";
 import { toast } from "sonner";
 import { Panel, PanelTitle, Tag } from "@/components/ui-kit";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { acesso, acessoDe, useAcessoEstado, useCarteiraVisivel, usuarioPorId, usuarios, type Area, type PapelArea } from "@/lib/acesso";
+import { BuscaDiretorio } from "@/components/BuscaDiretorio";
+import { acesso, acessoDe, todosUsuarios, useAcessoEstado, useCarteiraVisivel, usuarioPorId, type Area, type PapelArea } from "@/lib/acesso";
 import { useCarteira } from "@/lib/carteira";
 
 const matriz: { recurso: string; tecnico: string; gestor: string; alta: string; pmo: string }[] = [
@@ -87,6 +88,13 @@ export function AreasConfig() {
   };
   const alternarMembro = (uid: string) =>
     form && setForm({ ...form, membros: form.membros.some((m) => m.usuarioId === uid) ? form.membros.filter((m) => m.usuarioId !== uid) : [...form.membros, { usuarioId: uid, papel: "Membro" }] });
+  const adicionarDoDiretorio = (p: { id: string; nome: string; email: string; cargo: string }, origem: string) => {
+    if (!form) return;
+    acesso.importarUsuario({ id: p.id, nome: p.nome, email: p.email, cargo: p.cargo, origem, perfil: "Técnico", iniciais: p.nome.split(" ").map((x) => x[0]).slice(0, 2).join("").toUpperCase() });
+    if (!form.membros.some((m) => m.usuarioId === p.id)) setForm({ ...form, membros: [...form.membros, { usuarioId: p.id, papel: "Membro" }] });
+    toast.success(`${p.nome} adicionado(a) à área.`);
+  };
+  const usuarios = todosUsuarios(e);
   const mudarPapel = (uid: string, papel: PapelArea) =>
     form && setForm({ ...form, membros: form.membros.map((m) => (m.usuarioId === uid ? { ...m, papel } : m)) });
 
@@ -156,7 +164,7 @@ export function AreasConfig() {
       </div>
 
       <Dialog open={!!form} onOpenChange={(o) => !o && setForm(null)}>
-        <DialogContent className="max-w-xl">
+        <DialogContent className="max-h-[90vh] max-w-xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{form?.id ? "Editar área" : "Nova área"}</DialogTitle>
             <DialogDescription>Defina quem pertence à área e se ela é aberta à organização ou restrita aos membros.</DialogDescription>
@@ -182,17 +190,19 @@ export function AreasConfig() {
                     ))}
                   </div></div>
               </div>
+              <BuscaDiretorio jaMembros={form.membros.map((m) => m.usuarioId)} onAdicionar={adicionarDoDiretorio} />
               <div>
                 <p className="mb-1.5 text-xs text-muted-foreground">Membros</p>
-                <ul className="divide-y divide-border/60 rounded-lg border border-border">
+                <ul className="max-h-60 divide-y divide-border/60 overflow-y-auto rounded-lg border border-border">
                   {usuarios.map((u) => {
                     const m = form.membros.find((x) => x.usuarioId === u.id);
                     return (
                       <li key={u.id} className="flex items-center justify-between gap-2 px-3 py-2">
                         <label className="flex min-w-0 items-center gap-2">
                           <input type="checkbox" checked={!!m} onChange={() => alternarMembro(u.id)} />
-                          <span className="truncate">{u.nome}</span>
-                          <span className="text-[11px] text-muted-foreground">{u.perfil}</span>
+                          <span className="min-w-0"><span className="block truncate">{u.nome}</span>
+                            {u.email && <span className="block truncate text-[11px] text-muted-foreground">{u.email} · {u.cargo}</span>}</span>
+                          <span className="shrink-0 text-[11px] text-muted-foreground">{u.perfil}</span>
                         </label>
                         {m && (
                           <select value={m.papel} onChange={(ev) => mudarPapel(u.id, ev.target.value as PapelArea)} className="h-8 rounded-md border border-border bg-transparent px-1.5 text-xs">
