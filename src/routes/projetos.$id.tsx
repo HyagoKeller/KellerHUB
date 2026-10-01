@@ -3,6 +3,8 @@ import { EtiquetaCelula } from "@/components/EtiquetaCelula";
 import { FormProjeto } from "@/components/FormulariosCarteira";
 import { carteira, portfolioDe, useCarteira } from "@/lib/carteira";
 import { useState } from "react";
+import { Moeda, PainelAcesso } from "@/components/Acesso";
+import { useCarteiraVisivel } from "@/lib/acesso";
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, SaudeTag, Stat, Tag } from "@/components/ui-kit";
 import {
@@ -36,15 +38,15 @@ export const Route = createFileRoute("/projetos/$id")({
   component: DetalheProjeto,
 });
 
-const abas = ["Visão geral", "Cronograma", "Kanban", "Riscos", "Status reports"] as const;
+const abas = ["Visão geral", "Cronograma", "Kanban", "Riscos", "Status reports", "Acesso"] as const;
 
 function DetalheProjeto() {
   const { id } = Route.useLoaderData();
-  const { projetos: lista } = useCarteira();
+  const { projetos: lista } = useCarteiraVisivel();
   const projeto = lista.find((p) => p.id === id);
   if (!projeto) {
     return (
-      <AppShell title="Projeto não encontrado" description="Ele pode ter sido excluído.">
+      <AppShell title="Projeto não encontrado" description="Ele pode ter sido excluído ou não está visível para o seu acesso.">
         <Link to="/projetos" className="text-sm text-primary hover:underline">Voltar para projetos</Link>
       </AppShell>
     );
@@ -54,6 +56,7 @@ function DetalheProjeto() {
 
 function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
   const { portfolios, programas } = useCarteira();
+  const { ocultarValores, podeEditar } = useCarteiraVisivel();
   const [editar, setEditar] = useState(false);
   const [aba, setAba] = useState<(typeof abas)[number]>(
     projeto.metodologia === "Ágil" ? "Kanban" : "Cronograma",
@@ -91,8 +94,8 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
         <Stat label="Progresso" value={`${projeto.progresso}%`} hint={projeto.status} />
         <Stat
           label="Custo executado"
-          value={moeda(projeto.executado)}
-          hint={`de ${moeda(projeto.orcamento)}`}
+          value={<Moeda v={projeto.executado} />}
+          hint={ocultarValores ? "Valor restrito ao seu perfil" : `de ${moeda(projeto.orcamento)}`}
         />
         <Stat
           label="Prazo"
@@ -134,6 +137,12 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
       </div>
 
       <div className="mt-4">
+        {aba === "Acesso" && (
+          <Panel className="max-w-3xl">
+            <PanelTitle title="Acesso" hint="área, visibilidade e convidados" />
+            <PainelAcesso tipo="projeto" id={projeto.id} nome={projeto.nome} />
+          </Panel>
+        )}
         {aba === "Visão geral" && (
           <div className="grid gap-4 xl:grid-cols-3">
             <Panel className="xl:col-span-2">
