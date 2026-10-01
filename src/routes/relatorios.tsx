@@ -149,6 +149,7 @@ const linkDe = (id: string, acesso: Acesso) =>
     : `hepta.gov.br/app/relatorios/${id}`;
 
 function Relatorios() {
+  const logAcesso = useAcessoEstado().log;
   const [pub, setPub] = useState(publicacaoInicial);
   const [selecionado, setSelecionado] = useState(relatorios[0].id);
   const [copiado, setCopiado] = useState<string | null>(null);

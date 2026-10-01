@@ -230,7 +230,7 @@ function Configuracoes() {
 
   const salvarView = () => {
     if (!nome.trim() || blocos.length === 0) return;
-    criar({ nome: nome.trim(), escopo, blocos, perfis: perfisView });
+    criar({ nome: nome.trim(), escopo, blocos, perfis: perfisView, areas: estadoAcesso.filtroAreas });
     setNome("");
     setBlocos([]);
   };

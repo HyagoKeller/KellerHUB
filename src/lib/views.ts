@@ -11,6 +11,8 @@ export type ViewPersonalizada = {
   escopo: EscopoView;
   blocos: string[];
   perfis: Perfil[];
+  /** Filtro de áreas salvo; nunca amplia o acesso de quem visualiza. */
+  areas?: string[];
 };
 
 export const blocosPorEscopo: Record<EscopoView, { id: string; label: string }[]> = {
