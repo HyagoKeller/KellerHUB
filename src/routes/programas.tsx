@@ -4,6 +4,8 @@ import { ChevronRight, Pencil } from "lucide-react";
 import { FormPrograma } from "@/components/FormulariosCarteira";
 import { useCarteira } from "@/lib/carteira";
 import type { Programa } from "@/lib/mock-data";
+import { BotaoAcesso, DialogoAcesso, Moeda, SeloAcesso, AvisoAreas } from "@/components/Acesso";
+import { useCarteiraVisivel } from "@/lib/acesso";
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, SaudeTag, Stat } from "@/components/ui-kit";
 
@@ -29,18 +31,21 @@ export const Route = createFileRoute("/programas")({
 });
 
 function Programas() {
-  const { portfolios, programas, projetos } = useCarteira();
+  const { portfolios, programas, projetos, podeEditar, podeCriar } = useCarteiraVisivel();
+  const [acessoDe, setAcessoDe] = useState<Programa | undefined>();
+  void useCarteira;
   const [form, setForm] = useState<{ aberto: boolean; programa?: Programa }>({ aberto: false });
   return (
     <AppShell
       title="Gestão de Programas"
       description="Metas, objetivos e projetos subordinados, com visualização hierárquica portfólio → programa → projeto."
       actions={
-        <button onClick={() => setForm({ aberto: true })} className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
+        podeCriar && <button onClick={() => setForm({ aberto: true })} className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
           Novo programa
         </button>
       }
     >
+      <AvisoAreas />
       <div className="grid gap-4 sm:grid-cols-3">
         <Stat label="Programas ativos" value={String(programas.length)} />
         <Stat
@@ -65,14 +70,15 @@ function Programas() {
                     <p className="truncate text-[11px] uppercase tracking-wide text-muted-foreground">
                       {pf?.nome}
                     </p>
-                    <h3 className="truncate font-display text-lg font-semibold">{pg.nome}</h3>
+                    <h3 className="flex items-center gap-2 truncate font-display text-lg font-semibold">{pg.nome} <SeloAcesso tipo="programa" id={pg.id} /></h3>
                     <p className="mt-1 text-sm text-muted-foreground">{pg.objetivo}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <SaudeTag saude={pg.saude} />
-                    <button aria-label="Editar programa" onClick={() => setForm({ aberto: true, programa: pg })} className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground">
+                    <BotaoAcesso nome={pg.nome} onClick={() => setAcessoDe(pg)} />
+                    {podeEditar("programa", pg.id) && <button aria-label="Editar programa" onClick={() => setForm({ aberto: true, programa: pg })} className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground">
                       <Pencil className="h-3.5 w-3.5" />
-                    </button>
+                    </button>}
                   </div>
                 </div>
 
@@ -110,7 +116,7 @@ function Programas() {
                           params={{ id: p.id }}
                           className="grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 rounded-md px-2 py-1.5 hover:bg-muted"
                         >
-                          <span className="truncate text-sm">{p.nome}</span>
+                          <span className="flex min-w-0 items-center gap-1.5 truncate text-sm">{p.nome} <SeloAcesso tipo="projeto" id={p.id} /></span>
                           <span className="num shrink-0 text-xs text-muted-foreground">
                             {p.progresso}%
                           </span>
@@ -154,6 +160,7 @@ function Programas() {
           </ul>
         </Panel>
       </div>
+      <DialogoAcesso tipo="programa" id={acessoDe?.id} nome={acessoDe?.nome} onClose={() => setAcessoDe(undefined)} />
       <FormPrograma aberto={form.aberto} programa={form.programa} onClose={() => setForm({ aberto: false })} />
     </AppShell>
   );

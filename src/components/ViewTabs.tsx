@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Plus, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ViewPersonalizada } from "@/lib/views";
+import { acesso } from "@/lib/acesso";
 
 export function ViewTabs({
   views,
@@ -28,7 +29,10 @@ export function ViewTabs({
       {views.map((v) => (
         <button
           key={v.id}
-          onClick={() => onChange(v.id)}
+          onClick={() => {
+            if (v.areas?.length) acesso.filtrar(v.areas);
+            onChange(v.id);
+          }}
           className={cn(
             "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all",
             ativa === v.id

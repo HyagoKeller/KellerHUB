@@ -24,6 +24,7 @@ import { usePortal } from "@/lib/portal";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { AssistenteFlutuante } from "@/components/AssistenteFlutuante";
+import { BuscaGlobal, SeletorArea, SimularPerfil } from "@/components/Acesso";
 
 
 const nav = [
@@ -197,13 +198,8 @@ export function AppShell({
               >
                 <Menu className="h-4 w-4" />
               </Button>
-              <div className="glass-control hidden min-w-0 items-center gap-2 rounded-xl px-3 py-2 transition-colors focus-within:border-primary md:flex md:w-96">
-                <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
-                <input
-                  placeholder="Buscar projetos, riscos, indicadores…"
-                  className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-                />
-              </div>
+              <BuscaGlobal />
+              <SeletorArea />
             </div>
             <div className="flex shrink-0 items-center gap-2">
               <Button
@@ -230,16 +226,7 @@ export function AppShell({
                 <Bell className="h-4 w-4" />
                 <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary shadow-sm shadow-primary/40" />
               </Button>
-              <div className="glass-control flex items-center gap-2 rounded-xl px-2 py-1.5 transition-colors hover:border-primary/50">
-                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-success text-[11px] font-bold text-success-foreground">
-                  MA
-                </div>
-                <div className="hidden min-w-0 leading-tight sm:block">
-                  <p className="truncate text-xs font-medium text-foreground">{usuarioAtual.nome}</p>
-                  <p className="eyebrow truncate text-muted-foreground">{usuarioAtual.perfil}</p>
-                </div>
-                <ChevronDown className="hidden h-3.5 w-3.5 text-muted-foreground sm:block" />
-              </div>
+              <SimularPerfil />
             </div>
           </div>
         </header>

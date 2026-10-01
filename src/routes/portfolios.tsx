@@ -4,6 +4,8 @@ import { GripVertical, Pencil } from "lucide-react";
 import { EtiquetaCelula } from "@/components/EtiquetaCelula";
 import { FormPortfolio } from "@/components/FormulariosCarteira";
 import { carteira, useCarteira } from "@/lib/carteira";
+import { BotaoAcesso, DialogoAcesso, Moeda, SeloAcesso, AvisoAreas } from "@/components/Acesso";
+import { useCarteiraVisivel } from "@/lib/acesso";
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, SaudeTag, Stat, Tag } from "@/components/ui-kit";
 import { moeda, type Portfolio } from "@/lib/mock-data";
@@ -30,7 +32,9 @@ export const Route = createFileRoute("/portfolios")({
 });
 
 function Portfolios() {
-  const { portfolios, etiquetas, programas } = useCarteira();
+  const { portfolios, etiquetas, programas, podeEditar, podeCriar, ocultarValores } = useCarteiraVisivel();
+  const [acessoDe, setAcessoDe] = useState<Portfolio | undefined>();
+  void useCarteira;
   const [form, setForm] = useState<{ aberto: boolean; portfolio?: Portfolio }>({ aberto: false });
   const media = portfolios.length
     ? Math.round(portfolios.reduce((a, p) => a + p.progresso, 0) / portfolios.length)
@@ -45,7 +49,7 @@ function Portfolios() {
       title="Gestão de Portfólios"
       description="Portfólios institucionais e temáticos, com priorização por score e indicadores agregados de orçamento, progresso e riscos."
       actions={
-        <button
+        podeCriar && <button
           onClick={() => setForm({ aberto: true })}
           className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
         >
@@ -53,9 +57,10 @@ function Portfolios() {
         </button>
       }
     >
+      <AvisoAreas />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Stat label="Portfólios" value={String(portfolios.length)} hint={resumoTipos} />
-        <Stat label="Orçamento total" value={moeda(total)} />
+        <Stat label="Orçamento total" value={ocultarValores ? <Moeda v={total} /> : moeda(total)} />
         <Stat
           label="Progresso médio"
           value={`${media}%`}
@@ -80,6 +85,7 @@ function Portfolios() {
                     <div className="min-w-0">
                       <div className="flex min-w-0 flex-wrap items-center gap-2">
                         <p className="truncate font-medium">{p.nome}</p>
+                        <SeloAcesso tipo="portfolio" id={p.id} />
                         <EtiquetaCelula
                           coluna="tipo"
                           valor={p.tipo}
@@ -95,13 +101,14 @@ function Portfolios() {
                         <p className="num font-display text-lg font-bold">{p.score}</p>
                         <p className="text-[11px] text-muted-foreground">score</p>
                       </div>
-                      <button
+                      <BotaoAcesso nome={p.nome} onClick={() => setAcessoDe(p)} />
+                      {podeEditar("portfolio", p.id) && <button
                         aria-label={`Editar ${p.nome}`}
                         onClick={() => setForm({ aberto: true, portfolio: p })}
                         className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
                       >
                         <Pencil className="h-4 w-4" />
-                      </button>
+                      </button>}
                     </div>
                   </div>
                   <div className="mt-3 grid gap-3 sm:grid-cols-3">
@@ -115,8 +122,8 @@ function Portfolios() {
                     <div>
                       <p className="text-[11px] uppercase text-muted-foreground">Execução</p>
                       <p className="num mt-1 text-sm">
-                        {moeda(p.executado)}{" "}
-                        <span className="text-xs text-muted-foreground">/ {moeda(p.orcamento)}</span>
+                        <Moeda v={p.executado} />{" "}
+                        <span className="text-xs text-muted-foreground">/ <Moeda v={p.orcamento} /></span>
                       </p>
                     </div>
                     <div className="flex items-end gap-2">
@@ -174,6 +181,7 @@ function Portfolios() {
           </Panel>
         </div>
       </div>
+      <DialogoAcesso tipo="portfolio" id={acessoDe?.id} nome={acessoDe?.nome} onClose={() => setAcessoDe(undefined)} />
       <FormPortfolio aberto={form.aberto} portfolio={form.portfolio} onClose={() => setForm({ aberto: false })} />
     </AppShell>
   );

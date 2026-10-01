@@ -17,6 +17,8 @@ import {
   Trash2,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import { AreasConfig, SegmentacaoPerfil } from "@/components/AreasConfig";
+import { useAcessoEstado } from "@/lib/acesso";
 import { Panel, PanelTitle, Tag } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { AssistenteMarca, estilosAssistente, type EstiloAssistente } from "@/components/AssistenteMarca";
@@ -162,15 +164,6 @@ const localizacoes = [
 
 const formatosMonetarios = ["1,000.00", "1.000,00", "1000.00", "1000,00", "1 000.00", "1 000,00"];
 
-const permissoes = [
-  { recurso: "Cadastro de projetos e cronogramas", tecnico: "Editar", gestor: "Editar", alta: "Ler" },
-  { recurso: "Portfólios e priorização", tecnico: "Ler", gestor: "Editar", alta: "Editar" },
-  { recurso: "Indicadores e metas", tecnico: "Lançar valores", gestor: "Editar", alta: "Ler" },
-  { recurso: "Riscos e planos de resposta", tecnico: "Editar", gestor: "Editar", alta: "Ler" },
-  { recurso: "Relatórios executivos e exportações", tecnico: "—", gestor: "Gerar", alta: "Gerar" },
-  { recurso: "Trilha de auditoria e LGPD", tecnico: "—", gestor: "Ler", alta: "Ler" },
-  { recurso: "Integrações e configurações", tecnico: "—", gestor: "—", alta: "Administrar" },
-];
 
 function Toggle({ on, onClick, label }: { on: boolean; onClick: () => void; label: string }) {
   return (
@@ -216,6 +209,7 @@ function Configuracoes() {
   const [nome, setNome] = useState("");
   const [blocos, setBlocos] = useState<string[]>([]);
   const [perfisView, setPerfisView] = useState<Perfil[]>(["Gestor"]);
+  const estadoAcesso = useAcessoEstado();
 
   const alternar = (id: string) =>
     setIntegracoes((atual) =>
@@ -230,7 +224,7 @@ function Configuracoes() {
 
   const salvarView = () => {
     if (!nome.trim() || blocos.length === 0) return;
-    criar({ nome: nome.trim(), escopo, blocos, perfis: perfisView });
+    criar({ nome: nome.trim(), escopo, blocos, perfis: perfisView, areas: estadoAcesso.filtroAreas });
     setNome("");
     setBlocos([]);
   };
@@ -674,33 +668,8 @@ function Configuracoes() {
 
 
 
-      <Panel className="mt-4" rule="accent">
-        <PanelTitle title="Segmentação por perfil" hint="controle de acesso" />
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] text-sm">
-            <thead>
-              <tr className="border-b border-border text-left">
-                <th className="eyebrow pb-3 pr-4 text-muted-foreground">Recurso</th>
-                {perfis.map((p) => (
-                  <th key={p} className="eyebrow pb-3 pr-4 text-muted-foreground">
-                    {p}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {permissoes.map((r) => (
-                <tr key={r.recurso} className="border-b border-border/60">
-                  <td className="py-3 pr-4 text-sm">{r.recurso}</td>
-                  <td className="py-3 pr-4 text-xs text-muted-foreground">{r.tecnico}</td>
-                  <td className="py-3 pr-4 text-xs text-muted-foreground">{r.gestor}</td>
-                  <td className="py-3 pr-4 text-xs text-muted-foreground">{r.alta}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Panel>
+      <AreasConfig />
+      <SegmentacaoPerfil />
 
       <div className="mt-4 grid gap-4 xl:grid-cols-2">
         <Panel>
