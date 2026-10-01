@@ -9,7 +9,8 @@ export type Conversa = {
   mensagens: UIMessage[];
 };
 
-const CHAVE = "hepta.assistente.v1";
+const CHAVE = "keller-hub.assistente.v1";
+const CHAVE_ANTIGA = "hepta.assistente.v1";
 
 const novoId = () =>
   typeof crypto !== "undefined" && "randomUUID" in crypto
@@ -19,7 +20,10 @@ const novoId = () =>
 function ler(): Conversa[] {
   if (typeof window === "undefined") return [];
   try {
-    const bruto = window.localStorage.getItem(CHAVE);
+    const bruto = window.localStorage.getItem(CHAVE) ?? window.localStorage.getItem(CHAVE_ANTIGA);
+    if (bruto && !window.localStorage.getItem(CHAVE)) {
+      window.localStorage.setItem(CHAVE, bruto);
+    }
     const dados = bruto ? (JSON.parse(bruto) as Conversa[]) : [];
     return Array.isArray(dados) ? dados : [];
   } catch {

@@ -98,7 +98,8 @@ export const configPortalPadrao: ConfigPortal = {
   modo: "escuro",
 };
 
-const CHAVE = "hepta.portal.v1";
+const CHAVE = "keller-hub.portal.v1";
+const CHAVE_ANTIGA = "hepta.portal.v1";
 
 let estado: ConfigPortal = configPortalPadrao;
 let carregado = false;
@@ -106,9 +107,10 @@ const assinantes = new Set<(c: ConfigPortal) => void>();
 
 function ler(): ConfigPortal {
   try {
-    const bruto = localStorage.getItem(CHAVE);
+    const bruto = localStorage.getItem(CHAVE) ?? localStorage.getItem(CHAVE_ANTIGA);
     if (bruto) {
       const salvo = { ...configPortalPadrao, ...(JSON.parse(bruto) as ConfigPortal) };
+      localStorage.setItem(CHAVE, JSON.stringify(salvo));
       const chaveMigracao = "portal.paleta-padrao-azul.v1";
       if (!localStorage.getItem(chaveMigracao) && salvo.paleta === "indigo") {
         salvo.paleta = "azul";

@@ -19,13 +19,13 @@ import { useCarteiraVisivel } from "@/lib/acesso";
 export const Route = createFileRoute("/riscos")({
   head: () => ({
     meta: [
-      { title: "Riscos Corporativos | Plataforma PPM" },
+      { title: "Riscos Corporativos | Keller Hub" },
       {
         name: "description",
         content:
           "Riscos estratégicos, operacionais e de projetos com matriz de calor, planos de resposta e monitoramento contínuo.",
       },
-      { property: "og:title", content: "Riscos Corporativos | Plataforma PPM" },
+      { property: "og:title", content: "Riscos Corporativos | Keller Hub" },
       {
         property: "og:description",
         content: "Matriz de probabilidade × impacto, severidade e planos de mitigação com responsáveis e prazos.",

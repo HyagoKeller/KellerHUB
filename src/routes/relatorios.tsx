@@ -21,13 +21,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/relatorios")({
   head: () => ({
     meta: [
-      { title: "Relatórios e Publicação | Plataforma PPM" },
+      { title: "Relatórios e Publicação | Keller Hub" },
       {
         name: "description",
         content:
           "Publicação de painéis com link público ou link autenticado restrito a perfis liberados, exportação em CSV, XLSX e JSON e trilha de auditoria.",
       },
-      { property: "og:title", content: "Relatórios e Publicação | Plataforma PPM" },
+      { property: "og:title", content: "Relatórios e Publicação | Keller Hub" },
       {
         property: "og:description",
         content:
@@ -145,8 +145,8 @@ const publicacaoInicial: Record<string, Publicacao> = {
 
 const linkDe = (id: string, acesso: Acesso) =>
   acesso === "publico"
-    ? `hepta.gov.br/p/${id}`
-    : `hepta.gov.br/app/relatorios/${id}`;
+    ? `kellerhub.app/p/${id}`
+    : `kellerhub.app/app/relatorios/${id}`;
 
 function Relatorios() {
   const logAcesso = useAcessoEstado().log;

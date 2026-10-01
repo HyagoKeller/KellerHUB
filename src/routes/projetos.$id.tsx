@@ -23,7 +23,7 @@ export const Route = createFileRoute("/projetos/$id")({
     return { id: params.id, nome: base?.nome ?? "Projeto" };
   },
   head: ({ loaderData }) => {
-    const t = `${loaderData?.nome ?? "Projeto"} | Plataforma PPM`;
+    const t = `${loaderData?.nome ?? "Projeto"} | Keller Hub`;
     return {
       meta: [
         { title: t },

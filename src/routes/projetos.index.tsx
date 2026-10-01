@@ -13,13 +13,13 @@ import { moeda, type Projeto } from "@/lib/mock-data";
 export const Route = createFileRoute("/projetos/")({
   head: () => ({
     meta: [
-      { title: "Projetos | Plataforma PPM" },
+      { title: "Projetos | Keller Hub" },
       {
         name: "description",
         content:
           "Carteira de projetos com metodologias PMBOK, Ágil e híbrida, controle de prazo, custo, escopo e riscos.",
       },
-      { property: "og:title", content: "Projetos | Plataforma PPM" },
+      { property: "og:title", content: "Projetos | Keller Hub" },
       {
         property: "og:description",
         content: "Acompanhe prazo, custo, progresso e saúde de toda a carteira de projetos.",

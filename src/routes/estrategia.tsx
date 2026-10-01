@@ -16,13 +16,13 @@ import { objetivos, programas, projetos } from "@/lib/mock-data";
 export const Route = createFileRoute("/estrategia")({
   head: () => ({
     meta: [
-      { title: "Gestão Estratégica | Plataforma PPM" },
+      { title: "Gestão Estratégica | Keller Hub" },
       {
         name: "description",
         content:
           "Objetivos estratégicos institucionais, metas e alinhamento de projetos e programas ao planejamento.",
       },
-      { property: "og:title", content: "Gestão Estratégica | Plataforma PPM" },
+      { property: "og:title", content: "Gestão Estratégica | Keller Hub" },
       {
         property: "og:description",
         content: "Meça o quanto os objetivos estratégicos são atendidos pelos projetos vinculados.",

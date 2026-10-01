@@ -29,13 +29,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/assistente/$id")({
   head: () => ({
     meta: [
-      { title: "Assistente de Governança | Plataforma PPM" },
+      { title: "Assistente de Governança | Keller Hub" },
       {
         name: "description",
         content:
           "Consulte riscos, indicadores, portfólios e projetos em linguagem natural. O assistente respeita o perfil de acesso e gera sumários e relatórios executivos.",
       },
-      { property: "og:title", content: "Assistente de Governança | Plataforma PPM" },
+      { property: "og:title", content: "Assistente de Governança | Keller Hub" },
       {
         property: "og:description",
         content:

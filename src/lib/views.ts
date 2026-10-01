@@ -32,12 +32,16 @@ export const blocosPorEscopo: Record<EscopoView, { id: string; label: string }[]
   ],
 };
 
-const STORAGE_KEY = "hepta.views.v1";
+const STORAGE_KEY = "keller-hub.views.v1";
+const LEGACY_STORAGE_KEY = "hepta.views.v1";
 
 function ler(): ViewPersonalizada[] {
   if (typeof window === "undefined") return [];
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
+    const raw = window.localStorage.getItem(STORAGE_KEY) ?? window.localStorage.getItem(LEGACY_STORAGE_KEY);
+    if (raw && !window.localStorage.getItem(STORAGE_KEY)) {
+      window.localStorage.setItem(STORAGE_KEY, raw);
+    }
     return raw ? (JSON.parse(raw) as ViewPersonalizada[]) : [];
   } catch {
     return [];

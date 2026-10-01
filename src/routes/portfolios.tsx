@@ -13,13 +13,13 @@ import { moeda, type Portfolio } from "@/lib/mock-data";
 export const Route = createFileRoute("/portfolios")({
   head: () => ({
     meta: [
-      { title: "Portfólios | Plataforma PPM" },
+      { title: "Portfólios | Keller Hub" },
       {
         name: "description",
         content:
           "Cadastro, priorização e visão consolidada de portfólios institucionais e temáticos com indicadores agregados.",
       },
-      { property: "og:title", content: "Portfólios | Plataforma PPM" },
+      { property: "og:title", content: "Portfólios | Keller Hub" },
       {
         property: "og:description",
         content: "Priorize portfólios por score e acompanhe orçamento, progresso e riscos consolidados.",
