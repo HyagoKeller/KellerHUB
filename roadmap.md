@@ -15,3 +15,4 @@
 - [x] Substituir as cartilhas por manuais operacionais completos, com menus, telas, campos, procedimentos, exemplos e solução de problemas
 - [x] Adicionar elementos, subelementos e atualizações contextuais aos projetos, com testes e documentação completa
 - [ ] Publicar demonstração temporária protegida por login e conta Superadministrador autorizada
+- [ ] Configurar endereço sem a marca Lovable após o usuário informar ou adquirir o domínio próprio
