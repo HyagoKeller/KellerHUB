@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, ChevronRight, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { AtualizacoesProjeto, type ContextoAtualizacao } from "@/components/AtualizacoesProjeto";
+import { ContadorAtualizacoes, type ContextoAtualizacao } from "@/components/AtualizacoesProjeto";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Barra, Panel, PanelTitle, Tag } from "@/components/ui-kit";
@@ -98,16 +98,12 @@ function AtualizacoesProjeto(props: ContextoAtualizacao & { onClick: (contexto: 
   return <ContadorAtualizacoes {...props} onClick={() => props.onClick(props)} />;
 }
 
-import { ContadorAtualizacoes } from "@/components/AtualizacoesProjeto";
-
 function EditorItem({ projetoId, editor, onClose }: { projetoId: string; editor?: { tipo: "elemento" | "subelemento"; elementoId?: string; item?: ElementoProjeto | SubelementoProjeto }; onClose: () => void }) {
   const [dados, setDados] = useState<ItemEditavel>(vazio());
-  const chave = `${editor?.tipo ?? ""}-${editor?.item?.id ?? "novo"}-${editor?.elementoId ?? ""}`;
-  const [ultimaChave, setUltimaChave] = useState("");
-  if (editor && chave !== ultimaChave) {
-    setUltimaChave(chave);
+  useEffect(() => {
+    if (!editor) return;
     setDados(editor.item ? { nome: editor.item.nome, responsavel: editor.item.responsavel, status: editor.item.status, prazo: editor.item.prazo, progresso: editor.item.progresso } : vazio());
-  }
+  }, [editor]);
   const valido = dados.nome.trim().length >= 3 && dados.responsavel.trim().length >= 2 && Boolean(dados.prazo);
   const salvar = () => {
     if (!editor || !valido) return;

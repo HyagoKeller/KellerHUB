@@ -1,4 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ContadorAtualizacoes, PainelAtualizacoes, type ContextoAtualizacao } from "@/components/AtualizacoesProjeto";
+import { ElementosProjeto } from "@/components/ElementosProjeto";
+import { Button } from "@/components/ui/button";
 import { EtiquetaCelula } from "@/components/EtiquetaCelula";
 import { FormProjeto } from "@/components/FormulariosCarteira";
 import { carteira, portfolioDe, useCarteira } from "@/lib/carteira";
@@ -38,7 +41,7 @@ export const Route = createFileRoute("/projetos/$id")({
   component: DetalheProjeto,
 });
 
-const abas = ["Visão geral", "Cronograma", "Kanban", "Riscos", "Status reports", "Acesso"] as const;
+const abas = ["Visão geral", "Elementos", "Cronograma", "Kanban", "Riscos", "Status reports", "Acesso"] as const;
 
 function DetalheProjeto() {
   const { id } = Route.useLoaderData();
@@ -58,6 +61,7 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
   const { portfolios, programas } = useCarteira();
   const { ocultarValores, podeEditar } = useCarteiraVisivel();
   const [editar, setEditar] = useState(false);
+  const [atualizacoes, setAtualizacoes] = useState<ContextoAtualizacao>();
   const [aba, setAba] = useState<(typeof abas)[number]>(
     projeto.metodologia === "Ágil" ? "Kanban" : "Cronograma",
   );
@@ -78,15 +82,16 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
           >
             Voltar
           </Link>
-          {podeEditar("projeto", projeto.id) && <button
+          <ContadorAtualizacoes projetoId={projeto.id} alvoTipo="projeto" alvoId={projeto.id} titulo={projeto.nome} onClick={() => setAtualizacoes({ projetoId: projeto.id, alvoTipo: "projeto", alvoId: projeto.id, titulo: projeto.nome })} />
+          {podeEditar("projeto", projeto.id) && <Button
+            variant="outline"
             onClick={() => setEditar(true)}
-            className="rounded-md border border-border bg-card px-3 py-2 text-sm font-medium hover:bg-muted"
           >
             Editar projeto
-          </button>}
-          <button className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
+          </Button>}
+          <Button>
             Novo status report
-          </button>
+          </Button>
         </>
       }
     >
@@ -183,6 +188,10 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
               </dl>
             </Panel>
           </div>
+        )}
+
+        {aba === "Elementos" && (
+          <ElementosProjeto projetoId={projeto.id} podeEditar={podeEditar("projeto", projeto.id)} autor={useCarteiraVisivel().usuario.nome} onAtualizacoes={setAtualizacoes} />
         )}
 
         {aba === "Cronograma" && (
@@ -284,6 +293,7 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
         )}
       </div>
       <FormProjeto aberto={editar} projeto={projeto} onClose={() => setEditar(false)} />
+      <PainelAtualizacoes contexto={atualizacoes} onClose={() => setAtualizacoes(undefined)} podePublicar={podeEditar("projeto", projeto.id)} autor={useCarteiraVisivel().usuario.nome} />
     </AppShell>
   );
 }

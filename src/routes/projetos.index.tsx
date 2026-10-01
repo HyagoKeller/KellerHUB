@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { ContadorAtualizacoes, PainelAtualizacoes, type ContextoAtualizacao } from "@/components/AtualizacoesProjeto";
 import { BotaoAcesso, DialogoAcesso, Moeda, SeloAcesso, AvisoAreas } from "@/components/Acesso";
 import { useCarteiraVisivel } from "@/lib/acesso";
 import { AppShell } from "@/components/AppShell";
@@ -32,8 +33,9 @@ export const Route = createFileRoute("/projetos/")({
 });
 
 function Projetos() {
-  const { projetos, portfolios, etiquetas, programas, podeEditar, podeCriar } = useCarteiraVisivel();
+  const { projetos, portfolios, etiquetas, programas, podeEditar, podeCriar, usuario } = useCarteiraVisivel();
   const [acessoDe, setAcessoDe] = useState<Projeto | undefined>();
+  const [atualizacoes, setAtualizacoes] = useState<ContextoAtualizacao>();
   void useCarteira;
   const filtros = ["Todas", ...etiquetas.metodologia.map((e) => e.nome)];
   const [filtro, setFiltro] = useState<string>("Todas");
@@ -144,6 +146,7 @@ function Projetos() {
                   </td>
                   <td className="px-3 py-3">
                     <div className="flex items-center">
+                    <ContadorAtualizacoes projetoId={p.id} alvoTipo="projeto" alvoId={p.id} titulo={p.nome} onClick={() => setAtualizacoes({ projetoId: p.id, alvoTipo: "projeto", alvoId: p.id, titulo: p.nome })} />
                     <BotaoAcesso nome={p.nome} onClick={() => setAcessoDe(p)} />
                     {podeEditar("projeto", p.id) && <button
                       aria-label={`Editar ${p.nome}`}
@@ -162,6 +165,7 @@ function Projetos() {
       </Panel>
       <DialogoAcesso tipo="projeto" id={acessoDe?.id} nome={acessoDe?.nome} onClose={() => setAcessoDe(undefined)} />
       <FormProjeto aberto={form.aberto} projeto={form.projeto} onClose={() => setForm({ aberto: false })} />
+      <PainelAtualizacoes contexto={atualizacoes} onClose={() => setAtualizacoes(undefined)} podePublicar={Boolean(atualizacoes && podeEditar("projeto", atualizacoes.projetoId))} autor={usuario.nome} />
     </AppShell>
   );
 }

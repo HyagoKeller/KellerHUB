@@ -60,7 +60,13 @@ export function PainelAtualizacoes({
 
   const publicar = () => {
     if (!contexto || texto.trim().length < 2) return;
-    trabalhoProjetos.publicarAtualizacao({ ...contexto, autor, texto: texto.trim() });
+    trabalhoProjetos.publicarAtualizacao({
+      projetoId: contexto.projetoId,
+      alvoTipo: contexto.alvoTipo,
+      alvoId: contexto.alvoId,
+      autor,
+      texto: texto.trim(),
+    });
     setTexto("");
     toast.success("Atualização publicada");
   };
