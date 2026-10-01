@@ -105,7 +105,8 @@ export const configMotorPadrao: ConfigMotorIA = {
   credencialPropria: false,
 };
 
-const CHAVE = "hepta.ia.motor.v1";
+const CHAVE = "keller-hub.ia.motor.v1";
+const CHAVE_ANTIGA = "hepta.ia.motor.v1";
 
 export function motorPorId(id: string): MotorIA {
   return motoresIA.find((m) => m.id === id) ?? motoresIA[0]!;
@@ -116,8 +117,11 @@ export function useMotorIA() {
 
   useEffect(() => {
     try {
-      const bruto = localStorage.getItem(CHAVE);
-      if (bruto) setConfig({ ...configMotorPadrao, ...(JSON.parse(bruto) as ConfigMotorIA) });
+      const bruto = localStorage.getItem(CHAVE) ?? localStorage.getItem(CHAVE_ANTIGA);
+      if (bruto) {
+        localStorage.setItem(CHAVE, bruto);
+        setConfig({ ...configMotorPadrao, ...(JSON.parse(bruto) as ConfigMotorIA) });
+      }
     } catch {
       /* configuração local ausente ou inválida: mantém o motor nativo */
     }

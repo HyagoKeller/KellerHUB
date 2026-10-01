@@ -4,10 +4,11 @@ Esta documentação apresenta o uso do Keller Hub conforme o perfil e o escopo d
 
 ## Manuais disponíveis
 
-1. [Administrador e PMO](administrador-pmo.md)
-2. [Técnico](tecnico.md)
-3. [Gestor](gestor.md)
-4. [Alta Administração](alta-administracao.md)
+1. [Governança de acessos](governanca-de-acessos.md)
+2. [Administrador e PMO](administrador-pmo.md)
+3. [Técnico](tecnico.md)
+4. [Gestor](gestor.md)
+5. [Alta Administração](alta-administracao.md)
 
 ## Como funciona o acesso
 
