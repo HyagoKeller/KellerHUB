@@ -10,12 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as EstrategiaRouteImport } from './routes/estrategia'
 import { Route as IndicadoresRouteImport } from './routes/indicadores'
 import { Route as PortfoliosRouteImport } from './routes/portfolios'
 import { Route as ProgramasRouteImport } from './routes/programas'
 import { Route as RelatoriosRouteImport } from './routes/relatorios'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RiscosRouteImport } from './routes/riscos'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AssistenteIndexRouteImport } from './routes/assistente.index'
@@ -26,6 +28,11 @@ import { Route as ProjetosIdRouteImport } from './routes/projetos.$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
@@ -56,6 +63,11 @@ const ProgramasRoute = ProgramasRouteImport.update({
 const RelatoriosRoute = RelatoriosRouteImport.update({
   id: '/relatorios',
   path: '/relatorios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RiscosRoute = RiscosRouteImport.update({
@@ -91,12 +103,14 @@ const ProjetosIdRoute = ProjetosIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/estrategia': typeof EstrategiaRoute
   '/indicadores': typeof IndicadoresRoute
   '/portfolios': typeof PortfoliosRoute
   '/programas': typeof ProgramasRoute
   '/relatorios': typeof RelatoriosRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/riscos': typeof RiscosRoute
   '/api/chat': typeof ApiChatRoute
   '/assistente/$id': typeof AssistenteIdRoute
@@ -106,12 +120,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/estrategia': typeof EstrategiaRoute
   '/indicadores': typeof IndicadoresRoute
   '/portfolios': typeof PortfoliosRoute
   '/programas': typeof ProgramasRoute
   '/relatorios': typeof RelatoriosRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/riscos': typeof RiscosRoute
   '/api/chat': typeof ApiChatRoute
   '/assistente/$id': typeof AssistenteIdRoute
@@ -122,12 +138,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/estrategia': typeof EstrategiaRoute
   '/indicadores': typeof IndicadoresRoute
   '/portfolios': typeof PortfoliosRoute
   '/programas': typeof ProgramasRoute
   '/relatorios': typeof RelatoriosRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/riscos': typeof RiscosRoute
   '/api/chat': typeof ApiChatRoute
   '/assistente/$id': typeof AssistenteIdRoute
@@ -139,12 +157,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/configuracoes'
     | '/estrategia'
     | '/indicadores'
     | '/portfolios'
     | '/programas'
     | '/relatorios'
+    | '/reset-password'
     | '/riscos'
     | '/api/chat'
     | '/assistente/$id'
@@ -154,12 +174,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/configuracoes'
     | '/estrategia'
     | '/indicadores'
     | '/portfolios'
     | '/programas'
     | '/relatorios'
+    | '/reset-password'
     | '/riscos'
     | '/api/chat'
     | '/assistente/$id'
@@ -169,12 +191,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/auth'
     | '/configuracoes'
     | '/estrategia'
     | '/indicadores'
     | '/portfolios'
     | '/programas'
     | '/relatorios'
+    | '/reset-password'
     | '/riscos'
     | '/api/chat'
     | '/assistente/$id'
@@ -185,12 +209,14 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   ConfiguracoesRoute: typeof ConfiguracoesRoute
   EstrategiaRoute: typeof EstrategiaRoute
   IndicadoresRoute: typeof IndicadoresRoute
   PortfoliosRoute: typeof PortfoliosRoute
   ProgramasRoute: typeof ProgramasRoute
   RelatoriosRoute: typeof RelatoriosRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   RiscosRoute: typeof RiscosRoute
   ApiChatRoute: typeof ApiChatRoute
   AssistenteIdRoute: typeof AssistenteIdRoute
@@ -206,6 +232,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/configuracoes': {
@@ -248,6 +281,13 @@ declare module '@tanstack/react-router' {
       path: '/relatorios'
       fullPath: '/relatorios'
       preLoaderRoute: typeof RelatoriosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/riscos': {
@@ -297,12 +337,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   ConfiguracoesRoute: ConfiguracoesRoute,
   EstrategiaRoute: EstrategiaRoute,
   IndicadoresRoute: IndicadoresRoute,
   PortfoliosRoute: PortfoliosRoute,
   ProgramasRoute: ProgramasRoute,
   RelatoriosRoute: RelatoriosRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   RiscosRoute: RiscosRoute,
   ApiChatRoute: ApiChatRoute,
   AssistenteIdRoute: AssistenteIdRoute,
