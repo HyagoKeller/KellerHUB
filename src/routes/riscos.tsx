@@ -13,7 +13,8 @@ import {
 } from "recharts";
 import { AppShell } from "@/components/AppShell";
 import { Panel, PanelTitle, Stat, Tag } from "@/components/ui-kit";
-import { evolucaoRiscos, riscos, severidade, type Risco } from "@/lib/mock-data";
+import { evolucaoRiscos, severidade, type Risco } from "@/lib/mock-data";
+import { useCarteiraVisivel } from "@/lib/acesso";
 
 export const Route = createFileRoute("/riscos")({
   head: () => ({
@@ -53,6 +54,7 @@ function Tendencia({ t }: { t: Risco["tendencia"] }) {
 }
 
 function Riscos() {
+  const { riscos } = useCarteiraVisivel();
   const [cat, setCat] = useState<(typeof categorias)[number]>("Todas");
   const lista = riscos.filter((r) => cat === "Todas" || r.categoria === cat);
 
