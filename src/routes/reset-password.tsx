@@ -4,6 +4,7 @@ import { KeyRound, LoaderCircle, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
+import { RodapeInstitucional } from "@/components/RodapeInstitucional";
 
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
@@ -49,7 +50,8 @@ function ResetPasswordPage() {
   return (
     <main className="liquid-workspace relative grid min-h-screen place-items-center overflow-hidden bg-background px-4 py-10 text-foreground">
       <div className="liquid-atmosphere" aria-hidden="true"><div className="liquid-blob liquid-blob-a" /><div className="liquid-blob liquid-blob-b" /></div>
-      <section className="panel relative z-10 w-full max-w-md p-6 sm:p-8">
+      <div className="relative z-10 w-full max-w-md">
+      <section className="panel p-6 sm:p-8">
         <div className="mb-6 grid h-11 w-11 place-items-center rounded-xl bg-primary text-primary-foreground"><ShieldCheck className="h-5 w-5" /></div>
         <h1 className="font-display text-2xl font-semibold">Redefinir senha</h1>
         {!recuperacao ? <p className="mt-3 text-sm text-muted-foreground">Abra novamente o link recebido por e-mail para redefinir a senha.</p> : <>
@@ -61,6 +63,8 @@ function ResetPasswordPage() {
           <Button className="mt-6 w-full" onClick={() => void salvar()} disabled={ocupado}>{ocupado ? <LoaderCircle className="animate-spin" /> : <ShieldCheck />}Salvar nova senha</Button>
         </>}
       </section>
+      <RodapeInstitucional className="mt-6" />
+      </div>
     </main>
   );
 }
