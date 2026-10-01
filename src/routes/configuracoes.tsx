@@ -711,7 +711,7 @@ function Configuracoes() {
                       setBlocos([]);
                     }}
                     className={cn(
-                      "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors",
+                      "rounded-md border px-3.5 py-1.5 text-xs font-semibold transition-colors",
                       escopo === e
                         ? "border-primary bg-primary text-primary-foreground"
                         : "border-border text-muted-foreground hover:text-foreground",
@@ -741,7 +741,7 @@ function Configuracoes() {
                     key={b.id}
                     onClick={() => alternarBloco(b.id)}
                     className={cn(
-                      "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                      "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
                       blocos.includes(b.id)
                         ? "border-info/50 bg-info/15 text-info"
                         : "border-border text-muted-foreground hover:text-foreground",
@@ -761,7 +761,7 @@ function Configuracoes() {
                     key={p}
                     onClick={() => alternarPerfil(p)}
                     className={cn(
-                      "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                      "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
                       perfisView.includes(p)
                         ? "border-success/50 bg-success/15 text-success"
                         : "border-border text-muted-foreground hover:text-foreground",

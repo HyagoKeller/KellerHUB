@@ -133,8 +133,8 @@ function Indicadores() {
               onClick={() => toggle(i.id)}
               className={
                 selecionados.includes(i.id)
-                  ? "rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground"
-                  : "rounded-full border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted"
+                  ? "rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground"
+                  : "rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted"
               }
             >
               {i.nome}

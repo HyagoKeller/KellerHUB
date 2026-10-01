@@ -360,7 +360,7 @@ function Relatorios() {
                       key={p}
                       onClick={() => alternarPerfil(selecionado, p)}
                       className={cn(
-                        "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                        "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
                         atual.perfis.includes(p)
                           ? "border-success/50 bg-success/15 text-success"
                           : "border-border text-muted-foreground hover:text-foreground",
@@ -436,7 +436,7 @@ function Relatorios() {
                         aria-label={`${a}: ${p}`}
                         onClick={() => alternarAcao(selecionado, p, a)}
                         className={cn(
-                          "inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-[11px] font-semibold transition-colors",
+                          "inline-flex h-7 items-center gap-1.5 rounded-md border px-2.5 text-[11px] font-semibold transition-colors",
                           atual.acoes[p][a]
                             ? "border-success/50 bg-success/15 text-success"
                             : "border-border text-muted-foreground hover:text-foreground",

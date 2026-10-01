@@ -127,8 +127,8 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
             onClick={() => setAba(a)}
             className={
               aba === a
-                ? "rounded-full bg-primary px-3.5 py-1.5 text-xs font-medium text-primary-foreground"
-                : "rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted"
+                ? "rounded-md bg-primary px-3.5 py-1.5 text-xs font-medium text-primary-foreground"
+                : "rounded-md border border-border bg-card px-3.5 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted"
             }
           >
             {a}

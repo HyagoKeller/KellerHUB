@@ -214,7 +214,7 @@ export function PainelAcesso({ tipo, id, nome }: { tipo: TipoObjeto; id: string;
             return (
               <button key={v} disabled={!podeGerir || bloqueada} onClick={() => upd({ visibilidade: v })}
                 title={bloqueada ? "O item não pode ser menos restrito que o pai" : undefined}
-                className={cn("rounded-full border px-3 py-1.5 text-xs font-semibold disabled:opacity-40", o.visibilidade === v ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground hover:text-foreground")}>
+                className={cn("rounded-md border px-3 py-1.5 text-xs font-semibold disabled:opacity-40", o.visibilidade === v ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground hover:text-foreground")}>
                 {rotuloVisibilidade[v]}
               </button>
             );
@@ -230,7 +230,7 @@ export function PainelAcesso({ tipo, id, nome }: { tipo: TipoObjeto; id: string;
             const on = o.compartilhadoCom.includes(a.id);
             return (
               <button key={a.id} disabled={!podeGerir} onClick={() => upd({ compartilhadoCom: on ? o.compartilhadoCom.filter((x) => x !== a.id) : [...o.compartilhadoCom, a.id], ...(on || o.visibilidade !== "publica" ? {} : { visibilidade: "compartilhada" }) })}
-                className={cn("inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs disabled:opacity-50", on ? "border-info/50 bg-info/15 text-info" : "border-border text-muted-foreground")}>
+                className={cn("inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs disabled:opacity-50", on ? "border-info/50 bg-info/15 text-info" : "border-border text-muted-foreground")}>
                 <Share2 className="h-3 w-3" />{a.sigla}
               </button>
             );
