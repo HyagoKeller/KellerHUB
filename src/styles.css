@@ -323,6 +323,25 @@
   backdrop-filter: blur(22px) saturate(140%);
 }
 
+@utility nav-glass {
+  background: linear-gradient(145deg, color-mix(in oklab, var(--glass-highlight) 40%, transparent), transparent 52%), color-mix(in oklab, var(--glass) 58%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-sidebar-border) 62%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-foreground) 8%, transparent), 0 6px 16px -14px oklch(0 0 0 / 0.6);
+  backdrop-filter: blur(18px) saturate(140%);
+  &:hover {
+    border-color: color-mix(in oklab, var(--color-sidebar-primary) 34%, var(--color-sidebar-border));
+    box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-foreground) 10%, transparent), 0 10px 24px -16px oklch(0 0 0 / 0.7);
+  }
+}
+
+@utility nav-active-glass {
+  background:
+    linear-gradient(160deg, color-mix(in oklab, var(--glass-highlight) 28%, transparent), transparent 48%),
+    var(--color-sidebar-primary);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.28), var(--glow-primary);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
 .liquid-workspace {
   position: relative;
   isolation: isolate;

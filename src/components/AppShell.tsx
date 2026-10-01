@@ -101,8 +101,8 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
             className={cn(
               "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-semibold transition-all",
               active
-                ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-lg shadow-sidebar-primary/20"
-                : "text-sidebar-foreground/75 hover:translate-x-0.5 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                ? "nav-active-glass text-sidebar-primary-foreground"
+                : "nav-glass text-sidebar-foreground/75 hover:translate-x-0.5 hover:text-sidebar-accent-foreground",
             )}
           >
             <item.icon className="h-[18px] w-[18px] shrink-0" />
@@ -127,15 +127,10 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
       </div>
       <NavList onNavigate={onNavigate} />
       <div className="mt-auto px-5 pt-6">
-        <div className="glass-control rounded-xl p-4">
-          <p className="eyebrow text-sidebar-foreground/50">Organização</p>
-          <p className="mt-1.5 truncate text-sm font-medium text-sidebar-accent-foreground">
+        <div className="glass-control rounded-xl px-4 py-3">
+          <p className="truncate text-sm font-semibold text-sidebar-accent-foreground">
             {nomeOrg}
           </p>
-
-          <div className="mt-3 h-px bg-sidebar-border/40" />
-          <p className="eyebrow mt-3 text-sidebar-foreground/50">Perfil</p>
-          <p className="mt-1 text-xs font-medium text-sidebar-primary">{usuarioAtual.perfil}</p>
         </div>
       </div>
     </div>
