@@ -26,7 +26,7 @@ type ItemEditavel = {
 const vazio = (): ItemEditavel => ({ nome: "", responsavel: "", status: "Planejamento", prazo: new Date().toISOString().slice(0, 10), progresso: 0 });
 const input = "h-9 w-full rounded-md border border-border bg-transparent px-3 text-sm";
 
-export function ElementosProjeto({ projetoId, podeEditar, autor, onAtualizacoes }: { projetoId: string; podeEditar: boolean; autor: string; onAtualizacoes: (contexto: ContextoAtualizacao) => void }) {
+export function ElementosProjeto({ projetoId, podeEditar, onAtualizacoes }: { projetoId: string; podeEditar: boolean; onAtualizacoes: (contexto: ContextoAtualizacao) => void }) {
   const { elementos } = useTrabalhoProjetos();
   const itens = elementos.filter((e) => e.projetoId === projetoId);
   const [expandidos, setExpandidos] = useState<string[]>(itens.map((e) => e.id));

@@ -59,7 +59,7 @@ function DetalheProjeto() {
 
 function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
   const { portfolios, programas } = useCarteira();
-  const { ocultarValores, podeEditar } = useCarteiraVisivel();
+  const { ocultarValores, podeEditar, usuario } = useCarteiraVisivel();
   const [editar, setEditar] = useState(false);
   const [atualizacoes, setAtualizacoes] = useState<ContextoAtualizacao>();
   const [aba, setAba] = useState<(typeof abas)[number]>(
@@ -191,7 +191,7 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
         )}
 
         {aba === "Elementos" && (
-          <ElementosProjeto projetoId={projeto.id} podeEditar={podeEditar("projeto", projeto.id)} autor={useCarteiraVisivel().usuario.nome} onAtualizacoes={setAtualizacoes} />
+          <ElementosProjeto projetoId={projeto.id} podeEditar={podeEditar("projeto", projeto.id)} onAtualizacoes={setAtualizacoes} />
         )}
 
         {aba === "Cronograma" && (
@@ -293,7 +293,7 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
         )}
       </div>
       <FormProjeto aberto={editar} projeto={projeto} onClose={() => setEditar(false)} />
-      <PainelAtualizacoes contexto={atualizacoes} onClose={() => setAtualizacoes(undefined)} podePublicar={podeEditar("projeto", projeto.id)} autor={useCarteiraVisivel().usuario.nome} />
+      <PainelAtualizacoes contexto={atualizacoes} onClose={() => setAtualizacoes(undefined)} podePublicar={podeEditar("projeto", projeto.id)} autor={usuario.nome} />
     </AppShell>
   );
 }

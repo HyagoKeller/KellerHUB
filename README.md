@@ -1,6 +1,6 @@
 # Keller Hub
 
-Plataforma de gestão de portfólios, programas e projetos, com estratégia, indicadores, riscos, relatórios, auditoria e controle de acesso por perfil e área.
+Plataforma de gestão de portfólios, programas e projetos, com elementos, subelementos, atualizações contextuais, estratégia, indicadores, riscos, relatórios, auditoria e controle de acesso por perfil e área.
 
 ## Documentação operacional
 

@@ -7,10 +7,12 @@
 | Área | Espaço de dados que reúne membros e define o alcance da carteira |
 | Área aberta | Área conhecida pela organização, com leitura de itens públicos |
 | Área restrita | Área conhecida apenas por membros e perfis transversais |
+| Atualização | Mensagem registrada no histórico de um projeto, elemento ou subelemento |
 | Carteira | Conjunto autorizado de portfólios, programas e projetos |
 | Convidado | Pessoa com exceção individual de acesso a um item |
 | Dono da área | Papel de referência e governança da área |
 | Escopo | Conjunto de dados alcançado pela permissão |
+| Elemento | Unidade de trabalho vinculada diretamente a um projeto |
 | Herança | Propagação de área e restrição de portfólio para programa e projeto |
 | Indicador | Medida acompanhada por fórmula, meta, periodicidade e responsável |
 | Item privado | Registro visível para convidados e perfis transversais |
@@ -24,6 +26,7 @@
 | RBAC | Controle de acesso baseado em perfis |
 | Score | Pontuação usada para apoiar a priorização |
 | Status report | Registro periódico da situação de um projeto |
+| Subelemento | Detalhamento operacional subordinado a um elemento |
 | View | Composição personalizada de blocos de uma tela |
 
 ## Referência de símbolos
@@ -31,6 +34,7 @@
 | Símbolo | Uso |
 | --- | --- |
 | Cadeado | Item privado ou acesso |
+| Balão | Abre as atualizações do projeto, elemento ou subelemento e mostra a quantidade registrada |
 | Compartilhamento | Leitura concedida a outra área |
 | Lápis | Editar registro |
 | Lixeira | Remover item ou configuração |
@@ -76,6 +80,7 @@ O perfil permite a ação?
 | Criar e priorizar portfólio | Portfólios |
 | Manter objetivos e metas de programa | Programas |
 | Manter projeto, cronograma e status | Projetos |
+| Manter elementos, subelementos e atualizações | Projetos, aba Elementos e balões |
 | Consultar alinhamento institucional | Estratégia |
 | Consultar metas e resultados | Indicadores |
 | Avaliar probabilidade e impacto | Riscos |

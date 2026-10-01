@@ -219,6 +219,12 @@ O Administrador/PMO pode criar, editar e excluir portfólios, programas e projet
 
 Antes de excluir um item, verifique dependências, relatórios, riscos e registros subordinados.
 
+### 16.1 Elementos, subelementos e atualizações
+
+Elementos e subelementos herdam a área, a visibilidade e o nível efetivo do projeto. O Administrador/PMO pode criar, editar e excluir esses registros em todas as áreas.
+
+O balão do projeto mantém o histórico geral. Os balões nas linhas mantêm históricos separados por elemento e subelemento. Cada registro informa autor, data, hora e conteúdo. Ao validar um perfil, confirme que somente leitura permite consultar o histórico, sem publicar.
+
 ## 17. Relatórios e publicação
 
 ### 17.1 Publicar
@@ -250,6 +256,7 @@ A trilha apresenta data e hora, usuário, perfil, ação, entidade e detalhe. Re
 - compartilhamentos;
 - convites e níveis;
 - publicação e despublicação.
+- manutenção de elementos, subelementos e atualizações, quando a trilha operacional for habilitada em produção.
 
 ## 19. Validar uma concessão
 
@@ -261,7 +268,9 @@ A trilha apresenta data e hora, usuário, perfil, ação, entidade e detalhe. Re
 6. Confira campos financeiros para Técnico.
 7. Teste item privado e compartilhado.
 8. Teste botões de criação, edição e acesso.
-9. Retorne ao perfil Administrador/PMO.
+9. Abra a aba Elementos, expanda uma linha e teste o balão do projeto e dos itens.
+10. Confirme que perfis de leitura não podem publicar atualizações.
+11. Retorne ao perfil Administrador/PMO.
 
 ## 20. Rotina recomendada
 

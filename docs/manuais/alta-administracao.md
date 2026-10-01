@@ -66,6 +66,8 @@ Consulte objetivo, gerente, progresso, saúde, metas e projetos subordinados.
 
 Consulte metodologia, status, prazo, custo, progresso e saúde. No detalhe, navegue por Visão geral, Cronograma, Kanban, Riscos e Status reports.
 
+Na aba **Elementos**, consulte unidades de trabalho agrupadas por status e expanda os subelementos. Use os balões do projeto e dos itens para ler decisões, impedimentos e registros de execução. O perfil permanece em somente leitura para programas e projetos, salvo convite individual.
+
 Para uma alteração operacional, encaminhe a ação ao Gestor responsável ou solicite convite formal quando necessário.
 
 ## 8. Estratégia

@@ -153,6 +153,8 @@ A tela apresenta totais da carteira, projetos em execução, projetos em risco o
 
 A tabela mostra nome, portfólio, metodologia, status, prazo, custo, progresso, saúde e ações.
 
+O ícone de balão abre as atualizações gerais do projeto. O número sobre o ícone informa quantas atualizações existem nesse contexto.
+
 ### 8.2 Criar ou editar
 
 1. Selecione **Novo projeto** ou **Editar projeto**.
@@ -186,6 +188,7 @@ Nomes vazios e duplicados são descartados. Renomear uma etiqueta atualiza os re
 O detalhe possui as abas:
 
 - **Visão geral:** escopo, entregas, recursos e qualidade.
+- **Elementos:** estrutura operacional agrupada por status, com elementos e subelementos expansíveis.
 - **Cronograma:** fases, duração e percentual realizado.
 - **Kanban:** tarefas em Para fazer, Em curso, Revisão, Bloqueado e Concluído.
 - **Riscos:** riscos relacionados, severidade, plano, responsável e prazo.
@@ -193,6 +196,48 @@ O detalhe possui as abas:
 - **Acesso:** área, visibilidade, compartilhamento e convidados.
 
 Os botões superiores permitem voltar, editar o projeto quando autorizado e iniciar um novo status report.
+
+### 8.5 Elementos e subelementos
+
+Elementos representam unidades de trabalho do projeto. Subelementos detalham partes menores de um elemento e permanecem vinculados ao mesmo projeto.
+
+Cada linha apresenta nome, responsável, status, prazo, progresso e ações. Os elementos são agrupados por status. Use a seta no início da linha para mostrar ou ocultar os subelementos.
+
+Para criar um elemento:
+
+1. Abra o projeto e selecione **Elementos**.
+2. Selecione **Novo elemento**.
+3. Informe nome, responsável, status e prazo.
+4. Ajuste o progresso entre 0 e 100.
+5. Selecione **Salvar**.
+
+Para criar um subelemento:
+
+1. Localize o elemento principal.
+2. Selecione o ícone de adição na coluna Ações.
+3. Informe os dados do subelemento.
+4. Selecione **Salvar**.
+5. Expanda o elemento para conferir a nova linha.
+
+Use o lápis para editar. Na edição, **Excluir** remove o item e as atualizações vinculadas. A opção não aparece para acesso somente leitura.
+
+### 8.6 Atualizações em balão
+
+O balão mantém uma conversa separada para cada contexto:
+
+- projeto, para decisões e comunicações gerais;
+- elemento, para acompanhamento da unidade de trabalho;
+- subelemento, para detalhes da execução.
+
+Para publicar:
+
+1. Selecione o balão correspondente.
+2. Confira o título no painel lateral.
+3. Leia o histórico em ordem cronológica, com autor, data e hora.
+4. Digite a mensagem no campo **Escreva uma atualização**.
+5. Selecione **Publicar atualização**.
+
+O contador é atualizado imediatamente. Pessoas com somente leitura consultam o histórico, mas não recebem o campo de publicação.
 
 ## 9. Estratégia
 
@@ -292,6 +337,8 @@ Configurações reúne identidade do portal, experiência de acesso, preferênci
 | Um item não aparece | Confira o filtro Área, a área de origem, a visibilidade e convites |
 | Um valor mostra Sem acesso | Confirme se o perfil atual é Técnico |
 | Não é possível editar | Confira perfil, vínculo com a área, convite e nível |
+| Não consigo publicar uma atualização | O projeto está em somente leitura para o perfil atual |
+| O subelemento não aparece | Expanda o elemento pela seta no início da linha |
 | Uma opção de visibilidade está bloqueada | O item pai possui restrição maior |
 | A busca não retorna resultado | Digite dois caracteres e confira se o item está no escopo autorizado |
 | Configuração voltou ao valor anterior | A alteração não foi salva ou foi cancelada |
