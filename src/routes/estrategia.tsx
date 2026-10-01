@@ -7,7 +7,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import { ArrowUpRight, CheckCircle2, CircleDot, Plus, Sparkles } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, CircleDot, Plus, Target } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, Stat, Tag } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
@@ -16,13 +16,13 @@ import { objetivos, programas, projetos } from "@/lib/mock-data";
 export const Route = createFileRoute("/estrategia")({
   head: () => ({
     meta: [
-      { title: "Gestão Estratégica — Plataforma PPM" },
+      { title: "Gestão Estratégica | Plataforma PPM" },
       {
         name: "description",
         content:
           "Objetivos estratégicos institucionais, metas e alinhamento de projetos e programas ao planejamento.",
       },
-      { property: "og:title", content: "Gestão Estratégica — Plataforma PPM" },
+      { property: "og:title", content: "Gestão Estratégica | Plataforma PPM" },
       {
         property: "og:description",
         content: "Meça o quanto os objetivos estratégicos são atendidos pelos projetos vinculados.",
@@ -68,9 +68,9 @@ function Estrategia() {
 
       <div className="mt-4 grid gap-4 xl:grid-cols-12">
         <Panel rule="primary" className="relative xl:col-span-8">
-          <div className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary"><Sparkles className="h-5 w-5" /></div>
+          <div className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary"><Target className="h-5 w-5" /></div>
           <p className="eyebrow text-primary">Objetivo prioritário</p>
-          <h2 className="mt-4 max-w-2xl font-display text-2xl font-bold sm:text-3xl">{objetivos[0].nome}</h2>
+          <h2 className="mt-4 max-w-2xl font-display text-2xl font-semibold sm:text-3xl">{objetivos[0].nome}</h2>
           <p className="mt-3 text-sm text-muted-foreground">{objetivos[0].meta} · liderança de {objetivos[0].responsavel}</p>
           <div className="mt-8 grid gap-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
             <div><div className="mb-2 flex justify-between text-xs"><span className="font-semibold">Aderência consolidada</span><span className="num">{objetivos[0].aderencia}%</span></div><Barra valor={objetivos[0].aderencia} tom="info" /></div>

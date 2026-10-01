@@ -78,7 +78,7 @@ function Logo({ className, logo, nome }: { className?: string; logo?: string; no
         </div>
       )}
       <div className="min-w-0">
-        <p className="truncate font-display text-base font-bold text-sidebar-accent-foreground">
+        <p className="truncate font-display text-base font-semibold text-sidebar-accent-foreground">
           {nome || "Hepta"}
         </p>
         <p className="eyebrow truncate text-sidebar-foreground/50">Gestão PPM</p>
@@ -235,7 +235,7 @@ export function AppShell({
           <div className="flex flex-col gap-4 pb-6 sm:flex-row sm:items-end sm:justify-between">
             <div className="min-w-0">
               <p className="eyebrow text-muted-foreground">Project management <span className="px-1.5 text-border">/</span> <span className="text-primary">{title}.</span></p>
-              <h1 className="mt-2 truncate font-display text-[28px] font-bold sm:text-[38px]">
+              <h1 className="mt-2 truncate font-display text-[28px] font-semibold sm:text-[38px]">
                 {title}
               </h1>
               {description && (

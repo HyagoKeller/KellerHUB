@@ -19,13 +19,13 @@ import { useCarteiraVisivel } from "@/lib/acesso";
 export const Route = createFileRoute("/riscos")({
   head: () => ({
     meta: [
-      { title: "Riscos Corporativos — Plataforma PPM" },
+      { title: "Riscos Corporativos | Plataforma PPM" },
       {
         name: "description",
         content:
           "Riscos estratégicos, operacionais e de projetos com matriz de calor, planos de resposta e monitoramento contínuo.",
       },
-      { property: "og:title", content: "Riscos Corporativos — Plataforma PPM" },
+      { property: "og:title", content: "Riscos Corporativos | Plataforma PPM" },
       {
         property: "og:description",
         content: "Matriz de probabilidade × impacto, severidade e planos de mitigação com responsáveis e prazos.",
@@ -96,7 +96,7 @@ function Riscos() {
                       title={itens.map((r) => r.nome).join(", ")}
                     >
                       {itens.length > 0 && (
-                        <span className="num font-display text-sm font-bold">{itens.length}</span>
+                        <span className="num font-display text-sm font-semibold">{itens.length}</span>
                       )}
                     </div>
                   );
@@ -179,7 +179,7 @@ function Riscos() {
                 <div className="shrink-0 text-right">
                   <div className="flex items-center justify-end gap-1">
                     <Tendencia t={r.tendencia} />
-                    <span className="num font-display text-lg font-bold">
+                    <span className="num font-display text-lg font-semibold">
                       {r.probabilidade * r.impacto}
                     </span>
                   </div>

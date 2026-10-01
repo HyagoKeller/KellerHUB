@@ -23,7 +23,7 @@ export const Route = createFileRoute("/projetos/$id")({
     return { id: params.id, nome: base?.nome ?? "Projeto" };
   },
   head: ({ loaderData }) => {
-    const t = `${loaderData?.nome ?? "Projeto"} — Plataforma PPM`;
+    const t = `${loaderData?.nome ?? "Projeto"} | Plataforma PPM`;
     return {
       meta: [
         { title: t },
@@ -103,7 +103,7 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
           hint={`início ${new Date(projeto.inicio).toLocaleDateString("pt-BR")}`}
         />
         <div className="panel flex flex-col justify-center gap-2 p-5">
-          <p className="text-xs uppercase tracking-wide text-muted-foreground">Saúde e metodologia</p>
+          <p className="text-xs uppercase  text-muted-foreground">Saúde e metodologia</p>
           <div className="flex flex-wrap gap-2">
             <SaudeTag saude={projeto.saude} />
             <EtiquetaCelula
@@ -217,8 +217,8 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
             {Object.entries(tarefasKanban).map(([coluna, itens]) => (
               <div key={coluna} className="panel p-4">
                 <div className="mb-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
-                  <p className="truncate text-xs font-semibold uppercase tracking-wide">{coluna}</p>
-                  <span className="num shrink-0 rounded-full bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">
+                  <p className="truncate text-xs font-semibold uppercase ">{coluna}</p>
+                  <span className="num shrink-0 rounded-md bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">
                     {itens.length}
                   </span>
                 </div>

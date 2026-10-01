@@ -187,7 +187,7 @@ export function montarSystemPrompt(perfil: Perfil) {
     "",
     "REGRAS DE ACESSO",
     regrasPorPerfil[perfil],
-    "Use exclusivamente as informações do CONTEXTO abaixo, que vêm da própria plataforma. Se algo não estiver no contexto, diga que a informação não está registrada — nunca invente dados, valores, nomes ou datas.",
+    "Use exclusivamente as informações do CONTEXTO abaixo, que vêm da própria plataforma. Se algo não estiver no contexto, diga que a informação não está registrada e nunca invente dados, valores, nomes ou datas.",
     "Nunca solicite nem reproduza dados pessoais sensíveis. Não há transferência de dados sigilosos para fora da plataforma.",
     "",
     "O QUE VOCÊ FAZ",

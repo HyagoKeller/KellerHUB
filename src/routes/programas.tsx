@@ -12,13 +12,13 @@ import { Barra, Panel, PanelTitle, SaudeTag, Stat } from "@/components/ui-kit";
 export const Route = createFileRoute("/programas")({
   head: () => ({
     meta: [
-      { title: "Programas — Plataforma PPM" },
+      { title: "Programas | Plataforma PPM" },
       {
         name: "description",
         content:
           "Programas institucionais com metas, objetivos e hierarquia rastreável entre portfólio, programa e projetos.",
       },
-      { property: "og:title", content: "Programas — Plataforma PPM" },
+      { property: "og:title", content: "Programas | Plataforma PPM" },
       {
         property: "og:description",
         content: "Acompanhe metas de programas e a hierarquia portfólio → programa → projeto.",
@@ -67,7 +67,7 @@ function Programas() {
               <Panel key={pg.id}>
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
                   <div className="min-w-0">
-                    <p className="truncate text-[11px] uppercase tracking-wide text-muted-foreground">
+                    <p className="truncate text-[11px] uppercase  text-muted-foreground">
                       {pf?.nome}
                     </p>
                     <h3 className="flex items-center gap-2 truncate font-display text-lg font-semibold">{pg.nome} <SeloAcesso tipo="programa" id={pg.id} /></h3>
@@ -105,7 +105,7 @@ function Programas() {
                 </div>
 
                 <div className="mt-4 border-t border-border pt-3">
-                  <p className="mb-2 text-[11px] uppercase tracking-wide text-muted-foreground">
+                  <p className="mb-2 text-[11px] uppercase  text-muted-foreground">
                     Projetos subordinados ({filhos.length})
                   </p>
                   <ul className="space-y-1.5">

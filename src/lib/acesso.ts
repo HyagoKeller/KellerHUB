@@ -122,7 +122,7 @@ export const todosUsuarios = (e: Estado) => [...usuarios, ...(e.importados ?? []
 
 function registrar(e: Estado, acao: string, entidade: string, anterior: string, novo: string): EventoAcesso {
   const u = usuarioPorId(e.simuladoId)!;
-  return { id: nid("ev"), quando: agora(), usuario: u.nome, perfil: u.perfil, acao, entidade, detalhe: `${anterior || "—"} → ${novo || "—"}` };
+  return { id: nid("ev"), quando: agora(), usuario: u.nome, perfil: u.perfil, acao, entidade, detalhe: `${anterior || "Não se aplica"} → ${novo || "Não se aplica"}` };
 }
 const objetoPadrao: AcessoObjeto = { visibilidade: "publica", convidados: [], compartilhadoCom: [] };
 export const acessoDe = (e: Estado, id: string): AcessoObjeto => e.objetos[id] ?? objetoPadrao;

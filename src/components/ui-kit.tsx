@@ -50,7 +50,7 @@ export function Stat({
   return (
     <div className="panel panel-rule relative min-h-32 overflow-hidden p-5">
       <p className="eyebrow text-muted-foreground">{label}</p>
-      <p className="num mt-4 text-[32px] font-bold leading-none text-foreground sm:text-[38px]">
+      <p className="num mt-4 text-[32px] font-semibold leading-none text-foreground sm:text-[38px]">
         {value}
       </p>
       <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px]">

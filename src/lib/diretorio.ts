@@ -1,6 +1,6 @@
 // Simulação de diretório corporativo (Active Directory / Microsoft Entra ID e Google Workspace).
 // Em produção, substituir `buscarDiretorio` por chamada server-side ao Microsoft Graph (/users, /groups)
-// ou Google Admin SDK (directory.users.list) — o formato de retorno permanece o mesmo.
+// ou Google Admin SDK (directory.users.list); o formato de retorno permanece o mesmo.
 export type FonteDiretorio = "ad" | "google";
 export type EntradaDiretorio = { id: string; nome: string; email: string; cargo: string; ou: string };
 

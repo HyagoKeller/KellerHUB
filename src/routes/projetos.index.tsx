@@ -13,13 +13,13 @@ import { moeda, type Projeto } from "@/lib/mock-data";
 export const Route = createFileRoute("/projetos/")({
   head: () => ({
     meta: [
-      { title: "Projetos — Plataforma PPM" },
+      { title: "Projetos | Plataforma PPM" },
       {
         name: "description",
         content:
           "Carteira de projetos com metodologias PMBOK, Ágil e híbrida, controle de prazo, custo, escopo e riscos.",
       },
-      { property: "og:title", content: "Projetos — Plataforma PPM" },
+      { property: "og:title", content: "Projetos | Plataforma PPM" },
       {
         property: "og:description",
         content: "Acompanhe prazo, custo, progresso e saúde de toda a carteira de projetos.",
@@ -84,7 +84,7 @@ function Projetos() {
       <Panel className="mt-4 overflow-x-auto p-0">
         <table className="w-full min-w-[1040px] text-sm">
           <thead>
-            <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
+            <tr className="border-b border-border text-left text-xs uppercase  text-muted-foreground">
               <th className="px-5 py-3 font-medium">Projeto</th>
               <th className="px-5 py-3 font-medium">Portfólio</th>
               <th className="px-5 py-3 font-medium">Metodologia</th>

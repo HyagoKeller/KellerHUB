@@ -45,7 +45,7 @@ export function ViewTabs({
       ))}
       <Link
         to="/configuracoes"
-        className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-border px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+        className="inline-flex items-center gap-1.5 rounded-md border border-dashed border-border px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-primary hover:text-primary"
       >
         <Plus className="h-3.5 w-3.5" /> Nova view
       </Link>

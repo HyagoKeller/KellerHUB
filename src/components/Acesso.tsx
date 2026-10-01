@@ -22,13 +22,13 @@ import {
 import { moeda } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
-/** Valor monetário — oculto (— com cadeado) para o perfil Técnico. */
+/** Valor monetário: oculto ("Sem acesso" com cadeado) para o perfil Técnico. */
 export function Moeda({ v }: { v: number }) {
   const e = useAcessoEstado();
   if (usuarioPorId(e.simuladoId)?.perfil === "Técnico")
     return (
       <span className="inline-flex items-center gap-1 text-muted-foreground" title="Valor restrito ao seu perfil">
-        <Lock className="h-3 w-3" />—
+        <Lock className="h-3 w-3" />Sem acesso
       </span>
     );
   return <>{moeda(v)}</>;
@@ -41,7 +41,7 @@ export function SeloAcesso({ tipo, id }: { tipo: TipoObjeto; id: string }) {
   if (v === "publica") return null;
   if (v === "privada")
     return (
-      <span title="Privado — só convidados veem" className="inline-flex shrink-0 text-warning">
+      <span title="Privado (somente convidados) veem" className="inline-flex shrink-0 text-warning">
         <Lock className="h-3.5 w-3.5" />
       </span>
     );
@@ -50,7 +50,7 @@ export function SeloAcesso({ tipo, id }: { tipo: TipoObjeto; id: string }) {
     .filter(Boolean)
     .join(", ");
   return (
-    <span title={`Compartilhado (somente leitura) com: ${areas || "—"}`} className="inline-flex shrink-0 text-info">
+    <span title={`Compartilhado (somente leitura) com: ${areas || "nenhuma área"}`} className="inline-flex shrink-0 text-info">
       <Share2 className="h-3.5 w-3.5" />
     </span>
   );
@@ -59,7 +59,7 @@ export function SeloAcesso({ tipo, id }: { tipo: TipoObjeto; id: string }) {
 export function AvisoAreas() {
   const { areasExibidas, usuario } = useCarteiraVisivel();
   return (
-    <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/40 px-3 py-1 text-[11px] text-muted-foreground backdrop-blur">
+    <p className="mb-4 inline-flex items-center gap-2 rounded-md border border-border/70 bg-card/40 px-3 py-1 text-[11px] text-muted-foreground backdrop-blur">
       <Eye className="h-3 w-3" />
       Exibindo dados de {areasExibidas.length} {areasExibidas.length === 1 ? "área" : "áreas"} · {usuario.perfil}
     </p>
@@ -108,7 +108,7 @@ export function SimularPerfil() {
     <Popover>
       <PopoverTrigger asChild>
         <button className="glass-control flex items-center gap-2 rounded-xl px-2 py-1.5 transition-colors hover:border-primary/50">
-          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-success text-[11px] font-bold text-success-foreground">{u.iniciais}</div>
+          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-success text-[11px] font-semibold text-success-foreground">{u.iniciais}</div>
           <div className="hidden min-w-0 text-left leading-tight sm:block">
             <p className="truncate text-xs font-medium text-foreground">{u.nome}</p>
             <p className="eyebrow truncate text-muted-foreground">{u.perfil}</p>
@@ -122,7 +122,7 @@ export function SimularPerfil() {
           const areas = e.areas.filter((a) => a.membros.some((m) => m.usuarioId === x.id)).map((a) => a.sigla);
           return (
             <button key={x.id} onClick={() => acesso.simular(x.id)} className="flex w-full items-center gap-3 rounded-md px-2 py-2 text-left hover:bg-muted">
-              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-muted text-[10px] font-bold">{x.iniciais}</span>
+              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-muted text-[10px] font-semibold">{x.iniciais}</span>
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-sm">{x.nome}</span>
                 <span className="block truncate text-[11px] text-muted-foreground">{x.perfil} · {areas.join(", ") || "transversal"}</span>
