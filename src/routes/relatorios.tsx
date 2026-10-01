@@ -14,6 +14,7 @@ import {
 import { AppShell } from "@/components/AppShell";
 import { Panel, PanelTitle, Stat, Tag } from "@/components/ui-kit";
 import { auditoria, relatorios } from "@/lib/mock-data";
+import { useAcessoEstado } from "@/lib/acesso";
 import type { Perfil } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
@@ -471,7 +472,7 @@ function Relatorios() {
               </tr>
             </thead>
             <tbody>
-              {auditoria.map((a) => (
+              {[...logAcesso, ...auditoria].map((a) => (
                 <tr key={a.id} className="border-b border-border/70 last:border-0">
                   <td className="num whitespace-nowrap px-5 py-3 text-muted-foreground">{a.quando}</td>
                   <td className="px-5 py-3">

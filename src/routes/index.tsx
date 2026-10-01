@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { Lock } from "lucide-react";
 import { ViewTabs } from "@/components/ViewTabs";
 import { useViews } from "@/lib/views";
 
@@ -138,7 +139,7 @@ function Dashboard() {
         {show("execucao") && (
         <Panel className={show("status") ? "xl:col-span-2" : ""}>
 
-          <PanelTitle title="Execução orçamentária acumulada" hint="R$ milhões · 2026" />
+          {ocultarValores ? (<><PanelTitle title="Execução orçamentária acumulada" hint="restrito" /><p className="flex items-center gap-2 py-16 text-sm text-muted-foreground"><Lock className="h-4 w-4" /> Valores em R$ ocultos para o seu perfil.</p></>) : (<><PanelTitle title="Execução orçamentária acumulada" hint="R$ milhões · 2026" />
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={execucaoMensal} margin={{ left: -18, right: 8, top: 8 }}>
@@ -174,6 +175,7 @@ function Dashboard() {
               </LineChart>
             </ResponsiveContainer>
           </div>
+        </>)}
         </Panel>
         )}
 

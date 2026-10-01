@@ -13,7 +13,9 @@ import {
 import { AppShell } from "@/components/AppShell";
 import { ViewTabs } from "@/components/ViewTabs";
 import { Barra, Panel, PanelTitle, Stat, Tag } from "@/components/ui-kit";
-import { indicadores } from "@/lib/mock-data";
+import { indicadores as todosIndicadores } from "@/lib/mock-data";
+import { useCarteiraVisivel } from "@/lib/acesso";
+import { AvisoAreas } from "@/components/Acesso";
 import { useViews } from "@/lib/views";
 
 
@@ -38,7 +40,7 @@ export const Route = createFileRoute("/indicadores")({
   component: Indicadores,
 });
 
-function atingimento(i: (typeof indicadores)[number]) {
+function atingimento(i: (typeof todosIndicadores)[number]) {
   return i.polaridade === "maior"
     ? Math.round((i.atual / i.meta) * 100)
     : Math.round((i.meta / i.atual) * 100);
@@ -51,12 +53,13 @@ function Indicadores() {
   const [ativa, setAtiva] = useState("padrao");
   const view = views.find((v) => v.id === ativa);
   const show = (bloco: string) => !view || view.blocos.includes(bloco);
+  const { indicadores } = useCarteiraVisivel();
 
 
   const toggle = (id: string) =>
     setSelecionados((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
 
-  const serie = indicadores[0].historico.map((h, idx) => {
+  const serie = (indicadores[0]?.historico ?? []).map((h, idx) => {
     const linha: Record<string, string | number> = { periodo: h.periodo };
     indicadores
       .filter((i) => selecionados.includes(i.id))
@@ -86,6 +89,7 @@ function Indicadores() {
         </>
       }
     >
+      <AvisoAreas />
       <ViewTabs views={views} ativa={ativa} onChange={setAtiva} />
 
       {show("kpis") && (
