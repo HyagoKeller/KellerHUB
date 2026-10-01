@@ -15,7 +15,7 @@ export function Panel({
   return (
     <section
       className={cn(
-        "panel overflow-hidden p-5 backdrop-blur-2xl",
+        "panel overflow-hidden p-6 backdrop-blur-2xl",
         rule === "ink" && "panel-rule",
         rule === "primary" && "panel-rule-primary",
         rule === "accent" && "panel-rule-accent",
@@ -48,9 +48,9 @@ export function Stat({
   hint?: string;
 }) {
   return (
-    <div className="panel panel-rule relative min-h-32 overflow-hidden p-5">
+    <div className="panel panel-rule relative min-h-32 overflow-hidden p-6">
       <p className="eyebrow text-muted-foreground">{label}</p>
-      <p className="num mt-4 text-[32px] font-bold leading-none text-foreground sm:text-[38px]">
+      <p className="num mt-4 text-[32px] font-semibold leading-none text-foreground sm:text-[38px]">
         {value}
       </p>
       <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px]">
@@ -128,7 +128,7 @@ export function Barra({ valor, tom = "accent" }: { valor: number; tom?: "accent"
   return (
     <div className="h-2.5 w-full overflow-hidden rounded-full border border-border bg-muted">
       <div
-        className={cn("h-full rounded-full transition-all duration-500", tom === "accent" ? "bg-foreground" : "bg-primary")}
+        className={cn("h-full rounded-full transition-all duration-200", tom === "accent" ? "bg-foreground" : "bg-primary")}
         style={{ width: `${Math.min(100, Math.max(0, valor))}%` }}
       />
     </div>

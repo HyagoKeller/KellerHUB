@@ -34,13 +34,13 @@ import { paletas, usePortal, type ConfigPortal, type PaletaId } from "@/lib/port
 export const Route = createFileRoute("/configuracoes")({
   head: () => ({
     meta: [
-      { title: "Configurações e Integrações — Plataforma PPM" },
+      { title: "Configurações e Integrações | Plataforma PPM" },
       {
         name: "description",
         content:
           "Integrações com Microsoft 365, Google Workspace e Power BI, segmentação por perfil de acesso e criação de views personalizadas.",
       },
-      { property: "og:title", content: "Configurações e Integrações — Plataforma PPM" },
+      { property: "og:title", content: "Configurações e Integrações | Plataforma PPM" },
       {
         property: "og:description",
         content:
@@ -265,7 +265,7 @@ function Configuracoes() {
             </h2>
             <p className="mt-1 text-[11px] text-muted-foreground">
               {portalAlterado
-                ? "Alterações não salvas — clique em Salvar para aplicar."
+                ? "Alterações não salvas. Clique em Salvar para aplicar."
                 : "Nome, logo, paleta e modo de exibição da organização."}
             </p>
           </div>
@@ -541,7 +541,7 @@ function Configuracoes() {
             </h2>
             <p className="mt-1 text-[11px] text-muted-foreground">
               {motorAlterado
-                ? "Alterações não salvas — clique em Salvar para aplicar."
+                ? "Alterações não salvas. Clique em Salvar para aplicar."
                 : `Em uso: ${motor.nome}`}
             </p>
           </div>
@@ -568,7 +568,7 @@ function Configuracoes() {
           O assistente é independente do fornecedor: troque o motor sem alterar módulos, dados ou
           telas da plataforma. Os motores internos (IA nativa, ChatGPT e Gemini) rodam pela conta de IA
           da própria plataforma: o consumo entra no plano contratado, sem cobrança separada por
-          consulta para a organização. Se preferir, conecte a sua própria conta OpenAI ou Google —
+          consulta para a organização. Se preferir, conecte a sua própria conta OpenAI ou Google:
           aí o consumo passa a ser cobrado diretamente pelo fornecedor.
         </p>
 
@@ -711,7 +711,7 @@ function Configuracoes() {
                       setBlocos([]);
                     }}
                     className={cn(
-                      "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors",
+                      "rounded-md border px-3.5 py-1.5 text-xs font-semibold transition-colors",
                       escopo === e
                         ? "border-primary bg-primary text-primary-foreground"
                         : "border-border text-muted-foreground hover:text-foreground",
@@ -741,7 +741,7 @@ function Configuracoes() {
                     key={b.id}
                     onClick={() => alternarBloco(b.id)}
                     className={cn(
-                      "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                      "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
                       blocos.includes(b.id)
                         ? "border-info/50 bg-info/15 text-info"
                         : "border-border text-muted-foreground hover:text-foreground",
@@ -761,7 +761,7 @@ function Configuracoes() {
                     key={p}
                     onClick={() => alternarPerfil(p)}
                     className={cn(
-                      "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                      "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
                       perfisView.includes(p)
                         ? "border-success/50 bg-success/15 text-success"
                         : "border-border text-muted-foreground hover:text-foreground",

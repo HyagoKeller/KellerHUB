@@ -22,13 +22,13 @@ import { useViews } from "@/lib/views";
 export const Route = createFileRoute("/indicadores")({
   head: () => ({
     meta: [
-      { title: "Indicadores de Desempenho — Plataforma PPM" },
+      { title: "Indicadores de Desempenho | Plataforma PPM" },
       {
         name: "description",
         content:
           "Cadastro de KPIs com fórmula, meta, periodicidade, histórico de valores e exportação em formatos abertos.",
       },
-      { property: "og:title", content: "Indicadores de Desempenho — Plataforma PPM" },
+      { property: "og:title", content: "Indicadores de Desempenho | Plataforma PPM" },
       {
         property: "og:description",
         content: "Dashboards parametrizáveis de KPIs com exportação CSV/XLSX para Power BI.",
@@ -113,7 +113,7 @@ function Indicadores() {
       <Panel className="mt-4">
 
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 pb-4">
-          <h2 className="truncate font-display text-sm font-semibold uppercase tracking-wide">
+          <h2 className="truncate font-display text-sm font-semibold uppercase ">
             Dashboard parametrizável
           </h2>
           <select
@@ -133,8 +133,8 @@ function Indicadores() {
               onClick={() => toggle(i.id)}
               className={
                 selecionados.includes(i.id)
-                  ? "rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground"
-                  : "rounded-full border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted"
+                  ? "rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground"
+                  : "rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted"
               }
             >
               {i.nome}
@@ -184,7 +184,7 @@ function Indicadores() {
                 <p className="min-w-0 truncate font-medium">{i.nome}</p>
                 <Tag tom={pct >= 100 ? "success" : pct >= 80 ? "accent" : "danger"}>{pct}%</Tag>
               </div>
-              <p className="num mt-2 font-display text-2xl font-bold">
+              <p className="num mt-2 font-display text-2xl font-semibold">
                 {i.atual.toLocaleString("pt-BR")}{" "}
                 <span className="text-sm font-normal text-muted-foreground">
                   {i.unidade} · meta {i.meta.toLocaleString("pt-BR")}

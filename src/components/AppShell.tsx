@@ -8,7 +8,7 @@ import {
   Target,
   Gauge,
   ShieldAlert,
-  BrainCircuit,
+  MessageSquareText,
   FileBarChart,
   Settings,
   Menu,
@@ -36,7 +36,7 @@ const nav = [
   { to: "/indicadores", label: "Indicadores", icon: Gauge },
   { to: "/riscos", label: "Riscos", icon: ShieldAlert },
   { to: "/relatorios", label: "Relatórios", icon: FileBarChart },
-  { to: "/assistente", label: "Assistente IA", icon: BrainCircuit },
+  { to: "/assistente", label: "Assistente", icon: MessageSquareText },
   { to: "/configuracoes", label: "Configurações", icon: Settings },
 ] as const;
 
@@ -78,7 +78,7 @@ function Logo({ className, logo, nome }: { className?: string; logo?: string; no
         </div>
       )}
       <div className="min-w-0">
-        <p className="truncate font-display text-base font-bold text-sidebar-accent-foreground">
+        <p className="truncate font-display text-base font-semibold text-sidebar-accent-foreground">
           {nome || "Hepta"}
         </p>
         <p className="eyebrow truncate text-sidebar-foreground/50">Gestão PPM</p>
@@ -157,7 +157,6 @@ export function AppShell({
   return (
     <div className="liquid-workspace min-h-screen w-full bg-background">
       <div className="liquid-atmosphere" aria-hidden="true">
-        <div className="liquid-atmosphere__flow" />
       </div>
        <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-sidebar-border/70 bg-sidebar/66 shadow-2xl shadow-background/30 backdrop-blur-3xl lg:block">
         <SidebarBody />
@@ -224,7 +223,7 @@ export function AppShell({
                 className="relative text-muted-foreground hover:text-foreground"
               >
                 <Bell className="h-4 w-4" />
-                <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary shadow-sm shadow-primary/40" />
+                <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary" />
               </Button>
               <SimularPerfil />
             </div>
@@ -234,8 +233,8 @@ export function AppShell({
         <main className="mx-auto max-w-[1680px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
           <div className="flex flex-col gap-4 pb-6 sm:flex-row sm:items-end sm:justify-between">
             <div className="min-w-0">
-              <p className="eyebrow text-muted-foreground">Project management <span className="px-1.5 text-border">/</span> <span className="text-primary">{title}.</span></p>
-              <h1 className="mt-2 truncate font-display text-[28px] font-bold sm:text-[38px]">
+              <p className="text-xs text-muted-foreground">Gestão de projetos <span className="px-1.5 text-border">/</span> <span className="text-foreground">{title}</span></p>
+              <h1 className="mt-2 truncate font-display text-2xl font-semibold">
                 {title}
               </h1>
               {description && (

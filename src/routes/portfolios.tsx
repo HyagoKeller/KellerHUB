@@ -13,13 +13,13 @@ import { moeda, type Portfolio } from "@/lib/mock-data";
 export const Route = createFileRoute("/portfolios")({
   head: () => ({
     meta: [
-      { title: "Portfólios — Plataforma PPM" },
+      { title: "Portfólios | Plataforma PPM" },
       {
         name: "description",
         content:
           "Cadastro, priorização e visão consolidada de portfólios institucionais e temáticos com indicadores agregados.",
       },
-      { property: "og:title", content: "Portfólios — Plataforma PPM" },
+      { property: "og:title", content: "Portfólios | Plataforma PPM" },
       {
         property: "og:description",
         content: "Priorize portfólios por score e acompanhe orçamento, progresso e riscos consolidados.",
@@ -98,7 +98,7 @@ function Portfolios() {
                     </div>
                     <div className="flex shrink-0 items-center gap-2">
                       <div className="text-right">
-                        <p className="num font-display text-lg font-bold">{p.score}</p>
+                        <p className="num font-display text-lg font-semibold">{p.score}</p>
                         <p className="text-[11px] text-muted-foreground">score</p>
                       </div>
                       <BotaoAcesso nome={p.nome} onClick={() => setAcessoDe(p)} />
@@ -113,14 +113,14 @@ function Portfolios() {
                   </div>
                   <div className="mt-3 grid gap-3 sm:grid-cols-3">
                     <div>
-                      <p className="text-[11px] uppercase text-muted-foreground">Progresso</p>
+                      <p className="text-[11px] text-muted-foreground">Progresso</p>
                       <div className="mt-1.5 flex items-center gap-2">
                         <Barra valor={p.progresso} />
                         <span className="num text-xs">{p.progresso}%</span>
                       </div>
                     </div>
                     <div>
-                      <p className="text-[11px] uppercase text-muted-foreground">Execução</p>
+                      <p className="text-[11px] text-muted-foreground">Execução</p>
                       <p className="num mt-1 text-sm">
                         <Moeda v={p.executado} />{" "}
                         <span className="text-xs text-muted-foreground">/ <Moeda v={p.orcamento} /></span>
@@ -144,7 +144,7 @@ function Portfolios() {
                 {["Avaliar", "Prioritário", "Descartar", "Rápida vitória"].map((q) => (
                   <div
                     key={q}
-                    className="flex items-start justify-end border border-border/60 p-2 text-[10px] uppercase text-muted-foreground"
+                    className="flex items-start justify-end border border-border/60 p-2 text-[10px] text-muted-foreground"
                   >
                     {q}
                   </div>
@@ -154,7 +154,7 @@ function Portfolios() {
                 <div
                   key={p.id}
                   title={p.nome}
-                  className="absolute grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-accent text-[10px] font-bold text-accent-foreground"
+                  className="absolute grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground"
                   style={{ left: `${12 + ((i * 76) / Math.max(1, portfolios.length - 1))}%`, top: `${75 - p.score / 2}%` }}
                 >
                   P{i + 1}

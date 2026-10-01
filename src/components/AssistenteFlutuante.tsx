@@ -106,14 +106,14 @@ export function AssistenteFlutuante() {
 
   return (
     <>
-      <Button onClick={abrir} aria-label={`Abrir ${nome}`} className={cn("fixed bottom-5 right-5 z-40 h-14 rounded-full px-3 shadow-2xl shadow-primary/30", aberto && "pointer-events-none opacity-0")}>
+      <Button onClick={abrir} aria-label={`Abrir ${nome}`} className={cn("fixed bottom-5 right-5 z-40 h-12 rounded-lg px-3 shadow-xl", aberto && "pointer-events-none opacity-0")}>
         <AssistenteMarca estilo={estilo} imagem={config.iconeAssistente} className="h-9 w-9 shrink-0 rounded-full" />
         <span className="hidden max-w-44 truncate pr-2 sm:block">{nome}</span>
       </Button>
       {aberto && (
         <div className="fixed inset-0 z-50">
           <Button type="button" variant="ghost" aria-label="Fechar assistente" onClick={() => setAberto(false)} className="absolute inset-0 h-auto w-auto cursor-default rounded-none bg-foreground/20 p-0 backdrop-blur-[2px] hover:bg-foreground/20" />
-          <aside role="dialog" aria-modal="true" aria-label={nome} className="panel animate-slide-in-right absolute inset-y-2 right-2 flex w-[calc(100%-1rem)] max-w-[820px] flex-col overflow-hidden rounded-xl border-border/80 p-0 shadow-2xl sm:inset-y-4 sm:right-4 sm:w-[min(58vw,820px)]">
+          <aside role="dialog" aria-modal="true" aria-label={nome} className="panel absolute inset-y-2 right-2 flex w-[calc(100%-1rem)] max-w-[820px] flex-col overflow-hidden rounded-xl border-border/80 p-0 shadow-2xl sm:inset-y-4 sm:right-4 sm:w-[min(58vw,820px)]">
             <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-border/60 px-4 py-3 sm:px-5">
               <div className="flex min-w-0 items-center gap-3">
                 <AssistenteMarca estilo={estilo} imagem={config.iconeAssistente} className="h-10 w-10 shrink-0 rounded-xl" />

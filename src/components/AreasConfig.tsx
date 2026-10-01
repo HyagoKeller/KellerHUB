@@ -14,10 +14,10 @@ const matriz: { recurso: string; tecnico: string; gestor: string; alta: string; 
   { recurso: "Riscos e planos de resposta", tecnico: "Editar · próprios itens", gestor: "Editar · minhas áreas", alta: "Ler · todas as áreas", pmo: "Editar · todas as áreas" },
   { recurso: "Itens compartilhados com minha área", tecnico: "Ler · áreas compartilhadas", gestor: "Ler · áreas compartilhadas", alta: "Ler · todas as áreas", pmo: "Ler · todas as áreas" },
   { recurso: "Orçamento e valores em R$", tecnico: "Oculto", gestor: "Ler · minhas áreas", alta: "Ler · todas as áreas", pmo: "Ler · todas as áreas" },
-  { recurso: "Relatórios executivos e exportações", tecnico: "—", gestor: "Gerar · minhas áreas", alta: "Gerar · todas as áreas", pmo: "Gerar · todas as áreas" },
-  { recurso: "Trilha de auditoria e LGPD", tecnico: "—", gestor: "Ler · minhas áreas", alta: "Ler · todas as áreas", pmo: "Ler · todas as áreas" },
-  { recurso: "Áreas, membros e visibilidade", tecnico: "—", gestor: "—", alta: "—", pmo: "Administrar" },
-  { recurso: "Integrações e configurações", tecnico: "—", gestor: "—", alta: "—", pmo: "Administrar" },
+  { recurso: "Relatórios executivos e exportações", tecnico: "Sem acesso", gestor: "Gerar · minhas áreas", alta: "Gerar · todas as áreas", pmo: "Gerar · todas as áreas" },
+  { recurso: "Trilha de auditoria e LGPD", tecnico: "Sem acesso", gestor: "Ler · minhas áreas", alta: "Ler · todas as áreas", pmo: "Ler · todas as áreas" },
+  { recurso: "Áreas, membros e visibilidade", tecnico: "Sem acesso", gestor: "Sem acesso", alta: "Sem acesso", pmo: "Administrar" },
+  { recurso: "Integrações e configurações", tecnico: "Sem acesso", gestor: "Sem acesso", alta: "Sem acesso", pmo: "Administrar" },
 ];
 
 function Celula({ v }: { v: string }) {
@@ -26,7 +26,7 @@ function Celula({ v }: { v: string }) {
   return (
     <span className="flex flex-col gap-1">
       <span className="text-xs font-medium text-foreground">{acao}</span>
-      <span className="w-fit rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] text-primary">{escopo}</span>
+      <span className="w-fit rounded-md border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] text-primary">{escopo}</span>
     </span>
   );
 }
@@ -118,7 +118,7 @@ export function AreasConfig() {
         ].map(([n, t, d]) => (
           <div key={n} className="rounded-2xl border border-border bg-card/50 p-4">
             <div className="flex items-center gap-2">
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">{n}</span>
+              <span className="grid h-6 w-6 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">{n}</span>
               <p className="text-sm font-semibold">{t}</p>
             </div>
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{d}</p>
@@ -186,7 +186,7 @@ export function AreasConfig() {
                 <div className="space-y-1.5"><span className="text-xs text-muted-foreground">Visibilidade</span>
                   <div className="flex gap-2">
                     {(["Aberta", "Restrita"] as const).map((v) => (
-                      <button key={v} onClick={() => setForm({ ...form, visibilidade: v })} className={`rounded-full border px-3 py-1.5 text-xs font-semibold ${form.visibilidade === v ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground"}`}>{v}</button>
+                      <button key={v} onClick={() => setForm({ ...form, visibilidade: v })} className={`rounded-md border px-3 py-1.5 text-xs font-semibold ${form.visibilidade === v ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground"}`}>{v}</button>
                     ))}
                   </div></div>
               </div>

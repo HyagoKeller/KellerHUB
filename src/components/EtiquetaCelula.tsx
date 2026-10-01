@@ -70,7 +70,7 @@ export function EtiquetaCelula({
             className,
           )}
         >
-          {valor || "—"}
+          {valor || "Não se aplica"}
         </button>
       </PopoverTrigger>
       <PopoverContent className="panel w-64 p-3" align="start">

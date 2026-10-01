@@ -21,13 +21,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/relatorios")({
   head: () => ({
     meta: [
-      { title: "Relatórios e Publicação — Plataforma PPM" },
+      { title: "Relatórios e Publicação | Plataforma PPM" },
       {
         name: "description",
         content:
           "Publicação de painéis com link público ou link autenticado restrito a perfis liberados, exportação em CSV, XLSX e JSON e trilha de auditoria.",
       },
-      { property: "og:title", content: "Relatórios e Publicação — Plataforma PPM" },
+      { property: "og:title", content: "Relatórios e Publicação | Plataforma PPM" },
       {
         property: "og:description",
         content:
@@ -235,7 +235,7 @@ function Relatorios() {
           </div>
           <table className="w-full min-w-[720px] text-sm">
             <thead>
-              <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
+              <tr className="border-b border-border text-left text-xs uppercase  text-muted-foreground">
                 <th className="px-5 py-3 font-medium">Relatório</th>
                 <th className="px-5 py-3 font-medium">Acesso</th>
                 <th className="px-5 py-3 font-medium">Perfis liberados</th>
@@ -360,7 +360,7 @@ function Relatorios() {
                       key={p}
                       onClick={() => alternarPerfil(selecionado, p)}
                       className={cn(
-                        "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                        "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
                         atual.perfis.includes(p)
                           ? "border-success/50 bg-success/15 text-success"
                           : "border-border text-muted-foreground hover:text-foreground",
@@ -433,10 +433,10 @@ function Relatorios() {
                       <button
                         role="switch"
                         aria-checked={atual.acoes[p][a]}
-                        aria-label={`${a} — ${p}`}
+                        aria-label={`${a}: ${p}`}
                         onClick={() => alternarAcao(selecionado, p, a)}
                         className={cn(
-                          "inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-[11px] font-semibold transition-colors",
+                          "inline-flex h-7 items-center gap-1.5 rounded-md border px-2.5 text-[11px] font-semibold transition-colors",
                           atual.acoes[p][a]
                             ? "border-success/50 bg-success/15 text-success"
                             : "border-border text-muted-foreground hover:text-foreground",
@@ -464,7 +464,7 @@ function Relatorios() {
           </div>
           <table className="w-full min-w-[640px] text-sm">
             <thead>
-              <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
+              <tr className="border-b border-border text-left text-xs uppercase  text-muted-foreground">
                 <th className="px-5 py-3 font-medium">Data/hora</th>
                 <th className="px-5 py-3 font-medium">Usuário</th>
                 <th className="px-5 py-3 font-medium">Ação</th>
