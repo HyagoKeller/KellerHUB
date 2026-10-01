@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { EMAIL_SUPERADMIN, garantirSuperadmin } from "@/lib/auth";
+import { RodapeInstitucional } from "@/components/RodapeInstitucional";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>) => ({ next: typeof search.next === "string" ? search.next : "/" }),
@@ -80,7 +81,8 @@ function AuthPage() {
   return (
     <main className="liquid-workspace relative grid min-h-screen place-items-center overflow-hidden bg-background px-4 py-10 text-foreground">
       <div className="liquid-atmosphere" aria-hidden="true"><div className="liquid-blob liquid-blob-a" /><div className="liquid-blob liquid-blob-b" /><div className="liquid-blob liquid-blob-c" /></div>
-      <section className="panel relative z-10 w-full max-w-md p-6 sm:p-8">
+      <div className="relative z-10 w-full max-w-md">
+      <section className="panel p-6 sm:p-8">
         <div className="mb-7 flex items-center gap-3">
           <div className="grid h-11 w-11 place-items-center rounded-xl bg-primary text-primary-foreground"><ShieldCheck className="h-5 w-5" /></div>
           <div><h1 className="font-display text-xl font-semibold">Keller Hub</h1><p className="text-sm text-muted-foreground">Ambiente de demonstração</p></div>
@@ -103,6 +105,8 @@ function AuthPage() {
           {modo === "entrar" && <Button variant="link" className="h-auto p-0" onClick={() => void recuperar()} disabled={ocupado}>Esqueci minha senha</Button>}
         </div>
       </section>
+      <RodapeInstitucional className="mt-6" />
+      </div>
     </main>
   );
 }

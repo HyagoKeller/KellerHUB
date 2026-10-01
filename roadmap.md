@@ -14,5 +14,6 @@
 - [x] Revisar os manuais contra as regras efetivas de acesso e validar a apresentação da nova marca
 - [x] Substituir as cartilhas por manuais operacionais completos, com menus, telas, campos, procedimentos, exemplos e solução de problemas
 - [x] Adicionar elementos, subelementos e atualizações contextuais aos projetos, com testes e documentação completa
-- [x] Publicar demonstração temporária protegida por login e conta Superadministrador autorizada
+- [ ] Publicar demonstração temporária protegida por login e conta Superadministrador autorizada, aguardando autorização do usuário
 - [ ] Verificar e configurar o domínio próprio kellerhub-demo.com
+- [x] Adicionar crédito de desenvolvimento e direitos reservados, mantendo a publicação pausada

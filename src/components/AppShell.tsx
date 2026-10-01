@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/button";
 import { AssistenteFlutuante } from "@/components/AssistenteFlutuante";
 import { BuscaGlobal, SeletorArea, SimularPerfil } from "@/components/Acesso";
 import { supabase } from "@/integrations/supabase/client";
+import { RodapeInstitucional } from "@/components/RodapeInstitucional";
 
 
 const nav = [
@@ -261,6 +262,7 @@ export function AppShell({
             {actions && <div className="flex shrink-0 flex-wrap gap-2">{actions}</div>}
           </div>
           <div className="pt-2">{children}</div>
+          <RodapeInstitucional className="pb-2 pt-10" />
         </main>
       </div>
       {!pathname.startsWith("/assistente") && <AssistenteFlutuante />}
