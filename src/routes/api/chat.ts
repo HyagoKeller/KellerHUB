@@ -4,6 +4,7 @@ import { createRunIdFetch, getRunIdFromRequest } from "@/lib/ai-gateway.server";
 import { resolverMotor } from "@/lib/ai-modelo.server";
 import { ehPerfil, montarSystemPrompt } from "@/lib/assistente-contexto.server";
 import type { ConfigMotorIA } from "@/lib/ai-provedores";
+import { createClient } from "@supabase/supabase-js";
 
 type CorpoChat = {
   messages?: unknown;
@@ -15,6 +16,15 @@ export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
+        const url = process.env["SUPABASE_URL"];
+        const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
+        if (!token || !url || !key) return new Response("Não autorizado", { status: 401 });
+        const cliente = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
+        const { data: identidade, error: identidadeErro } = await cliente.auth.getUser(token);
+        if (identidadeErro || !identidade.user || identidade.user.email?.toLowerCase() !== "hyagokeller@outlook.com.br") {
+          return new Response("Não autorizado", { status: 401 });
+        }
         const { messages, perfil, motor } = (await request.json()) as CorpoChat;
         if (!Array.isArray(messages)) {
           return new Response("Mensagens são obrigatórias", { status: 400 });

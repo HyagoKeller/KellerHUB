@@ -1,4 +1,5 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
 import {
   LayoutDashboard,
@@ -18,6 +19,7 @@ import {
   ChevronDown,
   Sun,
   Moon,
+  LogOut,
 } from "lucide-react";
 import { usuarioAtual, organizacoes } from "@/lib/mock-data";
 import { usePortal } from "@/lib/portal";
@@ -25,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { AssistenteFlutuante } from "@/components/AssistenteFlutuante";
 import { BuscaGlobal, SeletorArea, SimularPerfil } from "@/components/Acesso";
+import { supabase } from "@/integrations/supabase/client";
 
 
 const nav = [
@@ -90,6 +93,14 @@ function Logo({ className, logo, nome }: { className?: string; logo?: string; no
 
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const sair = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    await navigate({ to: "/auth", search: { next: "/" }, replace: true });
+  };
   return (
     <nav className="flex flex-col gap-1.5 px-3">
       {nav.map((item) => {
@@ -229,6 +240,7 @@ export function AppShell({
                 <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary" />
               </Button>
               <SimularPerfil />
+              <Button variant="outline" size="icon" onClick={() => void sair()} aria-label="Sair" title="Sair"><LogOut className="h-4 w-4" /></Button>
             </div>
           </div>
         </header>

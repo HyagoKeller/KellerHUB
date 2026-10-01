@@ -14,6 +14,7 @@ import { useMotorIA } from "@/lib/ai-provedores";
 import { usuarioAtual } from "@/lib/mock-data";
 import { usePortal } from "@/lib/portal";
 import { cn } from "@/lib/utils";
+import { authenticatedFetch } from "@/lib/auth";
 
 const sugestoes = [
   "Resuma os riscos críticos do portfólio.",
@@ -27,7 +28,7 @@ function ChatFlutuante({ id, rascunho, setRascunho }: { id: string; rascunho: st
   const iniciais = useMemo<UIMessage[]>(() => conversa?.mensagens ?? [], [conversa?.id]);
   const { config: motorConfig } = useMotorIA();
   const [erro, setErro] = useState<string | null>(null);
-  const transporte = useMemo(() => new DefaultChatTransport({ api: "/api/chat", body: { perfil: usuarioAtual.perfil, motor: motorConfig } }), [motorConfig]);
+  const transporte = useMemo(() => new DefaultChatTransport({ api: "/api/chat", body: { perfil: usuarioAtual.perfil, motor: motorConfig }, fetch: authenticatedFetch }), [motorConfig]);
   const { messages, sendMessage, status, stop } = useChat({
     id,
     messages: iniciais,

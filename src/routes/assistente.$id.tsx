@@ -25,6 +25,7 @@ import { usePortal } from "@/lib/portal";
 import { AssistenteMarca, type EstiloAssistente } from "@/components/AssistenteMarca";
 
 import { cn } from "@/lib/utils";
+import { authenticatedFetch } from "@/lib/auth";
 
 export const Route = createFileRoute("/assistente/$id")({
   head: () => ({
@@ -73,6 +74,7 @@ function Assistente() {
       new DefaultChatTransport({
         api: "/api/chat",
         body: { perfil: usuarioAtual.perfil, motor: motorConfig },
+        fetch: authenticatedFetch,
       }),
     [motorConfig],
   );

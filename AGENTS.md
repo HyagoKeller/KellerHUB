@@ -14,3 +14,4 @@
 - Visibilidade por área (perfil × escopo) centralizada em src/lib/acesso.ts (useCarteiraVisivel); telas nunca leem a carteira bruta para listar/somar — garante que listas, busca e KPIs respeitem o acesso.
 - A marca do produto é Keller Hub; a organização continua personalizável e independente da marca do produto.
 - Project work items and contextual updates live in the persistent project-work store and inherit the parent project's effective access, keeping execution details aligned with area governance.
+- Authentication is enforced globally through Lovable Cloud, while administrative roles stay in a separate RLS-protected role table to prevent client-side privilege escalation.
