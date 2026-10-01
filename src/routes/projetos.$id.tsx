@@ -78,12 +78,12 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
           >
             Voltar
           </Link>
-          <button
+          {podeEditar("projeto", projeto.id) && <button
             onClick={() => setEditar(true)}
             className="rounded-md border border-border bg-card px-3 py-2 text-sm font-medium hover:bg-muted"
           >
             Editar projeto
-          </button>
+          </button>}
           <button className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
             Novo status report
           </button>
