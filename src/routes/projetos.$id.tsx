@@ -69,6 +69,7 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
   const portfolio = portfolioDe(projeto, portfolios);
   const riscosProjeto = riscos.filter((r) => r.origem === portfolio?.nome || r.categoria === "Projeto").slice(0, 4);
   const totalSemanas = 90;
+  const cronogramaProjeto = cronograma.filter((fase) => fase.projetoId === projeto.id);
 
   return (
     <AppShell
@@ -196,9 +197,9 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
 
         {aba === "Cronograma" && (
           <Panel>
-            <PanelTitle title="Cronograma (Gantt)" hint="90 semanas" />
-            <div className="space-y-3">
-              {cronograma.map((f) => (
+            <PanelTitle title="Cronograma (Gantt)" hint={cronogramaProjeto.length ? "90 semanas" : "sem fases cadastradas"} />
+            {cronogramaProjeto.length ? <div className="space-y-3">
+              {cronogramaProjeto.map((f) => (
                 <div key={f.fase} className="grid grid-cols-[minmax(0,1fr)] gap-1.5 sm:grid-cols-[180px_minmax(0,1fr)] sm:items-center sm:gap-3">
                   <p className="truncate text-sm">{f.fase}</p>
                   <div className="relative h-7 rounded-md bg-muted">
@@ -217,7 +218,7 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
                   </div>
                 </div>
               ))}
-            </div>
+            </div> : <p className="text-sm text-muted-foreground">Nenhuma fase cadastrada para este projeto.</p>}
           </Panel>
         )}
 

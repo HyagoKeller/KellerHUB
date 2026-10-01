@@ -189,7 +189,7 @@ O detalhe possui as abas:
 
 - **Visão geral:** escopo, entregas, recursos e qualidade.
 - **Elementos:** estrutura operacional agrupada por status, com elementos e subelementos expansíveis.
-- **Cronograma:** fases, duração e percentual realizado.
+- **Cronograma:** fases vinculadas ao projeto aberto, duração e percentual realizado.
 - **Kanban:** tarefas em Para fazer, Em curso, Revisão, Bloqueado e Concluído.
 - **Riscos:** riscos relacionados, severidade, plano, responsável e prazo.
 - **Status reports:** histórico de atualizações periódicas.
@@ -324,6 +324,7 @@ Configurações reúne identidade do portal, experiência de acesso, preferênci
 ## 15. Limitações da versão demonstrativa
 
 - Os dados da carteira e as configurações são mantidos no navegador.
+- Elementos, subelementos e atualizações também são mantidos no navegador e vinculados ao projeto correspondente.
 - A busca em Active Directory e Google Workspace usa registros simulados.
 - Alguns botões demonstram pontos de entrada, mas não concluem um fluxo persistente.
 - Os links de publicação são demonstrativos.
