@@ -113,14 +113,14 @@ function Portfolios() {
                   </div>
                   <div className="mt-3 grid gap-3 sm:grid-cols-3">
                     <div>
-                      <p className="text-[11px] uppercase text-muted-foreground">Progresso</p>
+                      <p className="text-[11px] text-muted-foreground">Progresso</p>
                       <div className="mt-1.5 flex items-center gap-2">
                         <Barra valor={p.progresso} />
                         <span className="num text-xs">{p.progresso}%</span>
                       </div>
                     </div>
                     <div>
-                      <p className="text-[11px] uppercase text-muted-foreground">Execução</p>
+                      <p className="text-[11px] text-muted-foreground">Execução</p>
                       <p className="num mt-1 text-sm">
                         <Moeda v={p.executado} />{" "}
                         <span className="text-xs text-muted-foreground">/ <Moeda v={p.orcamento} /></span>
@@ -144,7 +144,7 @@ function Portfolios() {
                 {["Avaliar", "Prioritário", "Descartar", "Rápida vitória"].map((q) => (
                   <div
                     key={q}
-                    className="flex items-start justify-end border border-border/60 p-2 text-[10px] uppercase text-muted-foreground"
+                    className="flex items-start justify-end border border-border/60 p-2 text-[10px] text-muted-foreground"
                   >
                     {q}
                   </div>

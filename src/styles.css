@@ -69,7 +69,7 @@
 :root {
   --radius: 0.75rem;
 
-  /* Modo claro — vidro óptico sobre uma base azul atmosférica */
+  /* Modo claro: vidro óptico sobre uma base azul atmosférica */
   --paper: oklch(0.985 0.01 242);
   --ink: oklch(0.22 0.025 252);
   --background: oklch(0.955 0.025 242);

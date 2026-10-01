@@ -67,7 +67,7 @@ function Programas() {
               <Panel key={pg.id}>
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
                   <div className="min-w-0">
-                    <p className="truncate text-[11px] uppercase  text-muted-foreground">
+                    <p className="truncate text-[11px] text-muted-foreground">
                       {pf?.nome}
                     </p>
                     <h3 className="flex items-center gap-2 truncate font-display text-lg font-semibold">{pg.nome} <SeloAcesso tipo="programa" id={pg.id} /></h3>
@@ -105,7 +105,7 @@ function Programas() {
                 </div>
 
                 <div className="mt-4 border-t border-border pt-3">
-                  <p className="mb-2 text-[11px] uppercase  text-muted-foreground">
+                  <p className="mb-2 text-[11px] text-muted-foreground">
                     Projetos subordinados ({filhos.length})
                   </p>
                   <ul className="space-y-1.5">
