@@ -15,6 +15,8 @@ export type MotorIA = {
   descricao: string;
   /** true quando o processamento fica na infraestrutura contratada (sem custo adicional por consulta). */
   incluidoNoContrato: boolean;
+  /** Preenchimento sugerido quando a organização conecta a própria conta do fornecedor. */
+  contaPropria?: { endpoint: string; segredo: string; modelo: string };
 };
 
 export const motoresIA: MotorIA[] = [
@@ -36,6 +38,7 @@ export const motoresIA: MotorIA[] = [
     modelo: "openai/gpt-5.6-terra",
     descricao: "Modelo OpenAI acessado pela camada interna da plataforma.",
     incluidoNoContrato: true,
+    contaPropria: { endpoint: "https://api.openai.com/v1", segredo: "OPENAI_API_KEY", modelo: "gpt-4.1" },
   },
   {
     id: "gemini",
@@ -45,6 +48,7 @@ export const motoresIA: MotorIA[] = [
     modelo: "google/gemini-3.8-flash",
     descricao: "Modelo Google acessado pela camada interna da plataforma.",
     incluidoNoContrato: true,
+    contaPropria: { endpoint: "https://generativelanguage.googleapis.com/v1beta/openai", segredo: "GEMINI_API_KEY", modelo: "gemini-2.5-flash" },
   },
   {
     id: "claude",
@@ -88,6 +92,8 @@ export type ConfigMotorIA = {
   modelo: string;
   /** Nome do segredo institucional que guarda a credencial (a chave nunca é gravada aqui). */
   segredo: string;
+  /** Usa a conta/chave própria da organização em vez da camada interna. */
+  credencialPropria: boolean;
 };
 
 export const configMotorPadrao: ConfigMotorIA = {
@@ -96,6 +102,7 @@ export const configMotorPadrao: ConfigMotorIA = {
   endpoint: "",
   modelo: "",
   segredo: "IA_EXTERNA_API_KEY",
+  credencialPropria: false,
 };
 
 const CHAVE = "hepta.ia.motor.v1";

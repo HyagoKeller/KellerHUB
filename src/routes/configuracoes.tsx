@@ -566,8 +566,10 @@ function Configuracoes() {
         </div>
         <p className="mb-4 max-w-3xl text-xs leading-relaxed text-muted-foreground">
           O assistente é independente do fornecedor: troque o motor sem alterar módulos, dados ou
-          telas da plataforma. Os motores internos já estão incluídos no contrato, sem cobrança por
-          consulta, requisição ou volume de texto.
+          telas da plataforma. Os motores internos (IA nativa, ChatGPT e Gemini) rodam pela conta de IA
+          da própria plataforma: o consumo entra no plano contratado, sem cobrança separada por
+          consulta para a organização. Se preferir, conecte a sua própria conta OpenAI ou Google —
+          aí o consumo passa a ser cobrado diretamente pelo fornecedor.
         </p>
 
         <div className="grid gap-3 md:grid-cols-3">
@@ -577,7 +579,7 @@ function Configuracoes() {
               <button
                 key={m.id}
                 type="button"
-                onClick={() => setRascunhoMotor((r) => ({ ...r, motorId: m.id }))}
+                onClick={() => setRascunhoMotor((r) => ({ ...r, motorId: m.id, credencialPropria: false }))}
                 className={cn(
                   "rounded-2xl border p-4 text-left transition-colors",
                   ativo
@@ -597,14 +599,37 @@ function Configuracoes() {
                 </p>
                 <p className="mt-2 text-[11px] text-muted-foreground">
                   {m.fornecedor}
-                  {m.incluidoNoContrato ? " · sem custo por consulta" : " · credencial da organização"}
+                  {m.incluidoNoContrato ? (m.contaPropria ? " · incluído no plano ou conta própria" : " · incluído no plano") : " · credencial da organização"}
                 </p>
               </button>
             );
           })}
         </div>
 
-        {motorRascunho?.tipo === "externo" && (
+        {motorRascunho?.contaPropria && (
+          <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-border bg-card/60 p-4">
+            <div>
+              <p className="text-sm font-medium">Conectar minha própria conta {motorRascunho.fornecedor}</p>
+              <p className="text-[11px] text-muted-foreground">
+                Use a chave de API da sua organização. O consumo é cobrado pela {motorRascunho.fornecedor} diretamente.
+              </p>
+            </div>
+            <Toggle
+              on={rascunhoMotor.credencialPropria}
+              onClick={() =>
+                setRascunhoMotor((r) => {
+                  const cp = motorRascunho.contaPropria!;
+                  return r.credencialPropria
+                    ? { ...r, credencialPropria: false }
+                    : { ...r, credencialPropria: true, endpoint: cp.endpoint, segredo: cp.segredo, modelo: cp.modelo };
+                })
+              }
+              label="Usar conta própria"
+            />
+          </div>
+        )}
+
+        {(motorRascunho?.tipo === "externo" || rascunhoMotor.credencialPropria) && (
           <div className="mt-4 grid gap-4 rounded-2xl border border-warning/40 bg-warning/5 p-4">
             <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
               <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
