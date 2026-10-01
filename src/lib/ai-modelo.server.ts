@@ -15,7 +15,7 @@ export function resolverMotor(
 ): ResolucaoMotor {
   const motor = motorPorId(config?.motorId ?? "nativa");
 
-  if (motor.tipo === "interno") {
+  if (motor.tipo === "interno" && !config?.credencialPropria) {
     const apiKey = process.env["LOVABLE_API_KEY"];
     if (!apiKey) {
       return {
@@ -38,7 +38,7 @@ export function resolverMotor(
       ok: false,
       status: 403,
       mensagem:
-        `O motor ${motor.nome} é externo. É necessária autorização expressa para envio de dados a ferramentas externas de IA (Configurações › Motor de IA).`,
+        `O motor ${motor.nome} usa serviço externo. É necessária autorização expressa para envio de dados a ferramentas externas de IA (Configurações › Motor de IA).`,
     };
   }
 
