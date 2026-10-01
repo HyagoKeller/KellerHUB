@@ -113,7 +113,7 @@ function Indicadores() {
       <Panel className="mt-4">
 
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 pb-4">
-          <h2 className="truncate font-display text-sm font-semibold uppercase ">
+          <h2 className="truncate font-display text-sm font-semibold ">
             Dashboard parametrizável
           </h2>
           <select

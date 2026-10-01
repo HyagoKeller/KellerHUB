@@ -235,7 +235,7 @@ function Relatorios() {
           </div>
           <table className="w-full min-w-[720px] text-sm">
             <thead>
-              <tr className="border-b border-border text-left text-xs uppercase  text-muted-foreground">
+              <tr className="border-b border-border text-left text-xs text-muted-foreground">
                 <th className="px-5 py-3 font-medium">Relatório</th>
                 <th className="px-5 py-3 font-medium">Acesso</th>
                 <th className="px-5 py-3 font-medium">Perfis liberados</th>
@@ -464,7 +464,7 @@ function Relatorios() {
           </div>
           <table className="w-full min-w-[640px] text-sm">
             <thead>
-              <tr className="border-b border-border text-left text-xs uppercase  text-muted-foreground">
+              <tr className="border-b border-border text-left text-xs text-muted-foreground">
                 <th className="px-5 py-3 font-medium">Data/hora</th>
                 <th className="px-5 py-3 font-medium">Usuário</th>
                 <th className="px-5 py-3 font-medium">Ação</th>

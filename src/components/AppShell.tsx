@@ -157,6 +157,9 @@ export function AppShell({
   return (
     <div className="liquid-workspace min-h-screen w-full bg-background">
       <div className="liquid-atmosphere" aria-hidden="true">
+        <div className="liquid-blob liquid-blob-a" />
+        <div className="liquid-blob liquid-blob-b" />
+        <div className="liquid-blob liquid-blob-c" />
       </div>
        <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-sidebar-border/70 bg-sidebar/66 shadow-2xl shadow-background/30 backdrop-blur-3xl lg:block">
         <SidebarBody />
