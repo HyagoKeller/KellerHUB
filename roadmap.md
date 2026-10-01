@@ -8,3 +8,7 @@
 - [x] Adicionar assistente flutuante global e identidade visual controlada
 
 - [x] Controle de visibilidade por Área (perfil × escopo), simulação de perfil, aba Acesso, tela Áreas, auditoria
+
+- [ ] Renomear a solução para Keller Hub em toda a interface e nos metadados
+- [ ] Criar no repositório Git o manual do Administrador/PMO e os manuais dos perfis Técnico, Gestor e Alta Administração
+- [ ] Revisar os manuais contra as regras efetivas de acesso e validar a apresentação da nova marca
