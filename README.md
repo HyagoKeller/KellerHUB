@@ -2,14 +2,16 @@
 
 Plataforma de gestão de portfólios, programas e projetos, com estratégia, indicadores, riscos, relatórios, auditoria e controle de acesso por perfil e área.
 
-## Documentação
+## Documentação operacional
 
-- [Manuais de acesso](docs/manuais/README.md)
-- [Governança de acessos](docs/manuais/governanca-de-acessos.md)
-- [Manual do Administrador e PMO](docs/manuais/administrador-pmo.md)
+- [Índice dos manuais](docs/manuais/README.md)
+- [Manual geral da solução](docs/manuais/manual-geral.md)
+- [Manual do Administrador/PMO](docs/manuais/administrador-pmo.md)
 - [Manual do perfil Técnico](docs/manuais/tecnico.md)
 - [Manual do perfil Gestor](docs/manuais/gestor.md)
-- [Manual do perfil Alta Administração](docs/manuais/alta-administracao.md)
+- [Manual da Alta Administração](docs/manuais/alta-administracao.md)
+- [Governança de acessos](docs/manuais/governanca-de-acessos.md)
+- [Glossário e referência rápida](docs/manuais/glossario.md)
 
 ## Desenvolvimento
 

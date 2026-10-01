@@ -1,36 +1,57 @@
-# Manuais de acesso do Keller Hub
+# Manuais operacionais do Keller Hub
 
-Esta documentação apresenta o uso do Keller Hub conforme o perfil e o escopo de área concedidos a cada pessoa.
+Esta coleção documenta a solução, seus menus, campos, procedimentos e regras de acesso. Comece pelo Manual geral e depois consulte o manual correspondente ao seu perfil.
 
-## Manuais disponíveis
+## Documentos
 
-1. [Governança de acessos](governanca-de-acessos.md)
-2. [Administrador e PMO](administrador-pmo.md)
-3. [Técnico](tecnico.md)
-4. [Gestor](gestor.md)
-5. [Alta Administração](alta-administracao.md)
+1. [Manual geral da solução](manual-geral.md)
+2. [Manual do Administrador/PMO](administrador-pmo.md)
+3. [Manual do perfil Técnico](tecnico.md)
+4. [Manual do perfil Gestor](gestor.md)
+5. [Manual da Alta Administração](alta-administracao.md)
+6. [Manual de governança de acessos](governanca-de-acessos.md)
+7. [Glossário e referência rápida](glossario.md)
 
-## Como funciona o acesso
+## Percurso recomendado
 
-A permissão efetiva combina dois elementos:
+### Novo usuário
 
-- **Perfil:** define o que a pessoa pode fazer.
-- **Área:** define sobre quais dados a pessoa pode atuar.
+1. Leia o Manual geral.
+2. Leia o manual do seu perfil.
+3. Consulte Governança de acessos para entender Área, visibilidade, herança e convites.
+4. Use o Glossário quando encontrar um termo desconhecido.
 
-A seleção de área na barra superior filtra a carteira, a busca, os indicadores e os totais. A opção **Todas as minhas áreas** reúne apenas as áreas autorizadas para a pessoa conectada.
+### Administrador/PMO
 
-## Regras comuns
+1. Leia o Manual geral.
+2. Execute o checklist de implantação no Manual do Administrador/PMO.
+3. Aplique o Manual de governança de acessos.
+4. Valide cada perfil pela simulação disponível na barra superior.
 
-- Portfólios pertencem a uma área.
-- Programas herdam o acesso do portfólio.
-- Projetos herdam o acesso do programa.
-- Um item filho pode ser mais restrito que o item pai, mas nunca menos restrito.
-- Itens privados exigem convite individual.
-- Itens compartilhados com outra área ficam disponíveis em modo de leitura para essa área.
-- O ícone de cadeado identifica conteúdo privado.
-- O ícone de compartilhamento identifica conteúdo compartilhado e informa as áreas destinatárias.
-- O Assistente usa somente os registros liberados para o perfil em uso.
+## Cobertura
 
-## Observação sobre a versão atual
+Os manuais cobrem:
 
-Esta versão utiliza dados demonstrativos e mantém alterações no navegador. Em uma implantação institucional, usuários, áreas, permissões e auditoria devem usar a base corporativa compartilhada.
+- barra superior, busca, seletor de área e simulação;
+- Visão executiva;
+- Portfólios;
+- Programas;
+- Projetos e suas abas;
+- Estratégia;
+- Indicadores;
+- Riscos;
+- Relatórios, publicação e auditoria;
+- Assistente flutuante e página de conversas;
+- configurações do portal;
+- integrações e motor de IA;
+- áreas, membros, perfis e níveis;
+- views personalizadas;
+- solução de problemas e checklists.
+
+## Regra fundamental
+
+A permissão efetiva é formada por **perfil × escopo de área × visibilidade do item × convite individual**. Uma view ou um filtro nunca amplia a permissão da pessoa.
+
+## Estado da versão documentada
+
+A versão atual usa dados demonstrativos e persistência no navegador. Os manuais identificam explicitamente os fluxos simulados e as funções ainda consultivas.
