@@ -24,11 +24,10 @@ import {
   auditoria,
   execucaoMensal,
   moeda,
-  portfolios,
-  projetos,
-  riscos,
   severidade,
 } from "@/lib/mock-data";
+import { useCarteiraVisivel, useAcessoEstado } from "@/lib/acesso";
+import { AvisoAreas, Moeda, SeloAcesso } from "@/components/Acesso";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -51,13 +50,6 @@ export const Route = createFileRoute("/")({
   component: Dashboard,
 });
 
-const statusDist = [
-  { nome: "Em execução", valor: projetos.filter((p) => p.status === "Em execução").length },
-  { nome: "Em risco", valor: projetos.filter((p) => p.status === "Em risco").length },
-  { nome: "Planejamento", valor: projetos.filter((p) => p.status === "Planejamento").length },
-  { nome: "Concluído", valor: projetos.filter((p) => p.status === "Concluído").length },
-  { nome: "Suspenso", valor: projetos.filter((p) => p.status === "Suspenso").length },
-];
 
 const cores = [
   "var(--color-chart-2)",
@@ -72,7 +64,18 @@ function Dashboard() {
   const [ativa, setAtiva] = useState("padrao");
   const view = views.find((v) => v.id === ativa);
   const show = (bloco: string) => !view || view.blocos.includes(bloco);
-  const orcamento = portfolios.reduce((a, p) => a + p.orcamento, 0);
+  const { portfolios, projetos, riscos, ocultarValores, estado } = useCarteiraVisivel();
+  const logAcesso = useAcessoEstado().log;
+  const trilha = [...logAcesso, ...auditoria];
+  void estado;
+  const statusDist = [
+    { nome: "Em execução", valor: projetos.filter((p) => p.status === "Em execução").length },
+    { nome: "Em risco", valor: projetos.filter((p) => p.status === "Em risco").length },
+    { nome: "Planejamento", valor: projetos.filter((p) => p.status === "Planejamento").length },
+    { nome: "Concluído", valor: projetos.filter((p) => p.status === "Concluído").length },
+    { nome: "Suspenso", valor: projetos.filter((p) => p.status === "Suspenso").length },
+  ];
+    const orcamento = portfolios.reduce((a, p) => a + p.orcamento, 0);
 
   const executado = portfolios.reduce((a, p) => a + p.executado, 0);
   const criticos = riscos
@@ -102,12 +105,13 @@ function Dashboard() {
         </>
       }
     >
+      <AvisoAreas />
       <ViewTabs views={views} ativa={ativa} onChange={setAtiva} />
 
       {show("kpis") && (
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
-        <Stat label="Portfólios ativos" value={String(portfolios.length)} hint="2 institucionais · 2 temáticos" />
+        <Stat label="Portfólios ativos" value={String(portfolios.length)} hint={`${portfolios.filter((p) => p.tipo === "Institucional").length} institucionais · ${portfolios.filter((p) => p.tipo !== "Institucional").length} temáticos`} />
         <Stat
           label="Projetos em carteira"
           value={String(projetos.length)}
@@ -115,8 +119,8 @@ function Dashboard() {
         />
         <Stat
           label="Orçamento executado"
-          value={`${Math.round((executado / orcamento) * 100)}%`}
-          hint={`${moeda(executado)} de ${moeda(orcamento)}`}
+          value={orcamento ? `${Math.round((executado / orcamento) * 100)}%` : "—"}
+          hint={ocultarValores ? "Valores em R$ restritos ao seu perfil" : `${moeda(executado)} de ${moeda(orcamento)}`}
         />
         <Stat
           label="Riscos altos e críticos"
@@ -218,7 +222,7 @@ function Dashboard() {
               >
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
                   <div className="min-w-0">
-                    <p className="truncate font-medium">{p.nome}</p>
+                    <p className="flex items-center gap-1.5 truncate font-medium">{p.nome} <SeloAcesso tipo="portfolio" id={p.id} /></p>
                     <p className="truncate text-xs text-muted-foreground">
                       {p.programas} programas · {p.projetos} projetos · {p.responsavel}
                     </p>
@@ -228,7 +232,7 @@ function Dashboard() {
                 <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
                   <Barra valor={p.progresso} />
                   <span className="num shrink-0 text-xs text-muted-foreground">
-                    {p.progresso}% · {moeda(p.executado)}
+                    {p.progresso}% · <Moeda v={p.executado} />
                   </span>
                 </div>
               </Link>
@@ -293,7 +297,7 @@ function Dashboard() {
 
           <PanelTitle title="Trilha de auditoria" hint="últimos eventos" />
           <ul className="space-y-3">
-            {auditoria.slice(0, 5).map((a) => (
+            {trilha.slice(0, 5).map((a) => (
               <li key={a.id} className="border-l-2 border-border pl-3">
                 <p className="text-sm">
                   <span className="font-medium">{a.usuario}</span>{" "}
