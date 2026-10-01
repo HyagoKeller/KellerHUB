@@ -19,7 +19,7 @@ export const rotuloVisibilidade: Record<VisibilidadeObjeto, string> = {
 };
 const peso: Record<VisibilidadeObjeto, number> = { publica: 0, compartilhada: 1, privada: 2 };
 
-export type Usuario = { id: string; nome: string; perfil: PerfilAcesso; iniciais: string };
+export type Usuario = { id: string; nome: string; perfil: PerfilAcesso; iniciais: string; email?: string; cargo?: string; origem?: string };
 export type Area = {
   id: string;
   nome: string;
@@ -77,6 +77,7 @@ type Estado = {
   simuladoId: string;
   filtroAreas: string[];
   log: EventoAcesso[];
+  importados?: Usuario[];
 };
 const inicial: Estado = { areas: areasIniciais, objetos: objetosIniciais, simuladoId: "u-marina", filtroAreas: [], log: [] };
 
@@ -116,7 +117,8 @@ export function useAcessoEstado() {
 const agora = () =>
   new Date().toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
 const nid = (p: string) => `${p}-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 5)}`;
-export const usuarioPorId = (id: string) => usuarios.find((u) => u.id === id);
+export const usuarioPorId = (id: string) => usuarios.find((u) => u.id === id) ?? (carregar(), estado.importados ?? []).find((u) => u.id === id);
+export const todosUsuarios = (e: Estado) => [...usuarios, ...(e.importados ?? [])];
 
 function registrar(e: Estado, acao: string, entidade: string, anterior: string, novo: string): EventoAcesso {
   const u = usuarioPorId(e.simuladoId)!;
@@ -128,6 +130,12 @@ export const acessoDe = (e: Estado, id: string): AcessoObjeto => e.objetos[id] ?
 export const acesso = {
   simular(usuarioId: string) {
     definir((e) => ({ ...e, simuladoId: usuarioId, filtroAreas: [] }));
+  },
+  importarUsuario(u: Usuario) {
+    definir((e) => {
+      if ([...usuarios, ...(e.importados ?? [])].some((x) => x.id === u.id)) return e;
+      return { ...e, importados: [...(e.importados ?? []), u], log: [registrar(e, "Importou usuário do diretório", `Usuário · ${u.nome}`, "", `${u.email} · ${u.cargo} · ${u.origem}`), ...e.log] };
+    });
   },
   filtrar(areas: string[]) {
     definir((e) => ({ ...e, filtroAreas: areas }));
