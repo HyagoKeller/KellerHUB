@@ -6,3 +6,5 @@
 - [x] Validar telas principais em desktop e mobile
 - [x] Aplicar a direção Executive Liquid Glass e configurações institucionais avançadas
 - [x] Adicionar assistente flutuante global e identidade visual controlada
+
+- [x] Controle de visibilidade por Área (perfil × escopo), simulação de perfil, aba Acesso, tela Áreas, auditoria
