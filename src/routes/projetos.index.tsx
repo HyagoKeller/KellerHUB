@@ -18,12 +18,12 @@ export const Route = createFileRoute("/projetos/")({
       {
         name: "description",
         content:
-          "Carteira de projetos com metodologias PMBOK, Ágil e híbrida, controle de prazo, custo, escopo e riscos.",
+          "Carteira de projetos com elementos, subelementos, atualizações, prazo, custo, escopo e riscos.",
       },
       { property: "og:title", content: "Projetos | Keller Hub" },
       {
         property: "og:description",
-        content: "Acompanhe prazo, custo, progresso e saúde de toda a carteira de projetos.",
+        content: "Acompanhe elementos, atualizações, prazo, custo, progresso e saúde da carteira de projetos.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -30,9 +30,9 @@ export const Route = createFileRoute("/projetos/$id")({
     return {
       meta: [
         { title: t },
-        { name: "description", content: `Escopo, cronograma, custo, riscos e status reports do projeto ${loaderData?.nome ?? "do projeto"}.` },
+        { name: "description", content: `Elementos, subelementos, atualizações, cronograma, custo e riscos do projeto ${loaderData?.nome ?? "do projeto"}.` },
         { property: "og:title", content: t },
-        { property: "og:description", content: `Acompanhamento detalhado do projeto ${loaderData?.nome ?? "do projeto"}.` },
+        { property: "og:description", content: `Acompanhamento de elementos, subelementos e execução do projeto ${loaderData?.nome ?? "do projeto"}.` },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
