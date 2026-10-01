@@ -16,3 +16,4 @@
 - [x] Adicionar elementos, subelementos e atualizações contextuais aos projetos, com testes e documentação completa
 - [x] Publicar demonstração temporária protegida por login e conta Superadministrador autorizada
 - [ ] Verificar e configurar o domínio próprio kellerhub-demo.com
+- [ ] Adicionar crédito de desenvolvimento e direitos reservados, mantendo a publicação pausada
