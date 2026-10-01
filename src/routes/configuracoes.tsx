@@ -164,15 +164,6 @@ const localizacoes = [
 
 const formatosMonetarios = ["1,000.00", "1.000,00", "1000.00", "1000,00", "1 000.00", "1 000,00"];
 
-const permissoes = [
-  { recurso: "Cadastro de projetos e cronogramas", tecnico: "Editar", gestor: "Editar", alta: "Ler" },
-  { recurso: "Portfólios e priorização", tecnico: "Ler", gestor: "Editar", alta: "Editar" },
-  { recurso: "Indicadores e metas", tecnico: "Lançar valores", gestor: "Editar", alta: "Ler" },
-  { recurso: "Riscos e planos de resposta", tecnico: "Editar", gestor: "Editar", alta: "Ler" },
-  { recurso: "Relatórios executivos e exportações", tecnico: "—", gestor: "Gerar", alta: "Gerar" },
-  { recurso: "Trilha de auditoria e LGPD", tecnico: "—", gestor: "Ler", alta: "Ler" },
-  { recurso: "Integrações e configurações", tecnico: "—", gestor: "—", alta: "Administrar" },
-];
 
 function Toggle({ on, onClick, label }: { on: boolean; onClick: () => void; label: string }) {
   return (
