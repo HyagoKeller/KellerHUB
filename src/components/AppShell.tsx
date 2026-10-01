@@ -93,14 +93,6 @@ function Logo({ className, logo, nome }: { className?: string; logo?: string; no
 
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const sair = async () => {
-    await queryClient.cancelQueries();
-    queryClient.clear();
-    await supabase.auth.signOut();
-    await navigate({ to: "/auth", search: { next: "/" }, replace: true });
-  };
   return (
     <nav className="flex flex-col gap-1.5 px-3">
       {nav.map((item) => {
@@ -163,6 +155,14 @@ export function AppShell({
   const [open, setOpen] = useState(false);
   const { config, alternarModo } = usePortal();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const sair = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    await navigate({ to: "/auth", search: { next: "/" }, replace: true });
+  };
 
 
   return (
