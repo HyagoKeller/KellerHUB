@@ -7,7 +7,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import { ArrowUpRight, CheckCircle2, CircleDot, Plus, Target } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, CircleDot, Plus, Sparkles } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, Stat, Tag } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
@@ -68,7 +68,7 @@ function Estrategia() {
 
       <div className="mt-4 grid gap-4 xl:grid-cols-12">
         <Panel rule="primary" className="relative xl:col-span-8">
-          <div className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary"><Target className="h-5 w-5" /></div>
+          <div className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary"><Sparkles className="h-5 w-5" /></div>
           <p className="eyebrow text-primary">Objetivo prioritário</p>
           <h2 className="mt-4 max-w-2xl font-display text-2xl font-semibold sm:text-3xl">{objetivos[0].nome}</h2>
           <p className="mt-3 text-sm text-muted-foreground">{objetivos[0].meta} · liderança de {objetivos[0].responsavel}</p>
