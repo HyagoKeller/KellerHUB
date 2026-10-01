@@ -79,13 +79,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Plataforma PPM institucional" },
+      { title: "Keller Hub | Gestão PPM" },
       {
         name: "description",
         content:
           "Plataforma SaaS de gestão de portfólios, programas e projetos para uso institucional.",
       },
-      { property: "og:title", content: "Plataforma PPM institucional" },
+      { property: "og:title", content: "Keller Hub | Gestão PPM" },
       {
         property: "og:description",
         content: "Portfólios, programas, projetos, estratégia, indicadores e riscos em um só lugar.",
@@ -115,7 +115,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="pt-BR" className="dark">
       <head>
         <HeadContent />
       </head>

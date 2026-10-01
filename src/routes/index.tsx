@@ -33,13 +33,13 @@ import { AvisoAreas, Moeda, SeloAcesso } from "@/components/Acesso";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Visão Executiva | Plataforma PPM" },
+      { title: "Visão Executiva | Keller Hub" },
       {
         name: "description",
         content:
           "Painel executivo consolidado de portfólios, programas, projetos, indicadores e riscos institucionais.",
       },
-      { property: "og:title", content: "Visão Executiva | Plataforma PPM" },
+      { property: "og:title", content: "Visão Executiva | Keller Hub" },
       {
         property: "og:description",
         content: "Gestão institucional de portfólios, programas e projetos em uma única plataforma.",

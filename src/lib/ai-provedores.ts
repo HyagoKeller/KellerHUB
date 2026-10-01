@@ -22,7 +22,7 @@ export type MotorIA = {
 export const motoresIA: MotorIA[] = [
   {
     id: "nativa",
-    nome: "IA nativa Hepta",
+    nome: "IA nativa Keller Hub",
     fornecedor: "Plataforma",
     tipo: "interno",
     modelo: "openai/gpt-6-astra",

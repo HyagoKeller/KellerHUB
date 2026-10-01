@@ -34,13 +34,13 @@ import { paletas, usePortal, type ConfigPortal, type PaletaId } from "@/lib/port
 export const Route = createFileRoute("/configuracoes")({
   head: () => ({
     meta: [
-      { title: "Configurações e Integrações | Plataforma PPM" },
+      { title: "Configurações e Integrações | Keller Hub" },
       {
         name: "description",
         content:
           "Integrações com Microsoft 365, Google Workspace e Power BI, segmentação por perfil de acesso e criação de views personalizadas.",
       },
-      { property: "og:title", content: "Configurações e Integrações | Plataforma PPM" },
+      { property: "og:title", content: "Configurações e Integrações | Keller Hub" },
       {
         property: "og:description",
         content:

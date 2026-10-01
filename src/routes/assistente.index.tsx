@@ -6,13 +6,13 @@ import { garantirConversa } from "@/lib/assistente-conversas";
 export const Route = createFileRoute("/assistente/")({
   head: () => ({
     meta: [
-      { title: "Assistente de Governança | Plataforma PPM" },
+      { title: "Assistente de Governança | Keller Hub" },
       {
         name: "description",
         content:
           "Assistente de inteligência artificial que consulta os dados da plataforma em linguagem natural, respeitando os perfis de acesso, e gera sumários executivos.",
       },
-      { property: "og:title", content: "Assistente de Governança | Plataforma PPM" },
+      { property: "og:title", content: "Assistente de Governança | Keller Hub" },
       {
         property: "og:description",
         content:

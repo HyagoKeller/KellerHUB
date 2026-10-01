@@ -59,7 +59,7 @@ function Logo({ className, logo, nome }: { className?: string; logo?: string; no
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
-            aria-label="Hepta logo"
+            aria-label="Logo Keller Hub"
           >
             <path
               d="M12 2L20.66 7V17L12 22L3.34 17V7L12 2Z"
@@ -79,9 +79,9 @@ function Logo({ className, logo, nome }: { className?: string; logo?: string; no
       )}
       <div className="min-w-0">
         <p className="truncate font-display text-base font-semibold text-sidebar-accent-foreground">
-          {nome || "Hepta"}
+          {nome || "Keller Hub"}
         </p>
-        <p className="eyebrow truncate text-sidebar-foreground/50">Gestão PPM</p>
+        <p className="eyebrow truncate text-sidebar-foreground/50">Gestão de portfólios</p>
       </div>
     </div>
   );
