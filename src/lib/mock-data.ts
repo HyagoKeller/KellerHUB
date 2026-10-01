@@ -117,12 +117,16 @@ export const tarefasKanban = {
 };
 
 export const cronograma = [
-  { fase: "Iniciação", inicio: 0, duracao: 8, progresso: 100 },
-  { fase: "Planejamento", inicio: 6, duracao: 14, progresso: 100 },
-  { fase: "Execução, Onda 1", inicio: 18, duracao: 26, progresso: 78 },
-  { fase: "Execução, Onda 2", inicio: 38, duracao: 30, progresso: 32 },
-  { fase: "Homologação", inicio: 62, duracao: 16, progresso: 0 },
-  { fase: "Encerramento", inicio: 76, duracao: 10, progresso: 0 },
+  { projetoId: "pj-1", fase: "Iniciação", inicio: 0, duracao: 8, progresso: 100 },
+  { projetoId: "pj-1", fase: "Planejamento", inicio: 6, duracao: 14, progresso: 100 },
+  { projetoId: "pj-1", fase: "Execução, Onda 1", inicio: 18, duracao: 26, progresso: 78 },
+  { projetoId: "pj-1", fase: "Execução, Onda 2", inicio: 38, duracao: 30, progresso: 32 },
+  { projetoId: "pj-1", fase: "Homologação", inicio: 62, duracao: 16, progresso: 0 },
+  { projetoId: "pj-1", fase: "Encerramento", inicio: 76, duracao: 10, progresso: 0 },
+  { projetoId: "pj-3", fase: "Arquitetura e governança", inicio: 0, duracao: 18, progresso: 100 },
+  { projetoId: "pj-3", fase: "Ingestão de dados", inicio: 16, duracao: 34, progresso: 48 },
+  { projetoId: "pj-3", fase: "Qualidade e catálogo", inicio: 42, duracao: 28, progresso: 26 },
+  { projetoId: "pj-3", fase: "Operação assistida", inicio: 68, duracao: 18, progresso: 0 },
 ];
 
 export const statusReports = [

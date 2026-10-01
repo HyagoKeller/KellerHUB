@@ -76,6 +76,7 @@ A cadeia é:
 - O projeto herda a área do programa.
 - Um filho pode ser mais restrito que o pai.
 - Um filho nunca pode ser menos restrito que o pai.
+- Elementos, subelementos e atualizações não criam um novo escopo. Eles herdam integralmente a permissão efetiva do projeto.
 
 Exemplo: se o portfólio é privado, um projeto não pode ser tornado público. A opção incompatível fica bloqueada.
 
@@ -87,6 +88,8 @@ Exemplo: se o portfólio é privado, um projeto não pode ser tornado público. 
 | Portfólios | Leitura | Edição nas áreas membro | Edição transversal | Edição transversal |
 | Programas | Leitura ou edição por convite | Edição nas áreas membro | Leitura | Edição transversal |
 | Projetos | Edição quando responsável ou convidado | Edição nas áreas membro | Leitura | Edição transversal |
+| Elementos e subelementos | Edição conforme o projeto | Edição conforme o projeto | Leitura | Edição transversal |
+| Atualizações | Publica conforme edição do projeto | Publica conforme edição do projeto | Leitura | Publica transversalmente |
 | Riscos e indicadores | Matriz prevê edição dos próprios itens | Gestão no escopo | Leitura transversal | Gestão transversal |
 | Valores monetários | Sem acesso | Visível | Visível | Visível |
 | Áreas e membros | Sem acesso | Sem acesso | Sem acesso | Administrar |
@@ -133,7 +136,17 @@ O painel de acesso apresenta:
 
 Toda alteração gera registro de auditoria na versão demonstrativa.
 
-## 8. Cenários práticos
+## 8. Atualizações contextuais
+
+O histórico geral pertence ao projeto. Elementos e subelementos possuem históricos separados para evitar mistura entre decisões gerais e execução detalhada.
+
+- Consultar o histórico exige visibilidade do projeto.
+- Publicar atualização exige permissão de edição no projeto.
+- Compartilhamento somente leitura permite abrir o balão, sem publicar.
+- Um item privado mantém seus elementos, subelementos e atualizações privados.
+- A exclusão de um elemento ou subelemento remove seu histórico vinculado na versão demonstrativa.
+
+## 9. Cenários práticos
 
 ### 8.1 Gestor da TI edita projeto de TI
 
@@ -155,7 +168,7 @@ Resultado: acesso transversal de leitura. Em portfólios, o perfil pode editar p
 
 Resultado: acesso transversal e Editar tudo. Pode administrar área, visibilidade, compartilhamento, convites, identidade e integrações.
 
-## 9. Validação por simulação
+## 10. Validação por simulação
 
 1. Abra o controle do usuário no topo.
 2. Selecione a pessoa que representa o perfil a testar.
@@ -166,7 +179,7 @@ Resultado: acesso transversal e Editar tudo. Pode administrar área, visibilidad
 7. Abra um item privado e um compartilhado.
 8. Retorne ao usuário administrativo ao finalizar.
 
-## 10. Revisão periódica
+## 11. Revisão periódica
 
 A revisão deve ocorrer em mudança de lotação, função, projeto, contrato ou desligamento.
 
@@ -181,7 +194,7 @@ Checklist:
 - Permissões Editar tudo foram reduzidas quando possível.
 - Eventos de auditoria não indicam alteração indevida.
 
-## 11. Revogação
+## 12. Revogação
 
 1. Remova a pessoa das áreas desnecessárias.
 2. Remova convites individuais em portfólios, programas e projetos.
@@ -190,7 +203,7 @@ Checklist:
 5. Simule o usuário e valide que os dados deixaram de aparecer.
 6. Registre a conclusão conforme a política institucional.
 
-## 12. Proteção de dados
+## 13. Proteção de dados
 
 - Aplique finalidade, necessidade e menor privilégio.
 - Não publique dados pessoais em link público.

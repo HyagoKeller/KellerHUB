@@ -13,3 +13,4 @@
 - [x] Criar no repositório Git o manual do Administrador/PMO e os manuais dos perfis Técnico, Gestor e Alta Administração
 - [x] Revisar os manuais contra as regras efetivas de acesso e validar a apresentação da nova marca
 - [x] Substituir as cartilhas por manuais operacionais completos, com menus, telas, campos, procedimentos, exemplos e solução de problemas
+- [x] Adicionar elementos, subelementos e atualizações contextuais aos projetos, com testes e documentação completa

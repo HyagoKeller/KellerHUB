@@ -113,6 +113,19 @@ A alteração afeta a biblioteca compartilhada no navegador e os registros que u
 
 Use as abas Visão geral, Cronograma, Kanban, Riscos, Status reports e Acesso. Confirme entregas, qualidade, tarefas bloqueadas, riscos e atualização mais recente.
 
+### 7.5 Elementos e subelementos
+
+1. Abra a aba **Elementos**.
+2. Selecione **Novo elemento** para cadastrar uma unidade de trabalho.
+3. Informe nome, responsável, status, prazo e progresso.
+4. Use o ícone de adição na linha para cadastrar um subelemento.
+5. Expanda a linha para acompanhar o detalhamento.
+6. Use o lápis para editar ou excluir.
+
+### 7.6 Atualizações em balão
+
+Use o balão do projeto para decisões gerais. Use o balão de cada elemento ou subelemento para registrar impedimentos, encaminhamentos e entregas daquele contexto. O contador informa a quantidade de registros. Cada atualização guarda autor, data e hora.
+
 ## 8. Gestão de acesso
 
 1. Selecione o cadeado do item.

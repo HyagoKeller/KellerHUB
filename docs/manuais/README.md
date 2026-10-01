@@ -36,7 +36,7 @@ Os manuais cobrem:
 - Visão executiva;
 - Portfólios;
 - Programas;
-- Projetos e suas abas;
+- Projetos, elementos, subelementos, atualizações e suas abas;
 - Estratégia;
 - Indicadores;
 - Riscos;

@@ -83,11 +83,23 @@ Não altere orçamento ou valor executado. Esses campos são protegidos pelo per
 ### 6.4 Abas do projeto
 
 - **Visão geral:** acompanhe entregas, equipe, qualidade e aceite.
+- **Elementos:** consulte unidades de trabalho, responsáveis, status, prazos, progresso e subelementos.
 - **Cronograma:** verifique fases e progresso.
 - **Kanban:** consulte tarefas e responsáveis.
 - **Riscos:** consulte severidade, plano, responsável e prazo.
 - **Status reports:** consulte atualizações periódicas.
 - **Acesso:** confira área, visibilidade e seu nível. Alterações ficam bloqueadas sem autorização.
+
+### 6.5 Trabalhar com elementos e atualizações
+
+1. Abra a aba **Elementos**.
+2. Localize o grupo de status correspondente.
+3. Use a seta para mostrar os subelementos.
+4. Se o projeto estiver atribuído a você ou houver convite de edição, atualize status, progresso e demais campos autorizados.
+5. Selecione o balão do projeto, elemento ou subelemento para consultar o histórico correto.
+6. Quando autorizado, escreva a informação e selecione **Publicar atualização**.
+
+Cada balão possui histórico independente. Em somente leitura, o campo de publicação não aparece.
 
 ### 6.5 Etiquetas
 

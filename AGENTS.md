@@ -13,3 +13,4 @@
 - Keep the governance assistant available globally as a right-side floating panel while retaining its dedicated threaded route for long sessions.
 - Visibilidade por área (perfil × escopo) centralizada em src/lib/acesso.ts (useCarteiraVisivel); telas nunca leem a carteira bruta para listar/somar — garante que listas, busca e KPIs respeitem o acesso.
 - A marca do produto é Keller Hub; a organização continua personalizável e independente da marca do produto.
+- Project work items and contextual updates live in the persistent project-work store and inherit the parent project's effective access, keeping execution details aligned with area governance.
