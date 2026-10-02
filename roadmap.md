@@ -22,3 +22,4 @@
 - [x] Executar o Gemini interno pela conta de IA do Keller Hub, sem chave própria no navegador
 
 - [x] Remover a identidade Lovable do ícone do navegador e ocultar o selo Lovable Edit
+- [x] Criar o acesso Superadministrador do cliente com perfil e restringir a configuração de IA ao responsável Hyago Keller

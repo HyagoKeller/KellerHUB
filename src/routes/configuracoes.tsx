@@ -31,6 +31,8 @@ import { organizacoes } from "@/lib/mock-data";
 import { blocosPorEscopo, useViews, type EscopoView } from "@/lib/views";
 import { motoresIA, useMotorIA } from "@/lib/ai-provedores";
 import { paletas, usePortal, type ConfigPortal, type PaletaId } from "@/lib/portal";
+import { supabase } from "@/integrations/supabase/client";
+import { EMAIL_SUPERADMIN } from "@/lib/auth";
 
 
 
@@ -200,7 +202,15 @@ function Configuracoes() {
   const [senhaMotor, setSenhaMotor] = useState("");
   const [salvandoMotor, setSalvandoMotor] = useState(false);
   const [mensagemMotor, setMensagemMotor] = useState("");
+  const [podeAlterarMotor, setPodeAlterarMotor] = useState(false);
   useEffect(() => setRascunhoMotor(motorConfig), [motorConfig]);
+  useEffect(() => {
+    let ativo = true;
+    void supabase.auth.getUser().then(({ data }) => {
+      if (ativo) setPodeAlterarMotor(data.user?.email?.toLowerCase() === EMAIL_SUPERADMIN);
+    });
+    return () => { ativo = false; };
+  }, []);
   const motorAlterado = JSON.stringify(rascunhoMotor) !== JSON.stringify(motorConfig);
   const motorRascunho = motoresIA.find((m) => m.id === rascunhoMotor.motorId) ?? motoresIA[0];
 
@@ -422,7 +432,7 @@ function Configuracoes() {
         </div>
       </Panel>
 
-      <Panel className="mt-4" rule="primary">
+       <Panel className="mt-4" rule="primary">
         <PanelTitle title="Experiência de acesso e assistente" hint="identidade institucional" />
         <div className="grid gap-5 lg:grid-cols-2">
           <div className="grid content-start gap-4">
@@ -594,7 +604,7 @@ function Configuracoes() {
                 : `Em uso: ${motor.nome}`}
             </p>
           </div>
-          <div className="flex shrink-0 gap-2">
+          {podeAlterarMotor && <div className="flex shrink-0 gap-2">
             <button
               type="button"
               onClick={() => setRascunhoMotor(motorConfig)}
@@ -618,9 +628,9 @@ function Configuracoes() {
             >
               <Save className="h-3.5 w-3.5" /> {salvandoMotor ? "Salvando" : "Salvar"}
             </button>
-          </div>
+          </div>}
         </div>
-        <div className="mb-4 grid max-w-md gap-1.5 text-xs">
+        {podeAlterarMotor ? <div className="mb-4 grid max-w-md gap-1.5 text-xs">
           <span className="eyebrow text-muted-foreground">Confirmar senha do Superadministrador</span>
           <input
             type="password"
@@ -632,7 +642,7 @@ function Configuracoes() {
           />
           <span className="text-[11px] text-muted-foreground">A senha é confirmada com segurança e não é armazenada.</span>
           {mensagemMotor && <span role="status" className="text-[11px] text-foreground">{mensagemMotor}</span>}
-        </div>
+        </div> : <p className="mb-4 rounded-xl border border-border bg-card/60 p-3 text-xs text-muted-foreground">Configuração disponível somente para Hyago Keller. O motor ativo pode ser utilizado normalmente.</p>}
         <p className="mb-4 max-w-3xl text-xs leading-relaxed text-muted-foreground">
           O assistente é independente do fornecedor: troque o motor sem alterar módulos, dados ou
           telas da plataforma. Os motores internos (IA nativa, ChatGPT e Gemini) rodam pela conta de IA
@@ -648,6 +658,7 @@ function Configuracoes() {
               <button
                 key={m.id}
                 type="button"
+                disabled={!podeAlterarMotor}
                 onClick={() => setRascunhoMotor((r) => ({ ...r, motorId: m.id, credencialPropria: false }))}
                 className={cn(
                   "rounded-2xl border p-4 text-left transition-colors",
@@ -675,7 +686,7 @@ function Configuracoes() {
           })}
         </div>
 
-        {motorRascunho?.contaPropria && motorRascunho.id !== "gemini" && (
+        {podeAlterarMotor && motorRascunho?.contaPropria && motorRascunho.id !== "gemini" && (
           <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-border bg-card/60 p-4">
             <div>
               <p className="text-sm font-medium">Conectar minha própria conta {motorRascunho.fornecedor}</p>
@@ -698,7 +709,7 @@ function Configuracoes() {
           </div>
         )}
 
-        {(motorRascunho?.tipo === "externo" || (rascunhoMotor.credencialPropria && motorRascunho.id !== "gemini")) && (
+        {podeAlterarMotor && (motorRascunho?.tipo === "externo" || (rascunhoMotor.credencialPropria && motorRascunho.id !== "gemini")) && (
           <div className="mt-4 grid gap-4 rounded-2xl border border-warning/40 bg-warning/5 p-4">
             <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
               <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-warning" />

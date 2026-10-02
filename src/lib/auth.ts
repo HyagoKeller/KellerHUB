@@ -1,13 +1,12 @@
 import { supabase } from "@/integrations/supabase/client";
 
 export const EMAIL_SUPERADMIN = "hyagokeller@outlook.com.br";
+export const EMAIL_CLIENTE_DEMO = "nucleo@hepta.com.br";
+export const EMAILS_SUPERADMIN = [EMAIL_SUPERADMIN, EMAIL_CLIENTE_DEMO] as const;
 
 export async function garantirSuperadmin() {
   const { data, error } = await supabase.auth.getUser();
   if (error || !data.user) return { autorizado: false, user: null };
-
-  const email = data.user.email?.toLowerCase();
-  if (email !== EMAIL_SUPERADMIN) return { autorizado: false, user: data.user };
 
   const { data: papel, error: papelErro } = await supabase
     .from("user_roles")
@@ -17,14 +16,14 @@ export async function garantirSuperadmin() {
     .maybeSingle();
 
   if (papelErro) throw papelErro;
-  if (!papel) {
+  if (!papel && data.user.email?.toLowerCase() === EMAIL_SUPERADMIN) {
     const { error: inserirErro } = await supabase
       .from("user_roles")
       .insert({ user_id: data.user.id, role: "superadmin" });
     if (inserirErro) throw inserirErro;
   }
 
-  return { autorizado: true, user: data.user };
+  return { autorizado: Boolean(papel) || data.user.email?.toLowerCase() === EMAIL_SUPERADMIN, user: data.user };
 }
 
 export const authenticatedFetch: typeof fetch = async (input, init) => {

@@ -4,7 +4,7 @@ import { Building2, KeyRound, LoaderCircle, LogIn, Mail, ShieldCheck } from "luc
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
-import { EMAIL_SUPERADMIN, garantirSuperadmin } from "@/lib/auth";
+import { garantirSuperadmin } from "@/lib/auth";
 import { RodapeInstitucional } from "@/components/RodapeInstitucional";
 import { usePortal } from "@/lib/portal";
 
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const { next } = Route.useSearch();
-  const [identificador, setIdentificador] = useState(EMAIL_SUPERADMIN);
+  const [identificador, setIdentificador] = useState("");
   const [senha, setSenha] = useState("");
   const [ocupado, setOcupado] = useState(false);
   const [mensagem, setMensagem] = useState("");
@@ -39,10 +39,6 @@ function AuthPage() {
     const email = identificador.trim().toLowerCase();
     if (!email) {
       setErro("Informe o usuário ou e-mail.");
-      return;
-    }
-    if (email !== EMAIL_SUPERADMIN) {
-      setErro("Este usuário não possui acesso à demonstração.");
       return;
     }
     if (senha.length < 8) {
@@ -71,9 +67,14 @@ function AuthPage() {
   const acessoDiretorio = config.metodoAcesso === "ad";
 
   const recuperar = async () => {
+    const email = identificador.trim().toLowerCase();
+    if (!email) {
+      setErro("Informe o e-mail para recuperar a senha.");
+      return;
+    }
     setOcupado(true);
     setErro("");
-    const { error } = await supabase.auth.resetPasswordForEmail(EMAIL_SUPERADMIN, {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`,
     });
     setOcupado(false);
