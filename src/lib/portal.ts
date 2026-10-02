@@ -113,12 +113,14 @@ const CHAVE_ANTIGA = "hepta.portal.v1";
 
 let estado: ConfigPortal = configPortalPadrao;
 let carregado = false;
+let haviaCopiaLocal = false;
 const assinantes = new Set<(c: ConfigPortal) => void>();
 
 function ler(): ConfigPortal {
   try {
     const bruto = localStorage.getItem(CHAVE) ?? localStorage.getItem(CHAVE_ANTIGA);
     if (bruto) {
+      haviaCopiaLocal = true;
       const salvo = { ...configPortalPadrao, ...(JSON.parse(bruto) as ConfigPortal) };
       localStorage.setItem(CHAVE, JSON.stringify(salvo));
       const chaveMigracao = "portal.paleta-padrao-azul.v1";
@@ -182,7 +184,7 @@ export function usePortal() {
           if (!ativo) return;
           if (completo) {
             salvarCopiaLocal({ ...configPortalPadrao, ...completo });
-          } else if (!publico) {
+          } else if (!publico && haviaCopiaLocal) {
             const salvo = await salvarCompartilhado({ data: estado });
             if (ativo) salvarCopiaLocal({ ...configPortalPadrao, ...salvo });
           }
