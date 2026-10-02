@@ -18,7 +18,10 @@ export const Route = createFileRoute("/api/chat")({
         const url = process.env["SUPABASE_URL"];
         const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
         if (!token || !url || !key) return new Response("Não autorizado", { status: 401 });
-        const cliente = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
+        const cliente = createClient(url, key, {
+          auth: { persistSession: false, autoRefreshToken: false },
+          global: { headers: { Authorization: `Bearer ${token}` } },
+        });
         const { data: identidade, error: identidadeErro } = await cliente.auth.getUser(token);
         if (identidadeErro || !identidade.user || identidade.user.email?.toLowerCase() !== "hyagokeller@outlook.com.br") {
           return new Response("Não autorizado", { status: 401 });
