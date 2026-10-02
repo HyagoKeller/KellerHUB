@@ -7,6 +7,7 @@ import {
   Globe2,
   HardDrive,
   ImageUp,
+  KeyRound,
   Link2,
   Moon,
   Plus,
