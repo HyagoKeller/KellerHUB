@@ -4,6 +4,16 @@
 
 O Administrador/PMO governa o Keller Hub. O perfil possui visão transversal, edição completa da carteira e responsabilidade por identidade, preferências, integrações, motor de IA, áreas, membros, permissões, views, publicação e auditoria.
 
+## Responsabilidades de segurança
+
+- Não compartilhar contas e exigir identificação individual de cada participante.
+- Revogar acessos quando a finalidade terminar.
+- Orientar usuários sobre marca d’água, termos de licença, LGPD e uso permitido das exportações.
+- Revisar eventos de acesso, aceite de termos, uso do assistente, exportações e alterações administrativas.
+- Nunca registrar senhas, chaves ou conteúdo pessoal desnecessário em campos de observação.
+
+A marca d’água e a auditoria aumentam a rastreabilidade, mas não substituem contrato, confidencialidade, treinamento e revisão periódica de acessos.
+
 ## 2. Responsabilidades
 
 - Manter a configuração institucional.
