@@ -16,4 +16,4 @@
 - Project work items and contextual updates live in the persistent project-work store and inherit the parent project's effective access, keeping execution details aligned with area governance.
 - Authentication is enforced globally through Lovable Cloud, while administrative roles stay in a separate RLS-protected role table to prevent client-side privilege escalation.
 - The sign-in presentation reads the shared portal identity settings, while authentication providers remain explicit and unavailable providers cannot be selected.
-- AI engine settings are persisted server-side and can only be changed by a Superadministrator after current-password confirmation, so provider configuration never trusts browser storage.
+- AI engine settings are persisted server-side and can only be changed by the designated AI owner after current-password confirmation, so provider configuration never trusts browser storage or general administrative roles.

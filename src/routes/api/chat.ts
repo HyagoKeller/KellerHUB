@@ -23,7 +23,7 @@ export const Route = createFileRoute("/api/chat")({
           global: { headers: { Authorization: `Bearer ${token}` } },
         });
         const { data: identidade, error: identidadeErro } = await cliente.auth.getUser(token);
-        if (identidadeErro || !identidade.user || identidade.user.email?.toLowerCase() !== "hyagokeller@outlook.com.br") {
+        if (identidadeErro || !identidade.user) {
           return new Response("Não autorizado", { status: 401 });
         }
         const { messages, perfil } = (await request.json()) as CorpoChat;

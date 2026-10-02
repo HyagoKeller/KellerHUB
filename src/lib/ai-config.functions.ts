@@ -5,6 +5,8 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Database } from "@/integrations/supabase/types";
 
+const EMAIL_RESPONSAVEL_IA = "hyagokeller@outlook.com.br";
+
 const motorSchema = z.object({
   motorId: z.enum(["nativa", "chatgpt", "gemini", "claude", "copilot", "personalizado"]),
   autorizacaoExterna: z.boolean(),
@@ -60,6 +62,9 @@ export const salvarConfigMotorIA = createServerFn({ method: "POST" })
 
     const email = typeof context.claims.email === "string" ? context.claims.email : "";
     if (!email) throw new Error("Não foi possível confirmar a identidade do Superadministrador.");
+    if (email.toLowerCase() !== EMAIL_RESPONSAVEL_IA) {
+      throw new Error("A configuração do motor de IA é exclusiva do responsável Hyago Keller.");
+    }
 
     const url = process.env["SUPABASE_URL"]!;
     const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
