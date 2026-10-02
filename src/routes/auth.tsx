@@ -82,9 +82,10 @@ function AuthPage() {
   };
 
   return (
-    <main className="liquid-workspace relative grid min-h-screen place-items-center overflow-hidden bg-background px-4 py-8 text-foreground sm:px-6">
+    <main className="liquid-workspace relative flex min-h-screen flex-col overflow-hidden bg-background px-4 py-6 text-foreground sm:px-6">
       <div className="liquid-atmosphere" aria-hidden="true"><div className="liquid-blob liquid-blob-a" /><div className="liquid-blob liquid-blob-b" /><div className="liquid-blob liquid-blob-c" /></div>
-      <div className="relative z-10 w-full max-w-5xl">
+      <div className="relative z-10 flex flex-1 items-center justify-center py-2 sm:py-6">
+        <div className="w-full max-w-5xl">
         <section className="panel grid overflow-hidden lg:grid-cols-[0.92fr_1.08fr]">
           <div className="flex min-h-64 flex-col items-center justify-center border-b border-border/60 p-8 text-center lg:min-h-[500px] lg:border-b-0 lg:border-r lg:p-12">
             <div className="grid min-h-28 min-w-28 place-items-center">
@@ -138,8 +139,9 @@ function AuthPage() {
             )}
           </div>
         </section>
-        <RodapeInstitucional className="mt-6" />
+        </div>
       </div>
+      <RodapeInstitucional className="relative z-10 shrink-0 pt-4" />
     </main>
   );
 }
