@@ -25,10 +25,6 @@ const portalSchema = z.object({
   modo: z.enum(["claro", "escuro"]),
 });
 
-async function exigirSuperadmin(userId: string, supabase: Parameters<Parameters<typeof requireSupabaseAuth>[0]>[0] extends never ? never : never) {
-  return { userId, supabase };
-}
-
 export const obterPortalPublico = createServerFn({ method: "GET" }).handler(async () => {
   const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
   const client = createClient<Database>(process.env["SUPABASE_URL"]!, key, {
