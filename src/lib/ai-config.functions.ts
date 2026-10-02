@@ -77,11 +77,11 @@ export const salvarConfigMotorIA = createServerFn({ method: "POST" })
     const config = data.config.motorId === "gemini"
       ? {
           ...data.config,
-          credencialPropria: true,
-          autorizacaoExterna: true,
-          endpoint: "https://generativelanguage.googleapis.com/v1beta/openai",
-          modelo: "gemini-2.5-flash",
-          segredo: "GEMINI_API_KEY",
+          credencialPropria: false,
+          autorizacaoExterna: false,
+          endpoint: "",
+          modelo: "",
+          segredo: "IA_EXTERNA_API_KEY",
         }
       : data.config;
 

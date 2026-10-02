@@ -50,7 +50,6 @@ export const motoresIA: MotorIA[] = [
     modelo: "google/gemini-3.8-flash",
     descricao: "Modelo Google acessado pela camada interna da plataforma.",
     incluidoNoContrato: true,
-    contaPropria: { endpoint: "https://generativelanguage.googleapis.com/v1beta/openai", segredo: "GEMINI_API_KEY", modelo: "gemini-2.5-flash" },
   },
   {
     id: "claude",
