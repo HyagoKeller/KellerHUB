@@ -4,6 +4,16 @@
 
 O Keller Hub é uma solução de gestão de portfólios, programas e projetos. A plataforma reúne planejamento estratégico, carteira de projetos, indicadores, riscos, relatórios, publicação de painéis, auditoria e governança de acesso por perfil e área.
 
+## Proteção de uso e propriedade intelectual
+
+No primeiro acesso, cada usuário deve aceitar a versão vigente dos termos de uso e da licença. Um novo aceite será solicitado quando a versão jurídica mudar. O registro é individual, possui data e não pode ser alterado pelo usuário.
+
+As telas autenticadas exibem uma marca d’água discreta com o e-mail, a data e uma referência da sessão. A identificação também acompanha a impressão. Ela ajuda a identificar a origem de compartilhamentos indevidos, mas não impede fotografias ou capturas de tela.
+
+É proibido copiar, redistribuir, sublicenciar, fazer engenharia reversa ou compartilhar credenciais. Contas são pessoais. Exportações e capturas devem respeitar a LGPD, a finalidade do acesso e as regras internas da organização.
+
+A trilha de segurança registra eventos essenciais sem armazenar senhas, chaves ou o conteúdo integral das conversas. O responsável autorizado pode consultar a visão consolidada. Os demais usuários acessam somente os próprios registros quando essa consulta for disponibilizada.
+
 Este manual descreve a navegação e os recursos comuns. Para procedimentos de administração ou limites específicos, consulte também o manual do seu perfil.
 
 ## 2. Estrutura da navegação

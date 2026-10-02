@@ -550,6 +550,34 @@
   }
 }
 
+.security-watermark {
+  position: fixed;
+  right: 1rem;
+  bottom: 0.5rem;
+  z-index: 35;
+  display: flex;
+  max-width: calc(100vw - 2rem);
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none;
+  color: color-mix(in oklab, var(--color-foreground) 32%, transparent);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1.35;
+  text-align: right;
+  text-shadow: 0 1px 8px var(--color-background);
+  user-select: none;
+}
+
+@media print {
+  .security-watermark {
+    right: 8mm;
+    bottom: 6mm;
+    color: color-mix(in oklab, var(--color-foreground) 48%, transparent);
+    font-size: 8pt;
+  }
+}
+
 /* Responsividade: conteúdo nunca força largura além da tela */
 @layer base {
   main .grid > *, main .flex > * { min-width: 0; }

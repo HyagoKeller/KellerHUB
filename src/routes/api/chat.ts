@@ -43,6 +43,31 @@ export const Route = createFileRoute("/api/chat")({
           .maybeSingle();
         if (!papel) return new Response("Não autorizado", { status: 403 });
 
+        const [{ data: aceite }, { count: usosRecentes }] = await Promise.all([
+          cliente
+            .from("terms_acceptances")
+            .select("id")
+            .eq("user_id", identidade.user.id)
+            .eq("terms_version", "2026-10-02.1")
+            .maybeSingle(),
+          cliente
+            .from("security_audit_log")
+            .select("id", { count: "exact", head: true })
+            .eq("user_id", identidade.user.id)
+            .eq("event_type", "assistant_used")
+            .gte("created_at", new Date(Date.now() - 60_000).toISOString()),
+        ]);
+        if (!aceite) return new Response("Aceite os termos de uso para continuar.", { status: 403 });
+        if ((usosRecentes ?? 0) >= 12) return new Response("Muitas solicitações. Aguarde um minuto e tente novamente.", { status: 429 });
+
+        await cliente.from("security_audit_log").insert({
+          user_id: identidade.user.id,
+          event_type: "assistant_used",
+          entity_type: "governance_assistant",
+          result: "success",
+          context: { profile: perfilAtivo },
+        });
+
         const { data: configuracao, error: configErro } = await cliente
           .from("app_settings")
           .select("config")

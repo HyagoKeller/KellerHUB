@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/button";
 import { BuscaGlobal, SeletorArea, SimularPerfil } from "@/components/Acesso";
 import { supabase } from "@/integrations/supabase/client";
 import { RodapeInstitucional } from "@/components/RodapeInstitucional";
+import { SecurityProtection } from "@/components/SecurityProtection";
 
 const AssistenteFlutuante = lazy(async () => {
   const modulo = await import("@/components/AssistenteFlutuante");
@@ -185,6 +186,7 @@ export function AppShell({
 
 
   return (
+    <SecurityProtection>
     <div className="liquid-workspace min-h-screen w-full bg-background">
       <div className="liquid-atmosphere" aria-hidden="true">
         <div className="liquid-blob liquid-blob-a" />
@@ -289,5 +291,6 @@ export function AppShell({
         </Suspense>
       )}
     </div>
+    </SecurityProtection>
   );
 }
