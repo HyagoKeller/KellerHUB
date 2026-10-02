@@ -2,6 +2,12 @@
 // Estado compartilhado simples (store + assinantes) para que o cabeçalho e a
 // tela de Configurações fiquem sincronizados sem alterar os módulos.
 import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import {
+  obterPortalCompleto,
+  obterPortalPublico,
+  salvarPortalCompartilhado,
+} from "./portal.functions";
 
 export type Modo = "claro" | "escuro";
 
@@ -136,7 +142,7 @@ export function aplicarPortal(config: ConfigPortal) {
   raiz.dataset["paleta"] = config.paleta;
 }
 
-export function salvarPortal(config: ConfigPortal) {
+function salvarCopiaLocal(config: ConfigPortal) {
   estado = config;
   try {
     localStorage.setItem(CHAVE, JSON.stringify(config));
@@ -149,8 +155,14 @@ export function salvarPortal(config: ConfigPortal) {
 
 export function usePortal() {
   const [config, setConfig] = useState<ConfigPortal>(estado);
+  const [carregando, setCarregando] = useState(!carregado);
+  const [erro, setErro] = useState("");
+  const obterPublico = useServerFn(obterPortalPublico);
+  const obterCompleto = useServerFn(obterPortalCompleto);
+  const salvarCompartilhado = useServerFn(salvarPortalCompartilhado);
 
   useEffect(() => {
+    let ativo = true;
     if (!carregado) {
       estado = ler();
       carregado = true;
@@ -158,15 +170,58 @@ export function usePortal() {
     setConfig(estado);
     aplicarPortal(estado);
     assinantes.add(setConfig);
+    const sincronizar = async () => {
+      try {
+        const publico = await obterPublico();
+        if (!ativo) return;
+        if (publico && typeof publico === "object" && !Array.isArray(publico)) {
+          salvarCopiaLocal({ ...estado, ...(publico as Partial<ConfigPortal>) });
+        }
+        try {
+          const completo = await obterCompleto();
+          if (!ativo) return;
+          if (completo) {
+            salvarCopiaLocal({ ...configPortalPadrao, ...completo });
+          } else if (!publico) {
+            const salvo = await salvarCompartilhado({ data: estado });
+            if (ativo) salvarCopiaLocal({ ...configPortalPadrao, ...salvo });
+          }
+        } catch {
+          // A leitura pública continua suficiente antes da autenticação.
+        }
+        if (ativo) setErro("");
+      } catch {
+        if (ativo) setErro("Não foi possível atualizar as configurações compartilhadas. A cópia deste dispositivo foi mantida.");
+      } finally {
+        if (ativo) setCarregando(false);
+      }
+    };
+    void sincronizar();
     return () => {
+      ativo = false;
       assinantes.delete(setConfig);
     };
-  }, []);
+  }, [obterCompleto, obterPublico, salvarCompartilhado]);
+
+  const salvar = async (proximo: ConfigPortal) => {
+    setErro("");
+    try {
+      const salvo = await salvarCompartilhado({ data: proximo });
+      const normalizado = { ...configPortalPadrao, ...salvo };
+      salvarCopiaLocal(normalizado);
+      return normalizado;
+    } catch (falha) {
+      const mensagem = falha instanceof Error ? falha.message : "Não foi possível salvar as configurações compartilhadas.";
+      setErro(mensagem);
+      throw falha;
+    }
+  };
 
   return {
     config,
-    salvar: salvarPortal,
-    alternarModo: () =>
-      salvarPortal({ ...estado, modo: estado.modo === "escuro" ? "claro" : "escuro" }),
+    salvar,
+    carregando,
+    erro,
+    alternarModo: () => salvar({ ...estado, modo: estado.modo === "escuro" ? "claro" : "escuro" }),
   };
 }

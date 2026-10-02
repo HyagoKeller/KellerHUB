@@ -9,6 +9,7 @@ import {
   ImageUp,
   KeyRound,
   Link2,
+  LoaderCircle,
   Moon,
   Plus,
   RotateCcw,
@@ -196,7 +197,7 @@ function Configuracoes() {
   const [integracoes, setIntegracoes] = useState(integracoesIniciais);
   const { views, criar, remover } = useViews();
   const { config: motorConfig, salvar: salvarMotor, motor } = useMotorIA();
-  const { config: portalConfig, salvar: salvarPortal } = usePortal();
+  const { config: portalConfig, salvar: salvarPortal, carregando: carregandoPortal, erro: erroPortal } = usePortal();
 
   const [rascunhoMotor, setRascunhoMotor] = useState(motorConfig);
   const [senhaMotor, setSenhaMotor] = useState("");
@@ -215,8 +216,22 @@ function Configuracoes() {
   const motorRascunho = motoresIA.find((m) => m.id === rascunhoMotor.motorId) ?? motoresIA[0];
 
   const [rascunhoPortal, setRascunhoPortal] = useState<ConfigPortal>(portalConfig);
+  const [salvandoPortal, setSalvandoPortal] = useState(false);
+  const [mensagemPortal, setMensagemPortal] = useState("");
   useEffect(() => setRascunhoPortal(portalConfig), [portalConfig]);
   const portalAlterado = JSON.stringify(rascunhoPortal) !== JSON.stringify(portalConfig);
+  const confirmarPortal = async () => {
+    setSalvandoPortal(true);
+    setMensagemPortal("");
+    try {
+      await salvarPortal(rascunhoPortal);
+      setMensagemPortal("Configurações compartilhadas salvas para todos os dispositivos.");
+    } catch {
+      setMensagemPortal("");
+    } finally {
+      setSalvandoPortal(false);
+    }
+  };
 
 
 
@@ -280,28 +295,29 @@ function Configuracoes() {
               Identidade do portal
             </h2>
             <p className="mt-1 text-[11px] text-muted-foreground">
-              {portalAlterado
+              {carregandoPortal
+                ? "Carregando configurações compartilhadas."
+                : portalAlterado
                 ? "Alterações não salvas. Clique em Salvar para aplicar."
-                : "Nome, logo, paleta e modo de exibição da organização."}
+                : mensagemPortal || erroPortal || "Nome, logo, paleta e modo de exibição da organização."}
             </p>
           </div>
           <div className="flex shrink-0 gap-2">
-            <button
-              type="button"
+            <Button
+              variant="outline"
+              size="sm"
               onClick={() => setRascunhoPortal(portalConfig)}
-              disabled={!portalAlterado}
-              className="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40"
+              disabled={!portalAlterado || salvandoPortal || carregandoPortal}
             >
               <RotateCcw className="h-3.5 w-3.5" /> Cancelar
-            </button>
-            <button
-              type="button"
-              onClick={() => salvarPortal(rascunhoPortal)}
-              disabled={!portalAlterado}
-              className="inline-flex items-center gap-2 rounded-xl bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
+            </Button>
+            <Button
+              size="sm"
+              onClick={() => void confirmarPortal()}
+              disabled={!portalAlterado || salvandoPortal || carregandoPortal}
             >
-              <Save className="h-3.5 w-3.5" /> Salvar
-            </button>
+              {salvandoPortal ? <LoaderCircle className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />} {salvandoPortal ? "Salvando" : "Salvar"}
+            </Button>
           </div>
         </div>
 
@@ -545,8 +561,8 @@ function Configuracoes() {
           </div>
         </div>
         <div className="mt-5 flex items-center justify-between gap-3 border-t border-border/60 pt-4">
-          <p className="text-xs text-muted-foreground">{portalAlterado ? "Há alterações não salvas nestas preferências." : "Todas as preferências estão salvas."}</p>
-          <div className="flex gap-2"><Button variant="outline" size="sm" disabled={!portalAlterado} onClick={() => setRascunhoPortal(portalConfig)}><RotateCcw /> Cancelar</Button><Button size="sm" disabled={!portalAlterado} onClick={() => salvarPortal(rascunhoPortal)}><Save /> Salvar preferências</Button></div>
+          <p className="text-xs text-muted-foreground">{carregandoPortal ? "Carregando configurações compartilhadas." : erroPortal || mensagemPortal || (portalAlterado ? "Há alterações não salvas nestas preferências." : "Todas as preferências estão salvas e compartilhadas.")}</p>
+          <div className="flex gap-2"><Button variant="outline" size="sm" disabled={!portalAlterado || salvandoPortal || carregandoPortal} onClick={() => setRascunhoPortal(portalConfig)}><RotateCcw /> Cancelar</Button><Button size="sm" disabled={!portalAlterado || salvandoPortal || carregandoPortal} onClick={() => void confirmarPortal()}>{salvandoPortal ? <LoaderCircle className="animate-spin" /> : <Save />} {salvandoPortal ? "Salvando" : "Salvar preferências"}</Button></div>
         </div>
       </Panel>
 
