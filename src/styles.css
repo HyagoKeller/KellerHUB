@@ -363,8 +363,8 @@
 .liquid-blob {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(90px);
-  opacity: 0.5;
+  filter: blur(64px);
+  opacity: 0.46;
   will-change: transform;
 }
 
@@ -522,6 +522,32 @@
     animation-duration: 0.01ms !important;
   }
 
+}
+
+@media (max-width: 768px), (hover: none) {
+  .liquid-workspace {
+    background-attachment: scroll;
+  }
+
+  .liquid-blob {
+    filter: blur(46px);
+    will-change: auto;
+    animation: none;
+  }
+
+  .panel,
+  .glass-control,
+  .nav-glass,
+  .nav-active-glass,
+  .panel input:not([type="file"]),
+  .panel select,
+  .panel textarea {
+    backdrop-filter: blur(12px) saturate(125%);
+  }
+
+  .panel::after {
+    animation: none;
+  }
 }
 
 /* Responsividade: conteúdo nunca força largura além da tela */

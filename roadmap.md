@@ -23,3 +23,4 @@
 
 - [x] Remover a identidade Lovable do ícone do navegador e ocultar o selo Lovable Edit
 - [x] Criar o acesso Superadministrador do cliente com perfil e restringir a configuração de IA ao responsável Hyago Keller
+- [x] Otimizar carregamento inicial, navegação, cálculos de acesso e efeitos Liquid Glass em dispositivos móveis

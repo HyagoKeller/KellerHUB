@@ -1,6 +1,6 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 import {
   LayoutDashboard,
   Layers,
@@ -25,11 +25,14 @@ import { usuarioAtual, organizacoes } from "@/lib/mock-data";
 import { usePortal } from "@/lib/portal";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { AssistenteFlutuante } from "@/components/AssistenteFlutuante";
 import { BuscaGlobal, SeletorArea, SimularPerfil } from "@/components/Acesso";
 import { supabase } from "@/integrations/supabase/client";
 import { RodapeInstitucional } from "@/components/RodapeInstitucional";
 
+const AssistenteFlutuante = lazy(async () => {
+  const modulo = await import("@/components/AssistenteFlutuante");
+  return { default: modulo.AssistenteFlutuante };
+});
 
 const nav = [
   { to: "/", label: "Visão executiva", icon: LayoutDashboard, exact: true },
@@ -154,10 +157,25 @@ export function AppShell({
   children: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const [carregarAssistente, setCarregarAssistente] = useState(false);
   const { config, alternarModo } = usePortal();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  useEffect(() => {
+    if (pathname.startsWith("/assistente")) return;
+    const ativar = () => setCarregarAssistente(true);
+    const janela = window as Window & {
+      requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (janela.requestIdleCallback) {
+      const id = janela.requestIdleCallback(ativar, { timeout: 2500 });
+      return () => janela.cancelIdleCallback?.(id);
+    }
+    const id = window.setTimeout(ativar, 1200);
+    return () => window.clearTimeout(id);
+  }, [pathname]);
   const sair = async () => {
     await queryClient.cancelQueries();
     queryClient.clear();
@@ -265,7 +283,11 @@ export function AppShell({
           <RodapeInstitucional className="pb-2 pt-10" />
         </main>
       </div>
-      {!pathname.startsWith("/assistente") && <AssistenteFlutuante />}
+      {carregarAssistente && !pathname.startsWith("/assistente") && (
+        <Suspense fallback={null}>
+          <AssistenteFlutuante />
+        </Suspense>
+      )}
     </div>
   );
 }

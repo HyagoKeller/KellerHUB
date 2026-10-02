@@ -1,6 +1,6 @@
 // Controle de visibilidade por ÁREA (perfil × escopo de área), inspirado nos workspaces do monday.com.
 // Dados de demonstração persistidos neste navegador.
-import { useSyncExternalStore } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import { useCarteira } from "@/lib/carteira";
 import { indicadores, riscos, type Portfolio, type Programa, type Projeto } from "@/lib/mock-data";
 
@@ -261,53 +261,52 @@ export const podeEditarNivel = (n: NivelPermissao) => n !== "Somente leitura";
 export function useCarteiraVisivel() {
   const cart = useCarteira();
   const e = useAcessoEstado();
-  const u = usuarioPorId(e.simuladoId) ?? usuarios[0];
-  const c: Ctx = { e, u, pf: cart.portfolios, pg: cart.programas };
-  const portfolios = cart.portfolios.filter((p) => visivel(c, cadeia(c, "portfolio", p.id)));
-  const programas = cart.programas.filter((p) => visivel(c, cadeia(c, "programa", p.id)));
-  const projetos = cart.projetos.filter((p) => visivel(c, cadeiaProjeto(c, p)));
-  const nomesVisiveis = new Set([...portfolios, ...programas].map((x) => x.nome));
-  const nomesTodos = new Set([...cart.portfolios, ...cart.programas].map((x) => x.nome));
-  const riscosVisiveis = riscos.filter((r) => !nomesTodos.has(r.origem) || nomesVisiveis.has(r.origem));
-  const conhecidas = areasConhecidas(e, u);
-  const areasExibidas = e.filtroAreas.length ? conhecidas.filter((a) => e.filtroAreas.includes(a.id)) : conhecidas;
-  const idsExibidas = areasExibidas.map((a) => a.id);
-  const areaPorResp = (nome: string) => {
-    const pf = cart.portfolios.find((p) => p.responsavel === nome);
-    return areaDoPortfolio(e, pf?.id ?? "pf-1");
-  };
-  const indicadoresVisiveis = indicadores.filter((i) => idsExibidas.includes(areaPorResp(i.responsavel)));
+  return useMemo(() => {
+    const u = usuarioPorId(e.simuladoId) ?? usuarios[0];
+    const c: Ctx = { e, u, pf: cart.portfolios, pg: cart.programas };
+    const portfolios = cart.portfolios.filter((p) => visivel(c, cadeia(c, "portfolio", p.id)));
+    const programas = cart.programas.filter((p) => visivel(c, cadeia(c, "programa", p.id)));
+    const projetos = cart.projetos.filter((p) => visivel(c, cadeiaProjeto(c, p)));
+    const nomesVisiveis = new Set([...portfolios, ...programas].map((x) => x.nome));
+    const nomesTodos = new Set([...cart.portfolios, ...cart.programas].map((x) => x.nome));
+    const riscosVisiveis = riscos.filter((r) => !nomesTodos.has(r.origem) || nomesVisiveis.has(r.origem));
+    const conhecidas = areasConhecidas(e, u);
+    const areasExibidas = e.filtroAreas.length ? conhecidas.filter((a) => e.filtroAreas.includes(a.id)) : conhecidas;
+    const idsExibidas = new Set(areasExibidas.map((a) => a.id));
+    const areaPorResp = new Map(cart.portfolios.map((p) => [p.responsavel, areaDoPortfolio(e, p.id)]));
+    const indicadoresVisiveis = indicadores.filter((i) => idsExibidas.has(areaPorResp.get(i.responsavel) ?? areaDoPortfolio(e, "pf-1")));
 
-  const chave = (tipo: TipoObjeto, id: string) => {
-    if (tipo === "projeto") {
-      const p = cart.projetos.find((x) => x.id === id);
-      return p ? cadeiaProjeto(c, p) : { ids: [id], areaId: "" };
-    }
-    return cadeia(c, tipo, id);
-  };
-  const responsavelDe = (tipo: TipoObjeto, id: string) =>
-    tipo === "portfolio"
-      ? cart.portfolios.find((x) => x.id === id)?.responsavel ?? ""
-      : tipo === "programa"
-        ? cart.programas.find((x) => x.id === id)?.gerente ?? ""
-        : cart.projetos.find((x) => x.id === id)?.gerente ?? "";
+    const chave = (tipo: TipoObjeto, id: string) => {
+      if (tipo === "projeto") {
+        const p = cart.projetos.find((x) => x.id === id);
+        return p ? cadeiaProjeto(c, p) : { ids: [id], areaId: "" };
+      }
+      return cadeia(c, tipo, id);
+    };
+    const responsavelDe = (tipo: TipoObjeto, id: string) =>
+      tipo === "portfolio"
+        ? cart.portfolios.find((x) => x.id === id)?.responsavel ?? ""
+        : tipo === "programa"
+          ? cart.programas.find((x) => x.id === id)?.gerente ?? ""
+          : cart.projetos.find((x) => x.id === id)?.gerente ?? "";
 
-  return {
-    ...cart,
-    portfolios,
-    programas,
-    projetos,
-    riscos: riscosVisiveis,
-    indicadores: indicadoresVisiveis,
-    usuario: u,
-    estado: e,
-    areasExibidas,
-    ocultarValores: u.perfil === "Técnico",
-    podeCriar: u.perfil !== "Técnico",
-    nivel: (tipo: TipoObjeto, id: string) => nivel(c, chave(tipo, id), tipo, responsavelDe(tipo, id)),
-    podeEditar: (tipo: TipoObjeto, id: string) => podeEditarNivel(nivel(c, chave(tipo, id), tipo, responsavelDe(tipo, id))),
-    cadeia: chave,
-    areaDe: (tipo: TipoObjeto, id: string) => e.areas.find((a) => a.id === chave(tipo, id).areaId),
-    podeAdministrar: u.perfil === "Administrador/PMO",
-  };
+    return {
+      ...cart,
+      portfolios,
+      programas,
+      projetos,
+      riscos: riscosVisiveis,
+      indicadores: indicadoresVisiveis,
+      usuario: u,
+      estado: e,
+      areasExibidas,
+      ocultarValores: u.perfil === "Técnico",
+      podeCriar: u.perfil !== "Técnico",
+      nivel: (tipo: TipoObjeto, id: string) => nivel(c, chave(tipo, id), tipo, responsavelDe(tipo, id)),
+      podeEditar: (tipo: TipoObjeto, id: string) => podeEditarNivel(nivel(c, chave(tipo, id), tipo, responsavelDe(tipo, id))),
+      cadeia: chave,
+      areaDe: (tipo: TipoObjeto, id: string) => e.areas.find((a) => a.id === chave(tipo, id).areaId),
+      podeAdministrar: u.perfil === "Administrador/PMO",
+    };
+  }, [cart, e]);
 }
