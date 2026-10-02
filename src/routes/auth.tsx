@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Building2, KeyRound, LoaderCircle, LogIn, Mail, ShieldCheck } from "lucide-react";
+import { Building2, Eye, EyeOff, KeyRound, LoaderCircle, LogIn, Mail, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,6 +28,7 @@ function AuthPage() {
   const { next } = Route.useSearch();
   const [identificador, setIdentificador] = useState("");
   const [senha, setSenha] = useState("");
+  const [senhaVisivel, setSenhaVisivel] = useState(false);
   const [ocupado, setOcupado] = useState(false);
   const [mensagem, setMensagem] = useState("");
   const [erro, setErro] = useState("");
@@ -49,9 +50,14 @@ function AuthPage() {
     setErro("");
     setMensagem("");
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
       if (error) throw error;
-      const resultado = await garantirSuperadmin();
+      if (!data.user || !data.session) throw new Error("Não foi possível confirmar a sessão de acesso.");
+      await supabase.auth.setSession({
+        access_token: data.session.access_token,
+        refresh_token: data.session.refresh_token,
+      });
+      const resultado = await garantirSuperadmin(data.user);
       if (!resultado.autorizado) throw new Error("Este usuário não possui acesso à demonstração.");
       await navigate({ to: destino });
     } catch (falha) {
@@ -127,7 +133,13 @@ function AuthPage() {
                     <div className="relative mt-2"><Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={identificador} onChange={(event) => setIdentificador(event.target.value)} autoComplete="username" className="pl-9" /></div>
                   </label>
                   <label className="block text-sm font-medium">Senha
-                    <div className="relative mt-2"><KeyRound className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><Input type="password" value={senha} onChange={(event) => setSenha(event.target.value)} onKeyDown={(event) => event.key === "Enter" && void enviar()} autoComplete="current-password" className="pl-9" /></div>
+                    <div className="relative mt-2">
+                      <KeyRound className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <Input type={senhaVisivel ? "text" : "password"} value={senha} onChange={(event) => setSenha(event.target.value)} onKeyDown={(event) => event.key === "Enter" && void enviar()} autoComplete="current-password" className="px-9" />
+                      <Button type="button" variant="ghost" size="icon-sm" className="absolute right-1 top-0.5 text-muted-foreground" onClick={() => setSenhaVisivel((visivel) => !visivel)} aria-label={senhaVisivel ? "Ocultar senha" : "Mostrar senha"} title={senhaVisivel ? "Ocultar senha" : "Mostrar senha"}>
+                        {senhaVisivel ? <EyeOff /> : <Eye />}
+                      </Button>
+                    </div>
                   </label>
                 </div>
                 {erro && <p role="alert" className="mt-4 rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">{erro}</p>}

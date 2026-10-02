@@ -1,11 +1,14 @@
 import { supabase } from "@/integrations/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
 export const EMAIL_SUPERADMIN = "hyagokeller@outlook.com.br";
 export const EMAIL_CLIENTE_DEMO = "nucleo@hepta.com.br";
 export const EMAILS_SUPERADMIN = [EMAIL_SUPERADMIN, EMAIL_CLIENTE_DEMO] as const;
 
-export async function garantirSuperadmin() {
-  const { data, error } = await supabase.auth.getUser();
+export async function garantirSuperadmin(usuarioConfirmado?: User) {
+  const { data, error } = usuarioConfirmado
+    ? { data: { user: usuarioConfirmado }, error: null }
+    : await supabase.auth.getUser();
   if (error || !data.user) return { autorizado: false, user: null };
 
   const { data: papel, error: papelErro } = await supabase
