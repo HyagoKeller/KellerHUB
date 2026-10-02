@@ -197,6 +197,9 @@ function Configuracoes() {
   const { config: portalConfig, salvar: salvarPortal } = usePortal();
 
   const [rascunhoMotor, setRascunhoMotor] = useState(motorConfig);
+  const [senhaMotor, setSenhaMotor] = useState("");
+  const [salvandoMotor, setSalvandoMotor] = useState(false);
+  const [mensagemMotor, setMensagemMotor] = useState("");
   useEffect(() => setRascunhoMotor(motorConfig), [motorConfig]);
   const motorAlterado = JSON.stringify(rascunhoMotor) !== JSON.stringify(motorConfig);
   const motorRascunho = motoresIA.find((m) => m.id === rascunhoMotor.motorId) ?? motoresIA[0];
@@ -602,13 +605,33 @@ function Configuracoes() {
             </button>
             <button
               type="button"
-              onClick={() => salvarMotor(rascunhoMotor)}
-              disabled={!motorAlterado}
+              onClick={() => {
+                setSalvandoMotor(true);
+                setMensagemMotor("");
+                void salvarMotor(rascunhoMotor, senhaMotor)
+                  .then(() => { setSenhaMotor(""); setMensagemMotor("Configuração salva com confirmação de senha."); })
+                  .catch((erro) => setMensagemMotor(erro instanceof Error ? erro.message : "Não foi possível salvar a configuração."))
+                  .finally(() => setSalvandoMotor(false));
+              }}
+              disabled={!motorAlterado || senhaMotor.length < 8 || salvandoMotor}
               className="inline-flex items-center gap-2 rounded-xl bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
             >
-              <Save className="h-3.5 w-3.5" /> Salvar
+              <Save className="h-3.5 w-3.5" /> {salvandoMotor ? "Salvando" : "Salvar"}
             </button>
           </div>
+        </div>
+        <div className="mb-4 grid max-w-md gap-1.5 text-xs">
+          <span className="eyebrow text-muted-foreground">Confirmar senha do Superadministrador</span>
+          <input
+            type="password"
+            value={senhaMotor}
+            onChange={(event) => setSenhaMotor(event.target.value)}
+            autoComplete="current-password"
+            placeholder="Senha atual"
+            className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
+          />
+          <span className="text-[11px] text-muted-foreground">A senha é confirmada com segurança e não é armazenada.</span>
+          {mensagemMotor && <span role="status" className="text-[11px] text-foreground">{mensagemMotor}</span>}
         </div>
         <p className="mb-4 max-w-3xl text-xs leading-relaxed text-muted-foreground">
           O assistente é independente do fornecedor: troque o motor sem alterar módulos, dados ou
@@ -652,7 +675,7 @@ function Configuracoes() {
           })}
         </div>
 
-        {motorRascunho?.contaPropria && (
+        {motorRascunho?.contaPropria && motorRascunho.id !== "gemini" && (
           <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-border bg-card/60 p-4">
             <div>
               <p className="text-sm font-medium">Conectar minha própria conta {motorRascunho.fornecedor}</p>
@@ -675,7 +698,7 @@ function Configuracoes() {
           </div>
         )}
 
-        {(motorRascunho?.tipo === "externo" || rascunhoMotor.credencialPropria) && (
+        {(motorRascunho?.tipo === "externo" || (rascunhoMotor.credencialPropria && motorRascunho.id !== "gemini")) && (
           <div className="mt-4 grid gap-4 rounded-2xl border border-warning/40 bg-warning/5 p-4">
             <p className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
               <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-warning" />

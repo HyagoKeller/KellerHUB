@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_settings: {
+        Row: {
+          config: Json
+          created_at: string
+          id: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          id: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          id?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
