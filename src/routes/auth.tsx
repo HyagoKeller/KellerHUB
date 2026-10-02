@@ -26,7 +26,6 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const { next } = Route.useSearch();
-  const [modo, setModo] = useState<"entrar" | "ativar">("entrar");
   const [identificador, setIdentificador] = useState(EMAIL_SUPERADMIN);
   const [senha, setSenha] = useState("");
   const [ocupado, setOcupado] = useState(false);
@@ -54,21 +53,8 @@ function AuthPage() {
     setErro("");
     setMensagem("");
     try {
-      if (modo === "ativar") {
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password: senha,
-          options: { emailRedirectTo: window.location.origin },
-        });
-        if (error) throw error;
-        if (!data.session) {
-          setMensagem("Conta criada. Confirme o acesso no e-mail informado e depois entre com sua senha.");
-          return;
-        }
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
-        if (error) throw error;
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
+      if (error) throw error;
       const resultado = await garantirSuperadmin();
       if (!resultado.autorizado) throw new Error("Este usuário não possui acesso à demonstração.");
       await navigate({ to: destino });
@@ -120,7 +106,7 @@ function AuthPage() {
                 {acessoDiretorio ? <Building2 className="h-5 w-5" /> : <LogIn className="h-5 w-5" />}
               </div>
               <div>
-                <h2 className="font-display text-xl font-semibold">{modo === "entrar" ? "Acessar a plataforma" : "Ativar conta Superadministrador"}</h2>
+                <h2 className="font-display text-xl font-semibold">Acessar a plataforma</h2>
                 <p className="text-sm text-muted-foreground">{acessoDiretorio ? "Acesso pelo diretório corporativo" : "Informe seus dados de acesso"}</p>
               </div>
             </div>
@@ -139,15 +125,14 @@ function AuthPage() {
                     <div className="relative mt-2"><Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={identificador} onChange={(event) => setIdentificador(event.target.value)} autoComplete="username" className="pl-9" /></div>
                   </label>
                   <label className="block text-sm font-medium">Senha
-                    <div className="relative mt-2"><KeyRound className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><Input type="password" value={senha} onChange={(event) => setSenha(event.target.value)} onKeyDown={(event) => event.key === "Enter" && void enviar()} autoComplete={modo === "entrar" ? "current-password" : "new-password"} className="pl-9" /></div>
+                    <div className="relative mt-2"><KeyRound className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><Input type="password" value={senha} onChange={(event) => setSenha(event.target.value)} onKeyDown={(event) => event.key === "Enter" && void enviar()} autoComplete="current-password" className="pl-9" /></div>
                   </label>
                 </div>
                 {erro && <p role="alert" className="mt-4 rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">{erro}</p>}
                 {mensagem && <p role="status" className="mt-4 rounded-xl border border-success/40 bg-success/10 p-3 text-sm text-success">{mensagem}</p>}
-                <Button className="mt-6 w-full" onClick={() => void enviar()} disabled={ocupado}>{ocupado ? <LoaderCircle className="animate-spin" /> : <LogIn />}{modo === "entrar" ? "Entrar" : "Criar e confirmar conta"}</Button>
-                <div className="mt-4 flex flex-wrap justify-between gap-2 text-sm">
-                  <Button variant="link" className="h-auto p-0" onClick={() => { setModo(modo === "entrar" ? "ativar" : "entrar"); setErro(""); setMensagem(""); }}>{modo === "entrar" ? "Primeiro acesso" : "Já tenho uma conta"}</Button>
-                  {modo === "entrar" && <Button variant="link" className="h-auto p-0" onClick={() => void recuperar()} disabled={ocupado}>Esqueci minha senha</Button>}
+                <Button className="mt-6 w-full" onClick={() => void enviar()} disabled={ocupado}>{ocupado ? <LoaderCircle className="animate-spin" /> : <LogIn />}Entrar</Button>
+                <div className="mt-4 flex justify-end text-sm">
+                  <Button variant="link" className="h-auto p-0" onClick={() => void recuperar()} disabled={ocupado}>Esqueci minha senha</Button>
                 </div>
               </>
             )}
