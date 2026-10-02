@@ -2,7 +2,7 @@
 // a um único fornecedor (requisito 4.153.1 "j").
 import { createOpenAI } from "@ai-sdk/openai";
 import type { LanguageModel } from "ai";
-import { createGovernancaAiProvider } from "./ai-gateway.server";
+import { createGovernancaAiProvider, createGovernancaCompatibleProvider } from "./ai-gateway.server";
 import { motorPorId, type ConfigMotorIA } from "./ai-provedores";
 
 export type ResolucaoMotor =
@@ -24,11 +24,9 @@ export function resolverMotor(
         mensagem: "Assistente indisponível: credencial interna de IA não configurada.",
       };
     }
-    const provider = createGovernancaAiProvider(apiKey, fetchImpl);
-    const model =
-      motor.id === "nativa"
-        ? provider.responses(motor.modelo)
-        : provider.chat(motor.modelo);
+    const model = motor.id === "nativa"
+      ? createGovernancaAiProvider(apiKey, fetchImpl).responses(motor.modelo)
+      : createGovernancaCompatibleProvider(apiKey, fetchImpl)(motor.modelo);
     return { ok: true, model, motor: motor.nome, externo: false };
   }
 

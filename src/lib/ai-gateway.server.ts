@@ -1,6 +1,7 @@
 // Conexão server-side com o Lovable AI Gateway (Responses API).
 // A chave nunca sai do servidor.
 import { createOpenAI } from "@ai-sdk/openai";
+import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
 const RUN_ID_HEADER = "X-Lovable-AIG-Run-ID";
 
@@ -35,6 +36,21 @@ export function createGovernancaAiProvider(
   return createOpenAI({
     baseURL: "https://ai.gateway.lovable.dev/v1",
     apiKey,
+    headers: {
+      "Lovable-API-Key": apiKey,
+      "X-Lovable-AIG-SDK": "vercel-ai-sdk",
+    },
+    fetch: fetchImpl,
+  });
+}
+
+export function createGovernancaCompatibleProvider(
+  apiKey: string,
+  fetchImpl: typeof fetch,
+) {
+  return createOpenAICompatible({
+    name: "lovable",
+    baseURL: "https://ai.gateway.lovable.dev/v1",
     headers: {
       "Lovable-API-Key": apiKey,
       "X-Lovable-AIG-SDK": "vercel-ai-sdk",

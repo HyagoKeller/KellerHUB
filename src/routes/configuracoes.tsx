@@ -637,8 +637,8 @@ function Configuracoes() {
           O assistente é independente do fornecedor: troque o motor sem alterar módulos, dados ou
           telas da plataforma. Os motores internos (IA nativa, ChatGPT e Gemini) rodam pela conta de IA
           da própria plataforma: o consumo entra no plano contratado, sem cobrança separada por
-          consulta para a organização. Se preferir, conecte a sua própria conta OpenAI ou Google:
-          aí o consumo passa a ser cobrado diretamente pelo fornecedor.
+          consulta para a organização. A configuração fica no servidor e só pode ser alterada após
+          a confirmação da senha do Superadministrador.
         </p>
 
         <div className="grid gap-3 md:grid-cols-3">
