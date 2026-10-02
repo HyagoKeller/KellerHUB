@@ -19,4 +19,4 @@
 - [x] Adicionar crédito de desenvolvimento e direitos reservados, mantendo a publicação pausada
 - [x] Remodelar a tela de acesso com identidade configurável, acesso Local ou Active Directory e preparação do botão Microsoft 365
 
-- [ ] Remover a identidade Lovable do ícone do navegador e ocultar o selo Lovable Edit
+- [x] Remover a identidade Lovable do ícone do navegador e ocultar o selo Lovable Edit
