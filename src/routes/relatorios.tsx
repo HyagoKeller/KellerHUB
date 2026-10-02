@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Check,
   Copy,
@@ -17,6 +17,19 @@ import { auditoria, relatorios } from "@/lib/mock-data";
 import { useAcessoEstado } from "@/lib/acesso";
 import type { Perfil } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { listarAuditoriaSeguranca, registrarEventoSeguranca } from "@/lib/security.functions";
+
+type EventoSeguranca = Awaited<ReturnType<typeof listarAuditoriaSeguranca>>[number];
+
+const rotulosEventos: Record<string, string> = {
+  authenticated_access: "Acesso autenticado",
+  terms_accepted: "Aceite dos termos",
+  ai_settings_changed: "Configuração de IA",
+  assistant_used: "Uso do assistente",
+  report_exported: "Exportação",
+  administrative_action: "Ação administrativa",
+};
 
 export const Route = createFileRoute("/relatorios")({
   head: () => ({
@@ -153,9 +166,24 @@ function Relatorios() {
   const [pub, setPub] = useState(publicacaoInicial);
   const [selecionado, setSelecionado] = useState(relatorios[0].id);
   const [copiado, setCopiado] = useState<string | null>(null);
+  const [auditoriaSeguranca, setAuditoriaSeguranca] = useState<EventoSeguranca[]>([]);
 
   const atual = pub[selecionado];
   const relatorioAtual = relatorios.find((r) => r.id === selecionado)!;
+
+  useEffect(() => {
+    void listarAuditoriaSeguranca().then(setAuditoriaSeguranca).catch(() => setAuditoriaSeguranca([]));
+  }, []);
+
+  const auditarExportacao = (formato: string, relatorioId = selecionado) => {
+    void registrarEventoSeguranca({ data: {
+      eventType: "report_exported",
+      entityType: "report",
+      entityId: relatorioId,
+      result: "success",
+      context: { format: formato },
+    } }).catch(() => undefined);
+  };
 
   const definirAcesso = (id: string, acesso: Acesso) =>
     setPub((p) => ({ ...p, [id]: { ...p[id], acesso } }));
@@ -210,15 +238,15 @@ function Relatorios() {
       description="Publique painéis com link público, link autenticado ou acesso restrito aos perfis liberados, com permissões granulares por ação."
       actions={
         <>
-          <button className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm font-medium hover:bg-muted">
+          <Button variant="outline" onClick={() => auditarExportacao("xlsx")}>
             <FileSpreadsheet className="h-4 w-4" /> XLSX
-          </button>
-          <button className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm font-medium hover:bg-muted">
+          </Button>
+          <Button variant="outline" onClick={() => auditarExportacao("json")}>
             <FileJson className="h-4 w-4" /> JSON
-          </button>
-          <button className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
+          </Button>
+          <Button>
             Publicar relatório
-          </button>
+          </Button>
         </>
       }
     >
@@ -307,7 +335,7 @@ function Relatorios() {
                         </button>
                         <button
                           aria-label="Baixar"
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e) => { e.stopPropagation(); auditarExportacao(r.formato, r.id); }}
                           className="rounded-md border border-border p-1.5 text-muted-foreground hover:text-foreground"
                         >
                           <Download className="h-3.5 w-3.5" />
@@ -473,6 +501,15 @@ function Relatorios() {
               </tr>
             </thead>
             <tbody>
+              {auditoriaSeguranca.map((a) => (
+                <tr key={a.id} className="border-b border-border/70 last:border-0">
+                  <td className="num whitespace-nowrap px-5 py-3 text-muted-foreground">{new Date(a.created_at).toLocaleString("pt-BR")}</td>
+                  <td className="px-5 py-3"><span className="block truncate font-medium">{a.user_id.slice(0, 8)}</span><span className="block truncate text-xs text-muted-foreground">Sessão {a.session_reference || "Não se aplica"}</span></td>
+                  <td className="px-5 py-3"><Tag tom={a.result === "success" ? "success" : "danger"}>{rotulosEventos[a.event_type] || a.event_type}</Tag></td>
+                  <td className="max-w-[240px] truncate px-5 py-3 text-muted-foreground">{a.entity_type}</td>
+                  <td className="max-w-[200px] truncate px-5 py-3 text-muted-foreground">{a.entity_id || "Não se aplica"}</td>
+                </tr>
+              ))}
               {[...logAcesso, ...auditoria].map((a) => (
                 <tr key={a.id} className="border-b border-border/70 last:border-0">
                   <td className="num whitespace-nowrap px-5 py-3 text-muted-foreground">{a.quando}</td>
