@@ -53,10 +53,6 @@ function AuthPage() {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
       if (error) throw error;
       if (!data.user || !data.session) throw new Error("Não foi possível confirmar a sessão de acesso.");
-      await supabase.auth.setSession({
-        access_token: data.session.access_token,
-        refresh_token: data.session.refresh_token,
-      });
       const resultado = await garantirSuperadmin(data.user);
       if (!resultado.autorizado) throw new Error("Este usuário não possui acesso à demonstração.");
       await navigate({ to: destino });
