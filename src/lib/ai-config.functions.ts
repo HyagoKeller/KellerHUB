@@ -1,7 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Database } from "@/integrations/supabase/types";
 
 const motorSchema = z.object({
   motorId: z.enum(["nativa", "chatgpt", "gemini", "claude", "copilot", "personalizado"]),
@@ -22,7 +24,7 @@ const configPadrao = {
 } as const;
 
 async function exigirSuperadmin(
-  supabase: Parameters<Parameters<typeof requireSupabaseAuth>[0]>[0]["context"] extends never ? never : any,
+  supabase: SupabaseClient<Database>,
   userId: string,
 ) {
   const { data, error } = await supabase
