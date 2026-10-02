@@ -17,3 +17,4 @@
 - [ ] Publicar demonstração temporária protegida por login e conta Superadministrador autorizada, aguardando autorização do usuário
 - [ ] Verificar e configurar o domínio próprio kellerhub-demo.com
 - [x] Adicionar crédito de desenvolvimento e direitos reservados, mantendo a publicação pausada
+- [x] Remodelar a tela de acesso com identidade configurável, acesso Local ou Active Directory e preparação do botão Microsoft 365

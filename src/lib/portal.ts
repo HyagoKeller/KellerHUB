@@ -65,6 +65,8 @@ export type ConfigPortal = {
   logo: string;
   mensagemInicioSessao: string;
   logoInicioSessao: string;
+  metodoAcesso: "local" | "ad" | "microsoft365";
+  textoBotaoMicrosoft365: string;
   idioma: string;
   fusoHorario: string;
   localizacao: string;
@@ -84,6 +86,8 @@ export const configPortalPadrao: ConfigPortal = {
   logo: "",
   mensagemInicioSessao: "Bem-vindo ao ambiente de gestão de portfólios, programas e projetos.",
   logoInicioSessao: "",
+  metodoAcesso: "local",
+  textoBotaoMicrosoft365: "Acessar com Microsoft 365",
   idioma: "Português",
   fusoHorario: "America/Sao_Paulo",
   localizacao: "Brasil",

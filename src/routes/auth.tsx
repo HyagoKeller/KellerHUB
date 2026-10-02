@@ -1,11 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { KeyRound, LoaderCircle, Mail, ShieldCheck } from "lucide-react";
+import { Building2, KeyRound, LoaderCircle, LogIn, Mail, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { EMAIL_SUPERADMIN, garantirSuperadmin } from "@/lib/auth";
 import { RodapeInstitucional } from "@/components/RodapeInstitucional";
+import { usePortal } from "@/lib/portal";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>) => ({ next: typeof search.next === "string" ? search.next : "/" }),
@@ -26,14 +27,25 @@ function AuthPage() {
   const navigate = useNavigate();
   const { next } = Route.useSearch();
   const [modo, setModo] = useState<"entrar" | "ativar">("entrar");
+  const [identificador, setIdentificador] = useState(EMAIL_SUPERADMIN);
   const [senha, setSenha] = useState("");
   const [ocupado, setOcupado] = useState(false);
   const [mensagem, setMensagem] = useState("");
   const [erro, setErro] = useState("");
+  const { config } = usePortal();
 
   const destino = next.startsWith("/") && !next.startsWith("//") ? next : "/";
 
   const enviar = async () => {
+    const email = identificador.trim().toLowerCase();
+    if (!email) {
+      setErro("Informe o usuário ou e-mail.");
+      return;
+    }
+    if (email !== EMAIL_SUPERADMIN) {
+      setErro("Este usuário não possui acesso à demonstração.");
+      return;
+    }
     if (senha.length < 8) {
       setErro("Use uma senha com pelo menos 8 caracteres.");
       return;
@@ -44,7 +56,7 @@ function AuthPage() {
     try {
       if (modo === "ativar") {
         const { data, error } = await supabase.auth.signUp({
-          email: EMAIL_SUPERADMIN,
+          email,
           password: senha,
           options: { emailRedirectTo: window.location.origin },
         });
@@ -54,7 +66,7 @@ function AuthPage() {
           return;
         }
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email: EMAIL_SUPERADMIN, password: senha });
+        const { error } = await supabase.auth.signInWithPassword({ email, password: senha });
         if (error) throw error;
       }
       const resultado = await garantirSuperadmin();
@@ -66,6 +78,11 @@ function AuthPage() {
       setOcupado(false);
     }
   };
+
+  const nomeOrganizacao = config.organizacao.trim() || "Keller Hub";
+  const logoAcesso = config.logoInicioSessao || config.logo;
+  const acessoMicrosoft = config.metodoAcesso === "microsoft365";
+  const acessoDiretorio = config.metodoAcesso === "ad";
 
   const recuperar = async () => {
     setOcupado(true);
@@ -79,33 +96,64 @@ function AuthPage() {
   };
 
   return (
-    <main className="liquid-workspace relative grid min-h-screen place-items-center overflow-hidden bg-background px-4 py-10 text-foreground">
+    <main className="liquid-workspace relative grid min-h-screen place-items-center overflow-hidden bg-background px-4 py-8 text-foreground sm:px-6">
       <div className="liquid-atmosphere" aria-hidden="true"><div className="liquid-blob liquid-blob-a" /><div className="liquid-blob liquid-blob-b" /><div className="liquid-blob liquid-blob-c" /></div>
-      <div className="relative z-10 w-full max-w-md">
-      <section className="panel p-6 sm:p-8">
-        <div className="mb-7 flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-xl bg-primary text-primary-foreground"><ShieldCheck className="h-5 w-5" /></div>
-          <div><h1 className="font-display text-xl font-semibold">Keller Hub</h1><p className="text-sm text-muted-foreground">Ambiente de demonstração</p></div>
-        </div>
-        <h2 className="font-display text-2xl font-semibold">{modo === "entrar" ? "Acessar a plataforma" : "Ativar conta Superadministrador"}</h2>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Acesso exclusivo para o responsável autorizado pela demonstração.</p>
-        <div className="mt-6 space-y-4">
-          <label className="block text-sm font-medium">E-mail autorizado
-            <div className="relative mt-2"><Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={EMAIL_SUPERADMIN} readOnly className="pl-9" /></div>
-          </label>
-          <label className="block text-sm font-medium">Senha
-            <div className="relative mt-2"><KeyRound className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><Input type="password" value={senha} onChange={(event) => setSenha(event.target.value)} onKeyDown={(event) => event.key === "Enter" && void enviar()} autoComplete={modo === "entrar" ? "current-password" : "new-password"} className="pl-9" /></div>
-          </label>
-        </div>
-        {erro && <p role="alert" className="mt-4 rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">{erro}</p>}
-        {mensagem && <p role="status" className="mt-4 rounded-xl border border-success/40 bg-success/10 p-3 text-sm text-success">{mensagem}</p>}
-        <Button className="mt-6 w-full" onClick={() => void enviar()} disabled={ocupado}>{ocupado ? <LoaderCircle className="animate-spin" /> : <ShieldCheck />}{modo === "entrar" ? "Entrar" : "Criar e confirmar conta"}</Button>
-        <div className="mt-4 flex flex-wrap justify-between gap-2 text-sm">
-          <Button variant="link" className="h-auto p-0" onClick={() => { setModo(modo === "entrar" ? "ativar" : "entrar"); setErro(""); setMensagem(""); }}>{modo === "entrar" ? "Primeiro acesso" : "Já tenho uma conta"}</Button>
-          {modo === "entrar" && <Button variant="link" className="h-auto p-0" onClick={() => void recuperar()} disabled={ocupado}>Esqueci minha senha</Button>}
-        </div>
-      </section>
-      <RodapeInstitucional className="mt-6" />
+      <div className="relative z-10 w-full max-w-5xl">
+        <section className="panel grid overflow-hidden lg:grid-cols-[0.92fr_1.08fr]">
+          <div className="flex min-h-64 flex-col items-center justify-center border-b border-border/60 p-8 text-center lg:min-h-[500px] lg:border-b-0 lg:border-r lg:p-12">
+            <div className="grid min-h-28 min-w-28 place-items-center">
+              {logoAcesso ? (
+                <img src={logoAcesso} alt={`Logo de ${nomeOrganizacao}`} className="max-h-36 max-w-56 object-contain" />
+              ) : (
+                <div className="grid h-24 w-24 place-items-center rounded-3xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
+                  <ShieldCheck className="h-11 w-11" />
+                </div>
+              )}
+            </div>
+            <h1 className="mt-7 max-w-sm font-display text-2xl font-semibold sm:text-3xl">{nomeOrganizacao}</h1>
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground sm:text-base">{config.mensagemInicioSessao}</p>
+          </div>
+
+          <div className="flex flex-col justify-center p-6 sm:p-10 lg:p-12">
+            <div className="mb-7 flex items-center gap-3">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary/12 text-primary">
+                {acessoDiretorio ? <Building2 className="h-5 w-5" /> : <LogIn className="h-5 w-5" />}
+              </div>
+              <div>
+                <h2 className="font-display text-xl font-semibold">{modo === "entrar" ? "Acessar a plataforma" : "Ativar conta Superadministrador"}</h2>
+                <p className="text-sm text-muted-foreground">{acessoDiretorio ? "Acesso pelo diretório corporativo" : "Informe seus dados de acesso"}</p>
+              </div>
+            </div>
+
+            {acessoMicrosoft ? (
+              <div className="space-y-4">
+                <Button className="w-full" disabled>
+                  <Building2 /> {config.textoBotaoMicrosoft365.trim() || "Acessar com Microsoft 365"}
+                </Button>
+                <p className="text-center text-xs leading-relaxed text-muted-foreground">A autenticação Microsoft 365 ainda não foi habilitada.</p>
+              </div>
+            ) : (
+              <>
+                <div className="space-y-4">
+                  <label className="block text-sm font-medium">Usuário ou e-mail
+                    <div className="relative mt-2"><Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><Input value={identificador} onChange={(event) => setIdentificador(event.target.value)} autoComplete="username" className="pl-9" /></div>
+                  </label>
+                  <label className="block text-sm font-medium">Senha
+                    <div className="relative mt-2"><KeyRound className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><Input type="password" value={senha} onChange={(event) => setSenha(event.target.value)} onKeyDown={(event) => event.key === "Enter" && void enviar()} autoComplete={modo === "entrar" ? "current-password" : "new-password"} className="pl-9" /></div>
+                  </label>
+                </div>
+                {erro && <p role="alert" className="mt-4 rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">{erro}</p>}
+                {mensagem && <p role="status" className="mt-4 rounded-xl border border-success/40 bg-success/10 p-3 text-sm text-success">{mensagem}</p>}
+                <Button className="mt-6 w-full" onClick={() => void enviar()} disabled={ocupado}>{ocupado ? <LoaderCircle className="animate-spin" /> : <LogIn />}{modo === "entrar" ? "Entrar" : "Criar e confirmar conta"}</Button>
+                <div className="mt-4 flex flex-wrap justify-between gap-2 text-sm">
+                  <Button variant="link" className="h-auto p-0" onClick={() => { setModo(modo === "entrar" ? "ativar" : "entrar"); setErro(""); setMensagem(""); }}>{modo === "entrar" ? "Primeiro acesso" : "Já tenho uma conta"}</Button>
+                  {modo === "entrar" && <Button variant="link" className="h-auto p-0" onClick={() => void recuperar()} disabled={ocupado}>Esqueci minha senha</Button>}
+                </div>
+              </>
+            )}
+          </div>
+        </section>
+        <RodapeInstitucional className="mt-6" />
       </div>
     </main>
   );

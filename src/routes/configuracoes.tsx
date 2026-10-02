@@ -7,6 +7,7 @@ import {
   Globe2,
   HardDrive,
   ImageUp,
+  KeyRound,
   Link2,
   Moon,
   Plus,
@@ -15,6 +16,8 @@ import {
   ShieldAlert,
   Sun,
   Trash2,
+  Building2,
+  MonitorCog,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { AreasConfig, SegmentacaoPerfil } from "@/components/AreasConfig";
@@ -441,6 +444,49 @@ function Configuracoes() {
                 {rascunhoPortal.logoInicioSessao && <Button variant="ghost" size="sm" onClick={() => setRascunhoPortal((r) => ({ ...r, logoInicioSessao: "" }))} className="text-destructive"><Trash2 /> Remover</Button>}
               </div>
             </div>
+            <div className="grid gap-2 text-xs">
+              <span className="eyebrow text-muted-foreground">Método de acesso</span>
+              <div className="grid gap-2 sm:grid-cols-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setRascunhoPortal((r) => ({ ...r, metodoAcesso: "local" }))}
+                  className={cn("h-auto justify-start rounded-xl px-3 py-3", rascunhoPortal.metodoAcesso === "local" && "border-primary bg-primary/10")}
+                >
+                  <KeyRound className="h-4 w-4" /> Local
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setRascunhoPortal((r) => ({ ...r, metodoAcesso: "ad" }))}
+                  className={cn("h-auto justify-start rounded-xl px-3 py-3", rascunhoPortal.metodoAcesso === "ad" && "border-primary bg-primary/10")}
+                >
+                  <Building2 className="h-4 w-4" /> Active Directory
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled
+                  title="Disponível após habilitar o login Microsoft 365"
+                  className="h-auto justify-start rounded-xl px-3 py-3"
+                >
+                  <MonitorCog className="h-4 w-4" /> Microsoft 365
+                </Button>
+              </div>
+              <p className="text-[11px] leading-relaxed text-muted-foreground">
+                Local e Active Directory usam usuário ou e-mail e senha. Microsoft 365 ficará disponível após a autenticação corporativa ser habilitada.
+              </p>
+            </div>
+            <label className="grid gap-1.5 text-xs">
+              <span className="eyebrow text-muted-foreground">Texto do botão Microsoft 365</span>
+              <input
+                value={rascunhoPortal.textoBotaoMicrosoft365}
+                onChange={(e) => setRascunhoPortal((r) => ({ ...r, textoBotaoMicrosoft365: e.target.value }))}
+                placeholder="Acessar com Microsoft 365"
+                className="rounded-xl border border-border px-3 py-2 text-sm outline-none focus:border-primary"
+              />
+              <span className="text-[11px] text-muted-foreground">Será aplicado quando o acesso Microsoft 365 for habilitado.</span>
+            </label>
           </div>
 
           <div className="grid content-start gap-4">
