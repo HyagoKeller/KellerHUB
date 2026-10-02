@@ -184,7 +184,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_public_portal_settings: { Args: never; Returns: Json }
     }
     Enums: {
       app_role: "superadmin" | "admin" | "moderator" | "user"

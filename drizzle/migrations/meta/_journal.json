@@ -29,6 +29,13 @@
       "when": 1790969636896,
       "tag": "0003_create_shared_portal_settings",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790969665268,
+      "tag": "0004_restrict_portal_settings_public_access",
+      "breakpoints": true
     }
   ]
 }
