@@ -3,13 +3,11 @@ import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import { createRunIdFetch, getRunIdFromRequest } from "@/lib/ai-gateway.server";
 import { resolverMotor } from "@/lib/ai-modelo.server";
 import { ehPerfil, montarSystemPrompt } from "@/lib/assistente-contexto.server";
-import type { ConfigMotorIA } from "@/lib/ai-provedores";
 import { createClient } from "@supabase/supabase-js";
 
 type CorpoChat = {
   messages?: unknown;
   perfil?: unknown;
-  motor?: Partial<ConfigMotorIA>;
 };
 
 export const Route = createFileRoute("/api/chat")({
@@ -25,7 +23,7 @@ export const Route = createFileRoute("/api/chat")({
         if (identidadeErro || !identidade.user || identidade.user.email?.toLowerCase() !== "hyagokeller@outlook.com.br") {
           return new Response("Não autorizado", { status: 401 });
         }
-        const { messages, perfil, motor } = (await request.json()) as CorpoChat;
+        const { messages, perfil } = (await request.json()) as CorpoChat;
         if (!Array.isArray(messages)) {
           return new Response("Mensagens são obrigatórias", { status: 400 });
         }
@@ -34,12 +32,30 @@ export const Route = createFileRoute("/api/chat")({
         const initialRunId = getRunIdFromRequest(request);
         const runIdFetch = createRunIdFetch(initialRunId);
 
+        const { data: papel } = await cliente
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", identidade.user.id)
+          .eq("role", "superadmin")
+          .maybeSingle();
+        if (!papel) return new Response("Não autorizado", { status: 403 });
+
+        const { data: configuracao, error: configErro } = await cliente
+          .from("app_settings")
+          .select("config")
+          .eq("id", "ai")
+          .maybeSingle();
+        if (configErro) return new Response("Não foi possível carregar o motor de IA.", { status: 500 });
+        const motor = configuracao?.config && typeof configuracao.config === "object"
+          ? configuracao.config
+          : { motorId: "nativa" };
+
         const resolucao = resolverMotor(motor, runIdFetch.fetch);
         if (!resolucao.ok) {
           return new Response(resolucao.mensagem, { status: resolucao.status });
         }
 
-        const nativo = (motor?.motorId ?? "nativa") === "nativa";
+        const nativo = ("motorId" in motor ? motor.motorId : "nativa") === "nativa";
 
         const result = streamText({
           model: resolucao.model,

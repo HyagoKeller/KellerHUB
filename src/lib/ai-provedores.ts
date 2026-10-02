@@ -3,6 +3,8 @@
 // substituído por ChatGPT, Gemini, Copilot, Claude ou serviço equivalente
 // sem substituição da plataforma nem reestruturação da solução.
 import { useCallback, useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { obterConfigMotorIA, salvarConfigMotorIA } from "./ai-config.functions";
 
 export type TipoMotor = "interno" | "externo";
 
@@ -114,30 +116,25 @@ export function motorPorId(id: string): MotorIA {
 
 export function useMotorIA() {
   const [config, setConfig] = useState<ConfigMotorIA>(configMotorPadrao);
+  const obter = useServerFn(obterConfigMotorIA);
+  const salvarProtegido = useServerFn(salvarConfigMotorIA);
 
   useEffect(() => {
-    try {
-      const bruto = localStorage.getItem(CHAVE) ?? localStorage.getItem(CHAVE_ANTIGA);
-      if (bruto) {
-        localStorage.setItem(CHAVE, bruto);
-        setConfig({ ...configMotorPadrao, ...(JSON.parse(bruto) as ConfigMotorIA) });
-      }
-    } catch {
-      /* configuração local ausente ou inválida: mantém o motor nativo */
-    }
-  }, []);
+    let ativo = true;
+    void obter().then((salva) => {
+      if (ativo) setConfig({ ...configMotorPadrao, ...salva });
+    }).catch(() => undefined);
+    return () => { ativo = false; };
+  }, [obter]);
 
-  const salvar = useCallback((parcial: Partial<ConfigMotorIA>) => {
-    setConfig((atual) => {
-      const proximo = { ...atual, ...parcial };
-      try {
-        localStorage.setItem(CHAVE, JSON.stringify(proximo));
-      } catch {
-        /* armazenamento indisponível */
-      }
-      return proximo;
-    });
-  }, []);
+  const salvar = useCallback(async (parcial: Partial<ConfigMotorIA>, senha: string) => {
+    const proximo = { ...config, ...parcial };
+    const salvo = await salvarProtegido({ data: { config: proximo, senha } });
+    setConfig(salvo);
+    localStorage.removeItem(CHAVE);
+    localStorage.removeItem(CHAVE_ANTIGA);
+    return salvo;
+  }, [config, salvarProtegido]);
 
   return { config, salvar, motor: motorPorId(config.motorId) };
 }

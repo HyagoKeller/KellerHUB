@@ -18,5 +18,6 @@
 - [ ] Verificar e configurar o domínio próprio kellerhub-demo.com
 - [x] Adicionar crédito de desenvolvimento e direitos reservados, mantendo a publicação pausada
 - [x] Remodelar a tela de acesso com identidade configurável, acesso Local ou Active Directory e preparação do botão Microsoft 365
+- [x] Proteger a configuração do motor de IA com confirmação da senha do Superadministrador e persistência no servidor
 
 - [x] Remover a identidade Lovable do ícone do navegador e ocultar o selo Lovable Edit
