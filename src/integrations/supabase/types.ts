@@ -38,6 +38,30 @@ export type Database = {
         }
         Relationships: []
       }
+      portal_settings: {
+        Row: {
+          config: Json
+          created_at: string
+          id: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          id: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -160,7 +184,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_public_portal_settings: { Args: never; Returns: Json }
     }
     Enums: {
       app_role: "superadmin" | "admin" | "moderator" | "user"

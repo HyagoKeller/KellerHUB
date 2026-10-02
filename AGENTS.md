@@ -19,3 +19,4 @@
 - AI engine settings are persisted server-side and can only be changed by the designated AI owner after current-password confirmation, so provider configuration never trusts browser storage or general administrative roles.
 - Load the global governance assistant after the primary interface becomes idle; this keeps AI dependencies out of the critical rendering path.
 - Security acceptance and audit records are immutable server-side records, while the global user watermark remains visible and printable; this preserves traceability without treating client-side controls as copy prevention.
+- Portal identity and regional preferences persist in shared server settings, with only sign-in presentation fields publicly readable; this keeps every device consistent without exposing administrative configuration.

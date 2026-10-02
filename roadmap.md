@@ -25,3 +25,4 @@
 - [x] Criar o acesso Superadministrador do cliente com perfil e restringir a configuração de IA ao responsável Hyago Keller
 - [x] Otimizar carregamento inicial, navegação, cálculos de acesso e efeitos Liquid Glass em dispositivos móveis
 - [x] Adicionar aceite obrigatório de licença, marca d’água individual, auditoria persistente e reforços contra uso indevido
+- [x] Compartilhar configurações do portal entre dispositivos e congelar as formas do fundo Glassmorphism

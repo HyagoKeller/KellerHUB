@@ -239,7 +239,7 @@ export function AppShell({
               <Button
                 variant="outline"
                 size="icon"
-                onClick={alternarModo}
+                onClick={() => void alternarModo()}
                 aria-label={config.modo === "escuro" ? "Ativar modo claro" : "Ativar modo escuro"}
                 title={config.modo === "escuro" ? "Modo claro" : "Modo escuro"}
                 className="text-muted-foreground hover:text-foreground"
