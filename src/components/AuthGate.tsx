@@ -26,10 +26,20 @@ export function AuthGate({ children }: { children: ReactNode }) {
     };
 
     void conferir();
-    const { data } = supabase.auth.onAuthStateChange((event) => {
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
         setEstado("carregando");
-        void conferir();
+        if (event === "SIGNED_OUT") {
+          setEstado("negado");
+          return;
+        }
+        void garantirSuperadmin(session?.user).then((resultado) => {
+          if (!ativo) return;
+          if (resultado.autorizado) acesso.simular("u-felipe");
+          setEstado(resultado.autorizado ? "autorizado" : "negado");
+        }).catch(() => {
+          if (ativo) setEstado("negado");
+        });
       }
     });
     return () => {

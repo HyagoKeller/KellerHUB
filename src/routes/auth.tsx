@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Building2, Eye, EyeOff, KeyRound, LoaderCircle, LogIn, Mail, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,6 @@ export const Route = createFileRoute("/auth")({
 });
 
 function AuthPage() {
-  const navigate = useNavigate();
   const { next } = Route.useSearch();
   const [identificador, setIdentificador] = useState("");
   const [senha, setSenha] = useState("");
@@ -59,7 +58,7 @@ function AuthPage() {
       });
       const resultado = await garantirSuperadmin(data.user);
       if (!resultado.autorizado) throw new Error("Este usuário não possui acesso à demonstração.");
-      await navigate({ to: destino });
+      window.location.assign(destino);
     } catch (falha) {
       setErro(falha instanceof Error ? falha.message : "Não foi possível concluir o acesso.");
     } finally {
