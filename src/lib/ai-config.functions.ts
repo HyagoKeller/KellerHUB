@@ -96,5 +96,13 @@ export const salvarConfigMotorIA = createServerFn({ method: "POST" })
       updated_by: context.userId,
     });
     if (error) throw error;
+    await context.supabase.from("security_audit_log").insert({
+      user_id: context.userId,
+      event_type: "ai_settings_changed",
+      entity_type: "app_settings",
+      entity_id: "ai",
+      result: "success",
+      context: { motor_id: config.motorId },
+    });
     return config;
   });
