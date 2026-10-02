@@ -1,5 +1,5 @@
 import { createStart, createCsrfMiddleware, createMiddleware } from "@tanstack/react-start";
-import { setResponseHeaders } from "@tanstack/react-start/server";
+import { setResponseHeader } from "@tanstack/react-start/server";
 
 import { renderErrorPage } from "./lib/error-page";
 import { attachSupabaseAuth } from "@/integrations/supabase/auth-attacher";
@@ -27,13 +27,11 @@ const csrfMiddleware = createCsrfMiddleware({
 });
 
 const securityHeadersMiddleware = createMiddleware().server(async ({ next }) => {
-  setResponseHeaders({
-    "content-security-policy": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "x-content-type-options": "nosniff",
-    "x-frame-options": "DENY",
-    "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
-  });
+  setResponseHeader("Content-Security-Policy", "frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'");
+  setResponseHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  setResponseHeader("X-Content-Type-Options", "nosniff");
+  setResponseHeader("X-Frame-Options", "DENY");
+  setResponseHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=()");
   return next();
 });
 
