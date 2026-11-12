@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useSyncExternalStore} from "react";
 import {useDadosCompartilhados,gravar,gravarAcesso,snapshotAtual} from "./ppm-store";
 export type PerfilAcesso = "Técnico" | "Gestor" | "Alta Administração" | "Administrador/PMO" | "Auditor";
 export type VisibilidadeArea = "Aberta" | "Restrita";
@@ -43,7 +43,8 @@ export type EventoAcesso = {
 export const usuarios:Usuario[]=[];
 const padrao:AcessoObjeto={visibilidade:"publica",convidados:[],compartilhadoCom:[]};
 let filtro:string[]=[];const ouvintes=new Set<()=>void>();
-export function useAcessoEstado(){const d=useDadosCompartilhados();const [,redraw]=useState(0);return {...d,simuladoId:d.usuario.id,filtroAreas:filtro,importados:d.usuarios};}
+function useFiltro(){return useSyncExternalStore((f)=>{ouvintes.add(f);return()=>ouvintes.delete(f);},()=>filtro,()=>filtro);}
+export function useAcessoEstado(){const d=useDadosCompartilhados();const filtroAreas=useFiltro();return {...d,simuladoId:d.usuario.id,filtroAreas,importados:d.usuarios};}
 export const usuarioPorId=(id:string)=>snapshotAtual?.usuarios.find(u=>u.id===id) ?? snapshotAtual?.usuario;
 export const todosUsuarios=(e:{usuarios?:Usuario[];importados?:Usuario[]})=>e.usuarios??e.importados??[];
 export const acessoDe=(e:{objetos:Record<string,AcessoObjeto>},id:string)=>e.objetos[id]??padrao;
@@ -60,8 +61,9 @@ export const acesso={
  importarUsuario:(_u:Usuario)=>{throw new Error("Diretório não conectado.");},
 };
 export function useCarteiraVisivel(){
- const d=useDadosCompartilhados();const estado={...d,simuladoId:d.usuario.id,filtroAreas:[],importados:d.usuarios};
+ const d=useDadosCompartilhados();const filtroAreas=useFiltro();const estado={...d,simuladoId:d.usuario.id,filtroAreas,importados:d.usuarios};
  const cadeia=(tipo:TipoObjeto,id:string):{ids:string[];areaId:string}=>{const o=d.objetos[id]; const pg=tipo==="projeto"?d.programas.find(g=>g.id===d.projetos.find(p=>p.id===id)?.programaId):d.programas.find(g=>g.id===id);return {ids:tipo==="portfolio"?[id]:tipo==="programa"?[pg?.portfolioId??"",id]:[pg?.portfolioId??"",pg?.id??"",id],areaId:o?.areaId??""};};
  const nivel=(_tipo:TipoObjeto,id:string):NivelPermissao=>d.permissoes[id]?(d.usuario.perfil==="Técnico"?"Editar só itens atribuídos a mim":"Editar tudo"):"Somente leitura";
- return {...d,estado,usuario:d.usuario,areasExibidas:d.areas,ocultarValores:false,podeCriar:d.capacidades.includes("administrador_pmo")||d.capacidades.includes("gestor"),podeAdministrar:d.capacidades.includes("administrador_pmo"),nivel,podeEditar:(_tipo:TipoObjeto,id:string)=>Boolean(d.permissoes[id]),cadeia,areaDe:(tipo:TipoObjeto,id:string)=>d.areas.find(a=>a.id===cadeia(tipo,id).areaId)};
+ const vis=(id:string)=>!filtroAreas.length||filtroAreas.includes(d.objetos[id]?.areaId??"");
+ return {...d,portfolios:d.portfolios.filter(p=>vis(p.id)),programas:d.programas.filter(p=>vis(p.id)),projetos:d.projetos.filter(p=>vis(p.id)),riscos:d.riscos.filter(p=>vis(p.id)),indicadores:d.indicadores.filter(p=>vis(p.id)),objetivos:d.objetivos.filter(p=>vis(p.id)),estado,usuario:d.usuario,areasExibidas:d.areas.filter(a=>!filtroAreas.length||filtroAreas.includes(a.id)),ocultarValores:false,podeCriar:d.capacidades.includes("administrador_pmo")||d.capacidades.includes("gestor"),podeAdministrar:d.capacidades.includes("administrador_pmo"),nivel,podeEditar:(_tipo:TipoObjeto,id:string)=>Boolean(d.permissoes[id]),cadeia,areaDe:(tipo:TipoObjeto,id:string)=>d.areas.find(a=>a.id===cadeia(tipo,id).areaId)};
 }

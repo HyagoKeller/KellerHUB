@@ -105,19 +105,19 @@ function EditorItem({ projetoId, editor, onClose }: { projetoId: string; editor?
     setDados(editor.item ? { nome: editor.item.nome, responsavel: editor.item.responsavel, status: editor.item.status, prazo: editor.item.prazo, progresso: editor.item.progresso } : vazio());
   }, [editor]);
   const valido = dados.nome.trim().length >= 3 && dados.responsavel.trim().length >= 2 && Boolean(dados.prazo);
-  const salvar = () => {
+  const salvar = async () => {
     if (!editor || !valido) return;
-    if (editor.tipo === "elemento") trabalhoProjetos.salvarElemento({ ...dados, id: editor.item?.id, projetoId });
-    else if (editor.elementoId) trabalhoProjetos.salvarSubelemento(editor.elementoId, { ...dados, id: editor.item?.id });
+    try { if (editor.tipo === "elemento") await trabalhoProjetos.salvarElemento({ ...dados, id: editor.item?.id, projetoId });
+    else if (editor.elementoId) await trabalhoProjetos.salvarSubelemento(editor.elementoId, { ...dados, id: editor.item?.id });
     toast.success(editor.item ? "Item atualizado" : "Item cadastrado");
-    onClose();
+    onClose(); } catch {toast.error("Não foi possível concluir a alteração.");}
   };
-  const remover = () => {
+  const remover = async () => {
     if (!editor?.item) return;
-    if (editor.tipo === "elemento") trabalhoProjetos.removerElemento(editor.item.id);
-    else if (editor.elementoId) trabalhoProjetos.removerSubelemento(editor.elementoId, editor.item.id);
+    try { if (editor.tipo === "elemento") await trabalhoProjetos.removerElemento(editor.item.id);
+    else if (editor.elementoId) await trabalhoProjetos.removerSubelemento(editor.elementoId, editor.item.id);
     toast.success("Item excluído");
-    onClose();
+    onClose(); } catch {toast.error("Não foi possível concluir a alteração.");}
   };
   return <Dialog open={Boolean(editor)} onOpenChange={(aberto) => !aberto && onClose()}><DialogContent className="panel max-w-lg"><DialogHeader><DialogTitle>{editor?.item ? "Editar" : "Novo"} {editor?.tipo}</DialogTitle><DialogDescription>Detalhamento da execução do projeto.</DialogDescription></DialogHeader><div className="grid gap-4 sm:grid-cols-2"><label className="space-y-1.5 sm:col-span-2"><span className="text-xs text-muted-foreground">Nome</span><input className={input} value={dados.nome} onChange={(e) => setDados((d) => ({ ...d, nome: e.target.value }))} /></label><label className="space-y-1.5"><span className="text-xs text-muted-foreground">Responsável</span><input className={input} value={dados.responsavel} onChange={(e) => setDados((d) => ({ ...d, responsavel: e.target.value }))} /></label><label className="space-y-1.5"><span className="text-xs text-muted-foreground">Status</span><select className={input} value={dados.status} onChange={(e) => setDados((d) => ({ ...d, status: e.target.value as StatusElemento }))}>{statusElementos.map((status) => <option key={status}>{status}</option>)}</select></label><label className="space-y-1.5"><span className="text-xs text-muted-foreground">Prazo</span><input type="date" className={input} value={dados.prazo} onChange={(e) => setDados((d) => ({ ...d, prazo: e.target.value }))} /></label><label className="space-y-1.5"><span className="text-xs text-muted-foreground">Progresso: {dados.progresso}%</span><input type="range" min={0} max={100} className="w-full" value={dados.progresso} onChange={(e) => setDados((d) => ({ ...d, progresso: Number(e.target.value) }))} /></label></div><div className="flex items-center justify-between gap-3">{editor?.item ? <Button variant="ghost" className="text-destructive" onClick={remover}><Trash2 /> Excluir</Button> : <span />}<div className="flex gap-2"><Button variant="outline" onClick={onClose}>Cancelar</Button><Button onClick={salvar} disabled={!valido}>Salvar</Button></div></div></DialogContent></Dialog>;
 }

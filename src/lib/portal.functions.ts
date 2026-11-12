@@ -48,13 +48,8 @@ export const obterPortalPublico = createServerFn({ method: "GET" }).handler(asyn
 export const obterPortalCompleto = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data: role, error: roleError } = await context.supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", context.userId)
-      .eq("role", "superadmin")
-      .maybeSingle();
-    if (roleError || !role) return null;
+    const {data:ativo,error:ativoErro}=await context.supabase.rpc("ppm_ativo");
+    if(ativoErro||!ativo)return null;
     const { data, error } = await context.supabase
       .from("portal_settings")
       .select("config")
@@ -69,21 +64,16 @@ export const salvarPortalCompartilhado = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => portalSchema.parse(input))
   .handler(async ({ data, context }) => {
-    const { data: role, error: roleError } = await context.supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", context.userId)
-      .eq("role", "superadmin")
-      .maybeSingle();
-    if (roleError || !role) throw new Error("Apenas o Superadministrador pode alterar as configurações do portal.");
-
+    const {data:admin,error:adminErro}=await context.supabase.rpc("ppm_tem_papel",{p:"administrador_pmo"});
+    if(adminErro||!admin)throw new Error("Somente Administrador/PMO pode alterar o portal.");
     const { error } = await context.supabase.from("portal_settings").upsert({
       id: "portal",
       config: data as unknown as Json,
       updated_by: context.userId,
     });
     if (error) throw error;
-    await context.supabase.from("security_audit_log").insert({
+    const {supabaseAdmin}=await import("@/integrations/supabase/client.server");
+    await supabaseAdmin.from("security_audit_log").insert({
       user_id: context.userId,
       event_type: "administrative_action",
       entity_type: "portal_settings",

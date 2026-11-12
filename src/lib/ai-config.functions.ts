@@ -84,13 +84,14 @@ export const salvarConfigMotorIA = createServerFn({ method: "POST" })
         }
       : data.config;
 
-    const { error } = await context.supabase.from("app_settings").upsert({
+    const {supabaseAdmin}=await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("app_settings").upsert({
       id: "ai",
       config,
       updated_by: context.userId,
     });
     if (error) throw error;
-    await context.supabase.from("security_audit_log").insert({
+    await supabaseAdmin.from("security_audit_log").insert({
       user_id: context.userId,
       event_type: "ai_settings_changed",
       entity_type: "app_settings",

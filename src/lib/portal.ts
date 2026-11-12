@@ -116,26 +116,7 @@ let carregado = false;
 let haviaCopiaLocal = false;
 const assinantes = new Set<(c: ConfigPortal) => void>();
 
-function ler(): ConfigPortal {
-  try {
-    const bruto = localStorage.getItem(CHAVE) ?? localStorage.getItem(CHAVE_ANTIGA);
-    if (bruto) {
-      haviaCopiaLocal = true;
-      const salvo = { ...configPortalPadrao, ...(JSON.parse(bruto) as ConfigPortal) };
-      localStorage.setItem(CHAVE, JSON.stringify(salvo));
-      const chaveMigracao = "portal.paleta-padrao-azul.v1";
-      if (!localStorage.getItem(chaveMigracao) && salvo.paleta === "indigo") {
-        salvo.paleta = "azul";
-        localStorage.setItem(CHAVE, JSON.stringify(salvo));
-      }
-      localStorage.setItem(chaveMigracao, "1");
-      return salvo;
-    }
-  } catch {
-    /* armazenamento indisponível */
-  }
-  return configPortalPadrao;
-}
+function ler():ConfigPortal{return configPortalPadrao;}
 
 export function aplicarPortal(config: ConfigPortal) {
   if (typeof document === "undefined") return;
@@ -146,11 +127,6 @@ export function aplicarPortal(config: ConfigPortal) {
 
 function salvarCopiaLocal(config: ConfigPortal) {
   estado = config;
-  try {
-    localStorage.setItem(CHAVE, JSON.stringify(config));
-  } catch {
-    /* armazenamento indisponível */
-  }
   aplicarPortal(config);
   assinantes.forEach((fn) => fn(config));
 }
@@ -193,7 +169,7 @@ export function usePortal() {
         }
         if (ativo) setErro("");
       } catch {
-        if (ativo) setErro("Não foi possível atualizar as configurações compartilhadas. A cópia deste dispositivo foi mantida.");
+        if (ativo) setErro("Não foi possível atualizar as configurações compartilhadas.");
       } finally {
         if (ativo) setCarregando(false);
       }

@@ -55,7 +55,8 @@ export const Route = createFileRoute("/api/chat")({
         if (!aceite) return new Response("Aceite os termos de uso para continuar.", { status: 403 });
         if ((usosRecentes ?? 0) >= 12) return new Response("Muitas solicitações. Aguarde um minuto e tente novamente.", { status: 429 });
 
-        await cliente.from("security_audit_log").insert({
+        const {supabaseAdmin}=await import("@/integrations/supabase/client.server");
+        await supabaseAdmin.from("security_audit_log").insert({
           user_id: identidade.user.id,
           event_type: "assistant_used",
           entity_type: "governance_assistant",

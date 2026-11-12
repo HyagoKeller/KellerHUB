@@ -100,12 +100,12 @@ function Detalhe({ projeto }: { projeto: Projeto }) {
           <div className="flex flex-wrap gap-2">
             <SaudeTag saude={projeto.saude} />
             <EtiquetaCelula
-              coluna="metodologia"
+              disabled={!podeEditar("projeto",projeto.id)} coluna="metodologia"
               valor={projeto.metodologia}
               onChange={(v) => carteira.atualizarProjeto(projeto.id, { metodologia: v })}
             />
             <EtiquetaCelula
-              coluna="status"
+              disabled={!podeEditar("projeto",projeto.id)} coluna="status"
               valor={projeto.status}
               onChange={(v) => carteira.atualizarProjeto(projeto.id, { status: v })}
             />

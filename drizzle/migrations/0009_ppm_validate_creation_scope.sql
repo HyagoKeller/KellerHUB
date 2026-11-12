@@ -1,0 +1,7 @@
+DROP POLICY ppm_insert ON public.portfolios; CREATE POLICY ppm_insert ON public.portfolios FOR INSERT TO authenticated WITH CHECK(public.ppm_tem_papel('administrador_pmo') OR (public.ppm_tem_papel('gestor') AND public.ppm_membro(area_id)));
+DROP POLICY ppm_insert ON public.programas; CREATE POLICY ppm_insert ON public.programas FOR INSERT TO authenticated WITH CHECK(public.ppm_pode_editar(portfolio_id));
+DROP POLICY ppm_insert ON public.projetos; CREATE POLICY ppm_insert ON public.projetos FOR INSERT TO authenticated WITH CHECK(public.ppm_pode_editar(programa_id) AND NOT public.ppm_tem_papel('tecnico'));
+DROP POLICY ppm_insert ON public.objetivos_estrategicos; CREATE POLICY ppm_insert ON public.objetivos_estrategicos FOR INSERT TO authenticated WITH CHECK(public.ppm_tem_papel('administrador_pmo') OR (public.ppm_tem_papel('gestor') AND public.ppm_membro(area_id)));
+DROP POLICY ppm_insert ON public.indicadores; CREATE POLICY ppm_insert ON public.indicadores FOR INSERT TO authenticated WITH CHECK(public.ppm_tem_papel('administrador_pmo') OR (public.ppm_tem_papel('gestor') AND public.ppm_membro(area_id)));
+DROP POLICY ppm_insert ON public.riscos; CREATE POLICY ppm_insert ON public.riscos FOR INSERT TO authenticated WITH CHECK((public.ppm_tem_papel('administrador_pmo') OR (public.ppm_tem_papel('gestor') AND public.ppm_membro(area_id))) AND (origem_id IS NULL OR public.ppm_pode_ver(origem_id)));
+ALTER FUNCTION public.ppm_pode_ver(uuid) VOLATILE; ALTER FUNCTION public.ppm_pode_editar(uuid) VOLATILE;

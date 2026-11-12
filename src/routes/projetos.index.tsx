@@ -116,14 +116,14 @@ function Projetos() {
                   </td>
                   <td className="px-5 py-3">
                     <EtiquetaCelula
-                      coluna="metodologia"
+                      disabled={!podeEditar("projeto",p.id)} coluna="metodologia"
                       valor={p.metodologia}
                       onChange={(v) => carteira.atualizarProjeto(p.id, { metodologia: v })}
                     />
                   </td>
                   <td className="px-5 py-3">
                     <EtiquetaCelula
-                      coluna="status"
+                      disabled={!podeEditar("projeto",p.id)} coluna="status"
                       valor={p.status}
                       onChange={(v) => carteira.atualizarProjeto(p.id, { status: v })}
                     />

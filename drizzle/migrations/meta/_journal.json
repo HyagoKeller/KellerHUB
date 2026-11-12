@@ -50,6 +50,41 @@
       "when": 1794522266407,
       "tag": "0006_ppm_authenticated_queries_and_mutations",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794522673665,
+      "tag": "0007_fix_ppm_snapshot_variable",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1794522753478,
+      "tag": "0008_ppm_owner_conversations_and_policy_hardening",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1794522861410,
+      "tag": "0009_ppm_validate_creation_scope",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1794522936919,
+      "tag": "0010_ppm_guard_audit_and_sensitive_settings",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1794523014896,
+      "tag": "0011_ppm_fix_context_validation",
+      "breakpoints": true
     }
   ]
 }

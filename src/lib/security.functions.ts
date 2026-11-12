@@ -62,7 +62,8 @@ export const aceitarTermos = createServerFn({ method: "POST" })
       user_agent_category: "browser",
     });
     if (error && error.code !== "23505") throw error;
-    await context.supabase.from("security_audit_log").insert({
+    const {supabaseAdmin}=await import("@/integrations/supabase/client.server");
+    await supabaseAdmin.from("security_audit_log").insert({
       user_id: context.userId,
       event_type: "terms_accepted",
       entity_type: "terms",
@@ -78,7 +79,8 @@ export const registrarEventoSeguranca = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => eventoSchema.parse(input))
   .handler(async ({ data, context }) => {
-    const { error } = await context.supabase.from("security_audit_log").insert({
+    const {supabaseAdmin}=await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("security_audit_log").insert({
       user_id: context.userId,
       event_type: data.eventType,
       entity_type: data.entityType,

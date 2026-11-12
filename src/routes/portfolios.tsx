@@ -32,7 +32,7 @@ export const Route = createFileRoute("/portfolios")({
 });
 
 function Portfolios() {
-  const { portfolios, etiquetas, programas, podeEditar, podeCriar, ocultarValores } = useCarteiraVisivel();
+  const { portfolios, etiquetas, programas, podeEditar, podeCriar, ocultarValores, riscos } = useCarteiraVisivel();
   const [acessoDe, setAcessoDe] = useState<Portfolio | undefined>();
   void useCarteira;
   const [form, setForm] = useState<{ aberto: boolean; portfolio?: Portfolio }>({ aberto: false });
@@ -67,7 +67,7 @@ function Portfolios() {
         />
         <Stat
           label="Riscos críticos"
-          value={String(portfolios.reduce((a, p) => a + p.riscosCriticos, 0))}
+          value={String(riscos.filter(r=>r.probabilidade*r.impacto>=15).length)}
           delta={{ texto: "monitoramento ativo", tom: "flat" }}
         />
       </div>
@@ -80,14 +80,14 @@ function Portfolios() {
               .sort((a, b) => b.score - a.score)
               .map((p) => (
                 <li key={p.id} className="rounded-lg border border-border p-4">
-                  <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3">
-                    <GripVertical className="h-4 w-4 shrink-0 cursor-grab text-muted-foreground" />
+                  <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+
                     <div className="min-w-0">
                       <div className="flex min-w-0 flex-wrap items-center gap-2">
                         <p className="truncate font-medium">{p.nome}</p>
                         <SeloAcesso tipo="portfolio" id={p.id} />
                         <EtiquetaCelula
-                          coluna="tipo"
+                          disabled={!podeEditar("portfolio",p.id)} coluna="tipo"
                           valor={p.tipo}
                           onChange={(v) => carteira.atualizarPortfolio(p.id, { tipo: v })}
                         />
@@ -137,35 +137,6 @@ function Portfolios() {
         </Panel>
 
         <div className="space-y-4">
-          <Panel>
-            <PanelTitle title="Matriz de priorização" hint="valor × esforço" />
-            <div className="relative aspect-square rounded-lg border border-border bg-muted/30">
-              <div className="absolute inset-0 grid grid-cols-2 grid-rows-2">
-                {["Avaliar", "Prioritário", "Descartar", "Rápida vitória"].map((q) => (
-                  <div
-                    key={q}
-                    className="flex items-start justify-end border border-border/60 p-2 text-[10px] text-muted-foreground"
-                  >
-                    {q}
-                  </div>
-                ))}
-              </div>
-              {portfolios.map((p, i) => (
-                <div
-                  key={p.id}
-                  title={p.nome}
-                  className="absolute grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground"
-                  style={{ left: `${12 + ((i * 76) / Math.max(1, portfolios.length - 1))}%`, top: `${75 - p.score / 2}%` }}
-                >
-                  P{i + 1}
-                </div>
-              ))}
-            </div>
-            <p className="mt-3 text-xs text-muted-foreground">
-              {portfolios.map((p, i) => `P${i + 1} ${p.nome}`).join(" · ")}
-            </p>
-          </Panel>
-
           <Panel>
             <PanelTitle title="Programas vinculados" />
             <ul className="space-y-2">

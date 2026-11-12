@@ -58,9 +58,9 @@ export function PainelAtualizacoes({
         .sort((a, b) => b.criadaEm.localeCompare(a.criadaEm))
     : [];
 
-  const publicar = () => {
+  const publicar = async () => {
     if (!contexto || texto.trim().length < 2) return;
-    trabalhoProjetos.publicarAtualizacao({
+    try { await trabalhoProjetos.publicarAtualizacao({
       projetoId: contexto.projetoId,
       alvoTipo: contexto.alvoTipo,
       alvoId: contexto.alvoId,
@@ -68,7 +68,7 @@ export function PainelAtualizacoes({
       texto: texto.trim(),
     });
     setTexto("");
-    toast.success("Atualização publicada");
+    toast.success("Atualização publicada"); } catch {toast.error("Não foi possível publicar.");}
   };
 
   return (

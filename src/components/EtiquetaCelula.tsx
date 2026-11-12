@@ -1,3 +1,5 @@
+import {useCarteiraVisivel} from "@/lib/acesso";
+import {toast} from "sonner";
 import { useState } from "react";
 import { Check, Pencil, Plus, Trash2 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -19,13 +21,16 @@ export function EtiquetaCelula({
   valor,
   onChange,
   className,
+  disabled=false,
 }: {
   coluna: ColunaEtiqueta;
   valor: string;
   onChange: (v: string) => void;
   className?: string;
+  disabled?:boolean;
 }) {
   const { etiquetas } = useCarteira();
+  const {podeAdministrar}=useCarteiraVisivel();
   const lista = etiquetas[coluna];
   const atual = lista.find((e) => e.nome === valor);
   const [aberto, setAberto] = useState(false);
@@ -37,7 +42,7 @@ export function EtiquetaCelula({
     setEditando(true);
   };
 
-  const aplicar = () => {
+  const aplicar = async () => {
     const limpa = rascunho
       .map((e) => ({ ...e, nome: e.nome.trim().slice(0, 40) }))
       .filter((e, i, arr) => e.nome && arr.findIndex((x) => x.nome === e.nome) === i);
@@ -45,12 +50,12 @@ export function EtiquetaCelula({
     limpa.forEach((e) => {
       if (e.original && e.original !== e.nome) renomes[e.original] = e.nome;
     });
-    carteira.salvarEtiquetas(
+    try { await carteira.salvarEtiquetas(
       coluna,
       limpa.map(({ id, nome, tom }) => ({ id, nome, tom })),
       renomes,
     );
-    setEditando(false);
+    setEditando(false); } catch {toast.error("Não foi possível salvar as etiquetas.");}
   };
 
   return (
@@ -64,6 +69,7 @@ export function EtiquetaCelula({
       <PopoverTrigger asChild>
         <button
           type="button"
+          disabled={disabled}
           className={cn(
             "chip min-w-24 justify-center transition hover:brightness-110 focus-visible:ring-2 focus-visible:ring-ring",
             atual ? classeTom[atual.tom] : classeTom.cinza,
@@ -91,6 +97,7 @@ export function EtiquetaCelula({
               </button>
             ))}
             <button
+              hidden={!podeAdministrar}
               type="button"
               onClick={iniciarEdicao}
               className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-md border border-border py-1.5 text-xs text-muted-foreground hover:bg-muted"

@@ -25,7 +25,7 @@ import { cn } from "@/lib/utils";
 /** Valor monetário: oculto ("Sem acesso" com cadeado) para o perfil Técnico. */
 export function Moeda({ v }: { v: number }) {
   const e = useAcessoEstado();
-  if (usuarioPorId(e.simuladoId)?.perfil === "Técnico")
+  if (false)
     return (
       <span className="inline-flex items-center gap-1 text-muted-foreground" title="Valor restrito ao seu perfil">
         <Lock className="h-3 w-3" />Sem acesso
@@ -151,7 +151,7 @@ export function PainelAcesso({ tipo, id, nome }: { tipo: TipoObjeto; id: string;
   const o = acessoDe(estado, id);
   const pai = visibilidadeEfetiva(estado, ch.ids.slice(0, -1));
   const area = areaDe(tipo, id);
-  const podeGerir = nivel(tipo, id) === "Editar tudo" || usuario.perfil === "Administrador/PMO";
+  const podeGerir = usuario.perfil === "Administrador/PMO";
   const [convidar, setConvidar] = useState("");
   const rotulo = `${tipo === "portfolio" ? "Portfólio" : tipo === "programa" ? "Programa" : "Projeto"} · ${nome}`;
   const upd = (p: Parameters<typeof acesso.atualizarObjeto>[2]) => acesso.atualizarObjeto(id, rotulo, p);

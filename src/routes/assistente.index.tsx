@@ -29,8 +29,9 @@ function AssistenteIndex() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const id = garantirConversa();
+    void garantirConversa().then((id) => {
     navigate({ to: "/assistente/$id", params: { id }, replace: true });
+    });
   }, [navigate]);
 
   return (
