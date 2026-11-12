@@ -68,7 +68,7 @@ export function AvisoAreas() {
 
 export function SeletorArea() {
   const e = useAcessoEstado();
-  const u = usuarioPorId(e.simuladoId) ?? useCarteiraVisivel().usuario;
+  const {usuario:u}=useCarteiraVisivel();
   const lista = areasConhecidas(e, u);
   const sel = e.filtroAreas;
   const alternar = (id: string) => acesso.filtrar(sel.includes(id) ? sel.filter((x) => x !== id) : [...sel, id]);

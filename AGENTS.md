@@ -23,3 +23,4 @@
 - For the ANA POC migration, persist business records and saved views in Cloud, use Query for reads and mutations, and enforce authorization in RLS/server boundaries; browser storage is limited to personal visual preferences to prevent device divergence and client-side privilege escalation.
 - Keep application roles exclusively in protected role tables, separate from profile fields, and replace email-based authorization with explicit capabilities; this preserves least privilege without binding access to personal identities.
 - Use authenticated, invoker-security database aggregates as the shared source for dashboard metrics; this keeps totals consistent without exposing inaccessible records.
+- Keep private content under the pathless authenticated layout and clear Query data on sign-out; this prevents stale business records from surviving identity changes.

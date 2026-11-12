@@ -26,7 +26,7 @@ Esta coleção documenta a solução, seus menus, campos, procedimentos e regras
 1. Leia o Manual geral.
 2. Execute o checklist de implantação no Manual do Administrador/PMO.
 3. Aplique o Manual de governança de acessos.
-4. Valide cada perfil pela simulação disponível na barra superior.
+4. Valide cada perfil com uma conta autorizada correspondente. A simulação não concede permissões.
 
 ## Cobertura
 
@@ -54,4 +54,6 @@ A permissão efetiva é formada por **perfil × escopo de área × visibilidade 
 
 ## Estado da versão documentada
 
-A versão atual usa dados demonstrativos e persistência no navegador. Os manuais identificam explicitamente os fluxos simulados e as funções ainda consultivas.
+A preparação da prova de conceito está em andamento. Portfólios, programas, projetos, elementos, subelementos e painéis personalizados usam registros compartilhados no Lovable Cloud, com permissões verificadas no servidor. Os dados iniciais continuam sendo de demonstração, não dados oficiais da ANA.
+
+Consulte [Situação da primeira etapa](poc-fase-1.md) antes de usar os procedimentos antigos que descrevem simulação ou armazenamento no navegador. As fases posteriores não estão concluídas.
