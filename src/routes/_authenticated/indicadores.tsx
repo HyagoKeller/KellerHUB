@@ -19,7 +19,7 @@ import { AvisoAreas } from "@/components/Acesso";
 import { useViews } from "@/lib/views";
 
 
-export const Route = createFileRoute("/indicadores")({
+export const Route = createFileRoute("/_authenticated/indicadores")({
   head: () => ({
     meta: [
       { title: "Indicadores de Desempenho | Keller Hub" },

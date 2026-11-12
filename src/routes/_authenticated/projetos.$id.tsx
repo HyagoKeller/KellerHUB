@@ -12,7 +12,7 @@ import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, SaudeTag, Stat, Tag } from "@/components/ui-kit";
 import {moeda,severidade,type Projeto} from "@/lib/ppm-types";
 
-export const Route = createFileRoute("/projetos/$id")({
+export const Route = createFileRoute("/_authenticated/projetos/$id")({
   head: () => {
     const t = `${"Projeto"} | Keller Hub`;
     return {

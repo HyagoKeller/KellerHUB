@@ -10,7 +10,7 @@ import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, SaudeTag, Stat, Tag } from "@/components/ui-kit";
 import { moeda, type Portfolio } from "@/lib/ppm-types";
 
-export const Route = createFileRoute("/portfolios")({
+export const Route = createFileRoute("/_authenticated/portfolios")({
   head: () => ({
     meta: [
       { title: "Portfólios | Keller Hub" },

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { AppShell } from "@/components/AppShell";
 import { garantirConversa } from "@/lib/assistente-conversas";
 
-export const Route = createFileRoute("/assistente/")({
+export const Route = createFileRoute("/_authenticated/assistente/")({
   head: () => ({
     meta: [
       { title: "Assistente de Governança | Keller Hub" },

@@ -11,7 +11,7 @@ import { FormProjeto } from "@/components/FormulariosCarteira";
 import { carteira, portfolioDe, useCarteira } from "@/lib/carteira";
 import { moeda, type Projeto } from "@/lib/ppm-types";
 
-export const Route = createFileRoute("/projetos/")({
+export const Route = createFileRoute("/_authenticated/projetos/")({
   head: () => ({
     meta: [
       { title: "Projetos | Keller Hub" },

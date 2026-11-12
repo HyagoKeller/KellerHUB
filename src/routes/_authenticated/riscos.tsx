@@ -16,7 +16,7 @@ import { Panel, PanelTitle, Stat, Tag } from "@/components/ui-kit";
 import { severidade, type Risco } from "@/lib/ppm-types";
 import { useCarteiraVisivel } from "@/lib/acesso";
 
-export const Route = createFileRoute("/riscos")({
+export const Route = createFileRoute("/_authenticated/riscos")({
   head: () => ({
     meta: [
       { title: "Riscos Corporativos | Keller Hub" },

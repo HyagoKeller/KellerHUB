@@ -27,7 +27,7 @@ import { AssistenteMarca, type EstiloAssistente } from "@/components/AssistenteM
 import { cn } from "@/lib/utils";
 import { authenticatedFetch } from "@/lib/auth";
 
-export const Route = createFileRoute("/assistente/$id")({
+export const Route = createFileRoute("/_authenticated/assistente/$id")({
   head: () => ({
     meta: [
       { title: "Assistente de Governança | Keller Hub" },

@@ -13,7 +13,7 @@ import { Barra, Panel, PanelTitle, Stat, Tag } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import {useCarteiraVisivel} from "@/lib/acesso";
 
-export const Route = createFileRoute("/estrategia")({
+export const Route = createFileRoute("/_authenticated/estrategia")({
   head: () => ({
     meta: [
       { title: "Gestão Estratégica | Keller Hub" },

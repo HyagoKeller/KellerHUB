@@ -9,6 +9,7 @@ import type { Area, AcessoObjeto, Usuario, EventoAcesso } from './acesso';
 import type { ElementoProjeto, AtualizacaoProjeto } from './trabalho-projetos';
 import type { ViewPersonalizada } from './views';
 import type { ColunaEtiqueta, Etiqueta } from './carteira';
+import {carteiraQueryOptions} from './ppm-query';
 
 export type Snapshot = {
   portfolios: Portfolio[]; programas: Programa[]; projetos: Projeto[]; riscos: Risco[]; indicadores: Indicador[]; objetivos: Objetivo[];
@@ -42,7 +43,7 @@ export function CarteiraCompartilhadaProvider({children}: {children:ReactNode}) 
   const alterar = useServerFn(alterarCarteiraCompartilhada);
   const alterarAcesso = useServerFn(alterarAcessoCompartilhado);
   const client = useQueryClient();
-  const { data } = useSuspenseQuery({ queryKey:['ppm'], queryFn:async () => await obter() as unknown as Snapshot, staleTime:10000 });
+  const { data } = useSuspenseQuery(carteiraQueryOptions());
   const atualizar = async () => { await client.invalidateQueries({queryKey:['ppm']}); };
   const mutation = useMutation({mutationFn:(data:Mutation)=>alterar({data}),onSuccess:atualizar,onError:()=>toast.error('Não foi possível salvar. Confira seus vínculos e permissões.')});
   const accessMutation = useMutation({mutationFn:(data:{id:string;parcial:Record<string,unknown>})=>alterarAcesso({data}),onSuccess:atualizar,onError:()=>toast.error('Alteração de acesso não autorizada.')});
@@ -52,7 +53,7 @@ export function CarteiraCompartilhadaProvider({children}: {children:ReactNode}) 
   },[data,mutation.mutateAsync,accessMutation.mutateAsync]);
   useEffect(()=>{
     const channel=supabase.channel(`ppm-${crypto.randomUUID()}`);
-    for (const table of ['portfolios','programas','projetos','riscos','indicadores','indicador_valores','status_reports','projeto_elementos','projeto_subelementos','projeto_atualizacoes','areas','area_membros','objetos_acesso','views_usuario']) {
+    for (const table of ['portfolios','programas','projetos','riscos','indicadores','indicador_valores','status_reports','projeto_elementos','projeto_subelementos','projeto_atualizacoes','areas','area_membros','objetos_acesso','views_usuario','ppm_papeis','ppm_usuarios']) {
       channel.on('postgres_changes',{event:'*',schema:'public',table},()=>{void client.invalidateQueries({queryKey:['ppm']});});
     }
     channel.subscribe();

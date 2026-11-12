@@ -37,7 +37,7 @@ import {useCarteiraVisivel} from "@/lib/acesso";
 
 
 
-export const Route = createFileRoute("/configuracoes")({
+export const Route = createFileRoute("/_authenticated/configuracoes")({
   head: () => ({
     meta: [
       { title: "Configurações e Integrações | Keller Hub" },

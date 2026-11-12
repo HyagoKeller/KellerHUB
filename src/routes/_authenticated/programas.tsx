@@ -9,7 +9,7 @@ import { useCarteiraVisivel } from "@/lib/acesso";
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, SaudeTag, Stat } from "@/components/ui-kit";
 
-export const Route = createFileRoute("/programas")({
+export const Route = createFileRoute("/_authenticated/programas")({
   head: () => ({
     meta: [
       { title: "Programas | Keller Hub" },

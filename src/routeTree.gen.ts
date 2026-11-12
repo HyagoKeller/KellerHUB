@@ -9,25 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
-import { Route as EstrategiaRouteImport } from './routes/estrategia'
-import { Route as IndicadoresRouteImport } from './routes/indicadores'
-import { Route as PortfoliosRouteImport } from './routes/portfolios'
-import { Route as ProgramasRouteImport } from './routes/programas'
-import { Route as RelatoriosRouteImport } from './routes/relatorios'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as RiscosRouteImport } from './routes/riscos'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedConfiguracoesRouteImport } from './routes/_authenticated/configuracoes'
+import { Route as AuthenticatedEstrategiaRouteImport } from './routes/_authenticated/estrategia'
+import { Route as AuthenticatedIndicadoresRouteImport } from './routes/_authenticated/indicadores'
+import { Route as AuthenticatedPortfoliosRouteImport } from './routes/_authenticated/portfolios'
+import { Route as AuthenticatedProgramasRouteImport } from './routes/_authenticated/programas'
+import { Route as AuthenticatedRelatoriosRouteImport } from './routes/_authenticated/relatorios'
+import { Route as AuthenticatedRiscosRouteImport } from './routes/_authenticated/riscos'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
-import { Route as AssistenteIndexRouteImport } from './routes/assistente.index'
-import { Route as AssistenteIdRouteImport } from './routes/assistente.$id'
-import { Route as ProjetosIndexRouteImport } from './routes/projetos.index'
-import { Route as ProjetosIdRouteImport } from './routes/projetos.$id'
+import { Route as AuthenticatedAssistenteIndexRouteImport } from './routes/_authenticated/assistente.index'
+import { Route as AuthenticatedAssistenteIdRouteImport } from './routes/_authenticated/assistente.$id'
+import { Route as AuthenticatedProjetosIndexRouteImport } from './routes/_authenticated/projetos.index'
+import { Route as AuthenticatedProjetosIdRouteImport } from './routes/_authenticated/projetos.$id'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -35,136 +35,147 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
-  id: '/configuracoes',
-  path: '/configuracoes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EstrategiaRoute = EstrategiaRouteImport.update({
-  id: '/estrategia',
-  path: '/estrategia',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndicadoresRoute = IndicadoresRouteImport.update({
-  id: '/indicadores',
-  path: '/indicadores',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PortfoliosRoute = PortfoliosRouteImport.update({
-  id: '/portfolios',
-  path: '/portfolios',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProgramasRoute = ProgramasRouteImport.update({
-  id: '/programas',
-  path: '/programas',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RelatoriosRoute = RelatoriosRouteImport.update({
-  id: '/relatorios',
-  path: '/relatorios',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RiscosRoute = RiscosRouteImport.update({
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedConfiguracoesRoute =
+  AuthenticatedConfiguracoesRouteImport.update({
+    id: '/configuracoes',
+    path: '/configuracoes',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEstrategiaRoute = AuthenticatedEstrategiaRouteImport.update({
+  id: '/estrategia',
+  path: '/estrategia',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedIndicadoresRoute =
+  AuthenticatedIndicadoresRouteImport.update({
+    id: '/indicadores',
+    path: '/indicadores',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPortfoliosRoute = AuthenticatedPortfoliosRouteImport.update({
+  id: '/portfolios',
+  path: '/portfolios',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProgramasRoute = AuthenticatedProgramasRouteImport.update({
+  id: '/programas',
+  path: '/programas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRelatoriosRoute = AuthenticatedRelatoriosRouteImport.update({
+  id: '/relatorios',
+  path: '/relatorios',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRiscosRoute = AuthenticatedRiscosRouteImport.update({
   id: '/riscos',
   path: '/riscos',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AssistenteIndexRoute = AssistenteIndexRouteImport.update({
-  id: '/assistente/',
-  path: '/assistente/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AssistenteIdRoute = AssistenteIdRouteImport.update({
-  id: '/assistente/$id',
-  path: '/assistente/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjetosIndexRoute = ProjetosIndexRouteImport.update({
-  id: '/projetos/',
-  path: '/projetos/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjetosIdRoute = ProjetosIdRouteImport.update({
+const AuthenticatedAssistenteIndexRoute =
+  AuthenticatedAssistenteIndexRouteImport.update({
+    id: '/assistente/',
+    path: '/assistente/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAssistenteIdRoute =
+  AuthenticatedAssistenteIdRouteImport.update({
+    id: '/assistente/$id',
+    path: '/assistente/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedProjetosIndexRoute =
+  AuthenticatedProjetosIndexRouteImport.update({
+    id: '/projetos/',
+    path: '/projetos/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedProjetosIdRoute = AuthenticatedProjetosIdRouteImport.update({
   id: '/projetos/$id',
   path: '/projetos/$id',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof AuthenticatedIndexRoute
   '/auth': typeof AuthRoute
-  '/configuracoes': typeof ConfiguracoesRoute
-  '/estrategia': typeof EstrategiaRoute
-  '/indicadores': typeof IndicadoresRoute
-  '/portfolios': typeof PortfoliosRoute
-  '/programas': typeof ProgramasRoute
-  '/relatorios': typeof RelatoriosRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/riscos': typeof RiscosRoute
+  '/configuracoes': typeof AuthenticatedConfiguracoesRoute
+  '/estrategia': typeof AuthenticatedEstrategiaRoute
+  '/indicadores': typeof AuthenticatedIndicadoresRoute
+  '/portfolios': typeof AuthenticatedPortfoliosRoute
+  '/programas': typeof AuthenticatedProgramasRoute
+  '/relatorios': typeof AuthenticatedRelatoriosRoute
+  '/riscos': typeof AuthenticatedRiscosRoute
   '/api/chat': typeof ApiChatRoute
-  '/assistente/$id': typeof AssistenteIdRoute
-  '/projetos/$id': typeof ProjetosIdRoute
-  '/assistente/': typeof AssistenteIndexRoute
-  '/projetos/': typeof ProjetosIndexRoute
+  '/assistente/$id': typeof AuthenticatedAssistenteIdRoute
+  '/projetos/$id': typeof AuthenticatedProjetosIdRoute
+  '/assistente/': typeof AuthenticatedAssistenteIndexRoute
+  '/projetos/': typeof AuthenticatedProjetosIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/configuracoes': typeof ConfiguracoesRoute
-  '/estrategia': typeof EstrategiaRoute
-  '/indicadores': typeof IndicadoresRoute
-  '/portfolios': typeof PortfoliosRoute
-  '/programas': typeof ProgramasRoute
-  '/relatorios': typeof RelatoriosRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/riscos': typeof RiscosRoute
+  '/configuracoes': typeof AuthenticatedConfiguracoesRoute
+  '/estrategia': typeof AuthenticatedEstrategiaRoute
+  '/indicadores': typeof AuthenticatedIndicadoresRoute
+  '/portfolios': typeof AuthenticatedPortfoliosRoute
+  '/programas': typeof AuthenticatedProgramasRoute
+  '/relatorios': typeof AuthenticatedRelatoriosRoute
+  '/riscos': typeof AuthenticatedRiscosRoute
   '/api/chat': typeof ApiChatRoute
-  '/assistente/$id': typeof AssistenteIdRoute
-  '/projetos/$id': typeof ProjetosIdRoute
-  '/assistente': typeof AssistenteIndexRoute
-  '/projetos': typeof ProjetosIndexRoute
+  '/': typeof AuthenticatedIndexRoute
+  '/assistente/$id': typeof AuthenticatedAssistenteIdRoute
+  '/projetos/$id': typeof AuthenticatedProjetosIdRoute
+  '/assistente': typeof AuthenticatedAssistenteIndexRoute
+  '/projetos': typeof AuthenticatedProjetosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
-  '/configuracoes': typeof ConfiguracoesRoute
-  '/estrategia': typeof EstrategiaRoute
-  '/indicadores': typeof IndicadoresRoute
-  '/portfolios': typeof PortfoliosRoute
-  '/programas': typeof ProgramasRoute
-  '/relatorios': typeof RelatoriosRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/riscos': typeof RiscosRoute
+  '/_authenticated/configuracoes': typeof AuthenticatedConfiguracoesRoute
+  '/_authenticated/estrategia': typeof AuthenticatedEstrategiaRoute
+  '/_authenticated/indicadores': typeof AuthenticatedIndicadoresRoute
+  '/_authenticated/portfolios': typeof AuthenticatedPortfoliosRoute
+  '/_authenticated/programas': typeof AuthenticatedProgramasRoute
+  '/_authenticated/relatorios': typeof AuthenticatedRelatoriosRoute
+  '/_authenticated/riscos': typeof AuthenticatedRiscosRoute
   '/api/chat': typeof ApiChatRoute
-  '/assistente/$id': typeof AssistenteIdRoute
-  '/projetos/$id': typeof ProjetosIdRoute
-  '/assistente/': typeof AssistenteIndexRoute
-  '/projetos/': typeof ProjetosIndexRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/assistente/$id': typeof AuthenticatedAssistenteIdRoute
+  '/_authenticated/projetos/$id': typeof AuthenticatedProjetosIdRoute
+  '/_authenticated/assistente/': typeof AuthenticatedAssistenteIndexRoute
+  '/_authenticated/projetos/': typeof AuthenticatedProjetosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/auth'
+    | '/reset-password'
     | '/configuracoes'
     | '/estrategia'
     | '/indicadores'
     | '/portfolios'
     | '/programas'
     | '/relatorios'
-    | '/reset-password'
     | '/riscos'
     | '/api/chat'
     | '/assistente/$id'
@@ -173,65 +184,55 @@ export interface FileRouteTypes {
     | '/projetos/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/auth'
+    | '/reset-password'
     | '/configuracoes'
     | '/estrategia'
     | '/indicadores'
     | '/portfolios'
     | '/programas'
     | '/relatorios'
-    | '/reset-password'
     | '/riscos'
     | '/api/chat'
+    | '/'
     | '/assistente/$id'
     | '/projetos/$id'
     | '/assistente'
     | '/projetos'
   id:
     | '__root__'
-    | '/'
+    | '/_authenticated'
     | '/auth'
-    | '/configuracoes'
-    | '/estrategia'
-    | '/indicadores'
-    | '/portfolios'
-    | '/programas'
-    | '/relatorios'
     | '/reset-password'
-    | '/riscos'
+    | '/_authenticated/configuracoes'
+    | '/_authenticated/estrategia'
+    | '/_authenticated/indicadores'
+    | '/_authenticated/portfolios'
+    | '/_authenticated/programas'
+    | '/_authenticated/relatorios'
+    | '/_authenticated/riscos'
     | '/api/chat'
-    | '/assistente/$id'
-    | '/projetos/$id'
-    | '/assistente/'
-    | '/projetos/'
+    | '/_authenticated/'
+    | '/_authenticated/assistente/$id'
+    | '/_authenticated/projetos/$id'
+    | '/_authenticated/assistente/'
+    | '/_authenticated/projetos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
-  ConfiguracoesRoute: typeof ConfiguracoesRoute
-  EstrategiaRoute: typeof EstrategiaRoute
-  IndicadoresRoute: typeof IndicadoresRoute
-  PortfoliosRoute: typeof PortfoliosRoute
-  ProgramasRoute: typeof ProgramasRoute
-  RelatoriosRoute: typeof RelatoriosRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
-  RiscosRoute: typeof RiscosRoute
   ApiChatRoute: typeof ApiChatRoute
-  AssistenteIdRoute: typeof AssistenteIdRoute
-  ProjetosIdRoute: typeof ProjetosIdRoute
-  AssistenteIndexRoute: typeof AssistenteIndexRoute
-  ProjetosIndexRoute: typeof ProjetosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -241,48 +242,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/configuracoes': {
-      id: '/configuracoes'
-      path: '/configuracoes'
-      fullPath: '/configuracoes'
-      preLoaderRoute: typeof ConfiguracoesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/estrategia': {
-      id: '/estrategia'
-      path: '/estrategia'
-      fullPath: '/estrategia'
-      preLoaderRoute: typeof EstrategiaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/indicadores': {
-      id: '/indicadores'
-      path: '/indicadores'
-      fullPath: '/indicadores'
-      preLoaderRoute: typeof IndicadoresRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/portfolios': {
-      id: '/portfolios'
-      path: '/portfolios'
-      fullPath: '/portfolios'
-      preLoaderRoute: typeof PortfoliosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/programas': {
-      id: '/programas'
-      path: '/programas'
-      fullPath: '/programas'
-      preLoaderRoute: typeof ProgramasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/relatorios': {
-      id: '/relatorios'
-      path: '/relatorios'
-      fullPath: '/relatorios'
-      preLoaderRoute: typeof RelatoriosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -290,12 +249,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/riscos': {
-      id: '/riscos'
+    '/_authenticated/': {
+      id: '/_authenticated/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/configuracoes': {
+      id: '/_authenticated/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof AuthenticatedConfiguracoesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/estrategia': {
+      id: '/_authenticated/estrategia'
+      path: '/estrategia'
+      fullPath: '/estrategia'
+      preLoaderRoute: typeof AuthenticatedEstrategiaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/indicadores': {
+      id: '/_authenticated/indicadores'
+      path: '/indicadores'
+      fullPath: '/indicadores'
+      preLoaderRoute: typeof AuthenticatedIndicadoresRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/portfolios': {
+      id: '/_authenticated/portfolios'
+      path: '/portfolios'
+      fullPath: '/portfolios'
+      preLoaderRoute: typeof AuthenticatedPortfoliosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/programas': {
+      id: '/_authenticated/programas'
+      path: '/programas'
+      fullPath: '/programas'
+      preLoaderRoute: typeof AuthenticatedProgramasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/relatorios': {
+      id: '/_authenticated/relatorios'
+      path: '/relatorios'
+      fullPath: '/relatorios'
+      preLoaderRoute: typeof AuthenticatedRelatoriosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/riscos': {
+      id: '/_authenticated/riscos'
       path: '/riscos'
       fullPath: '/riscos'
-      preLoaderRoute: typeof RiscosRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedRiscosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/api/chat': {
       id: '/api/chat'
@@ -304,53 +312,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/assistente/': {
-      id: '/assistente/'
+    '/_authenticated/assistente/': {
+      id: '/_authenticated/assistente/'
       path: '/assistente'
       fullPath: '/assistente/'
-      preLoaderRoute: typeof AssistenteIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedAssistenteIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/assistente/$id': {
-      id: '/assistente/$id'
+    '/_authenticated/assistente/$id': {
+      id: '/_authenticated/assistente/$id'
       path: '/assistente/$id'
       fullPath: '/assistente/$id'
-      preLoaderRoute: typeof AssistenteIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedAssistenteIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/projetos/': {
-      id: '/projetos/'
+    '/_authenticated/projetos/': {
+      id: '/_authenticated/projetos/'
       path: '/projetos'
       fullPath: '/projetos/'
-      preLoaderRoute: typeof ProjetosIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedProjetosIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/projetos/$id': {
-      id: '/projetos/$id'
+    '/_authenticated/projetos/$id': {
+      id: '/_authenticated/projetos/$id'
       path: '/projetos/$id'
       fullPath: '/projetos/$id'
-      preLoaderRoute: typeof ProjetosIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedProjetosIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedConfiguracoesRoute: typeof AuthenticatedConfiguracoesRoute
+  AuthenticatedEstrategiaRoute: typeof AuthenticatedEstrategiaRoute
+  AuthenticatedIndicadoresRoute: typeof AuthenticatedIndicadoresRoute
+  AuthenticatedPortfoliosRoute: typeof AuthenticatedPortfoliosRoute
+  AuthenticatedProgramasRoute: typeof AuthenticatedProgramasRoute
+  AuthenticatedRelatoriosRoute: typeof AuthenticatedRelatoriosRoute
+  AuthenticatedRiscosRoute: typeof AuthenticatedRiscosRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedAssistenteIdRoute: typeof AuthenticatedAssistenteIdRoute
+  AuthenticatedProjetosIdRoute: typeof AuthenticatedProjetosIdRoute
+  AuthenticatedAssistenteIndexRoute: typeof AuthenticatedAssistenteIndexRoute
+  AuthenticatedProjetosIndexRoute: typeof AuthenticatedProjetosIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedConfiguracoesRoute: AuthenticatedConfiguracoesRoute,
+  AuthenticatedEstrategiaRoute: AuthenticatedEstrategiaRoute,
+  AuthenticatedIndicadoresRoute: AuthenticatedIndicadoresRoute,
+  AuthenticatedPortfoliosRoute: AuthenticatedPortfoliosRoute,
+  AuthenticatedProgramasRoute: AuthenticatedProgramasRoute,
+  AuthenticatedRelatoriosRoute: AuthenticatedRelatoriosRoute,
+  AuthenticatedRiscosRoute: AuthenticatedRiscosRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedAssistenteIdRoute: AuthenticatedAssistenteIdRoute,
+  AuthenticatedProjetosIdRoute: AuthenticatedProjetosIdRoute,
+  AuthenticatedAssistenteIndexRoute: AuthenticatedAssistenteIndexRoute,
+  AuthenticatedProjetosIndexRoute: AuthenticatedProjetosIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
-  ConfiguracoesRoute: ConfiguracoesRoute,
-  EstrategiaRoute: EstrategiaRoute,
-  IndicadoresRoute: IndicadoresRoute,
-  PortfoliosRoute: PortfoliosRoute,
-  ProgramasRoute: ProgramasRoute,
-  RelatoriosRoute: RelatoriosRoute,
   ResetPasswordRoute: ResetPasswordRoute,
-  RiscosRoute: RiscosRoute,
   ApiChatRoute: ApiChatRoute,
-  AssistenteIdRoute: AssistenteIdRoute,
-  ProjetosIdRoute: ProjetosIdRoute,
-  AssistenteIndexRoute: AssistenteIndexRoute,
-  ProjetosIndexRoute: ProjetosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
