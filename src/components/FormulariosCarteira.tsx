@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { SeletorEtiqueta } from "@/components/EtiquetaCelula";
 import { carteira, useCarteira } from "@/lib/carteira";
-import { objetivos, type Portfolio, type Programa, type Projeto, type Saude } from "@/lib/mock-data";
+import { type Portfolio, type Programa, type Projeto, type Saude } from "@/lib/ppm-types";
 
 const saudes: { v: Saude; l: string }[] = [
   { v: "verde", l: "Saudável" },
@@ -51,7 +51,7 @@ const vazioProjeto = (): Omit<Projeto, "id"> => ({
   fim: new Date(Date.now() + 180 * 864e5).toISOString().slice(0, 10),
   orcamento: 0,
   executado: 0,
-  objetivoId: objetivos[0]?.id ?? "",
+  objetivoId: "",
 });
 
 export function FormProjeto({
@@ -74,15 +74,15 @@ export function FormProjeto({
   }, [aberto, projeto]);
   const set = <K extends keyof Projeto>(k: K, v: Projeto[K]) => setD((x) => ({ ...x, [k]: v }));
 
-  const salvar = () => {
+  const salvar = async () => {
     const r = esquemaProjeto.safeParse(d);
     if (!r.success) {
       setErros(Object.fromEntries(r.error.issues.map((i) => [String(i.path[0]), i.message])));
       return;
     }
-    carteira.salvarProjeto({ ...d, ...r.data });
+    try { await carteira.salvarProjeto({ ...d, ...r.data });
     toast.success(projeto ? "Projeto atualizado" : "Projeto cadastrado");
-    onClose();
+    onClose(); } catch { toast.error("Não foi possível salvar. Confira as permissões e os vínculos."); }
   };
 
   return (
@@ -135,7 +135,7 @@ export function FormProjeto({
             </select>
           </Campo>
         </div>
-        <Rodape onCancel={onClose} onSave={salvar} onDelete={projeto ? () => { carteira.removerProjeto(projeto.id); toast.success("Projeto excluído"); onClose(); } : undefined} />
+        <Rodape onCancel={onClose} onSave={salvar} onDelete={projeto ? async () => { try { await carteira.removerProjeto(projeto.id); onClose(); } catch { toast.error("Não foi possível excluir. Existem vínculos ou falta permissão."); } } : undefined} />
       </DialogContent>
     </Dialog>
   );
@@ -176,15 +176,15 @@ export function FormPortfolio({
   }, [aberto, portfolio]);
   const set = <K extends keyof Portfolio>(k: K, v: Portfolio[K]) => setD((x) => ({ ...x, [k]: v }));
 
-  const salvar = () => {
+  const salvar = async () => {
     const r = esquemaPortfolio.safeParse(d);
     if (!r.success) {
       setErros(Object.fromEntries(r.error.issues.map((i) => [String(i.path[0]), i.message])));
       return;
     }
-    carteira.salvarPortfolio({ ...d, ...r.data });
+    try { await carteira.salvarPortfolio({ ...d, ...r.data });
     toast.success(portfolio ? "Portfólio atualizado" : "Portfólio cadastrado");
-    onClose();
+    onClose(); } catch { toast.error("Não foi possível salvar. Confira as permissões e os vínculos."); }
   };
 
   return (
@@ -209,12 +209,6 @@ export function FormPortfolio({
           <Campo label="Orçamento (R$)">
             <input type="number" min={0} className={inputCls} value={d.orcamento} onChange={(e) => set("orcamento", Number(e.target.value))} />
           </Campo>
-          <Campo label="Executado (R$)">
-            <input type="number" min={0} className={inputCls} value={d.executado} onChange={(e) => set("executado", Number(e.target.value))} />
-          </Campo>
-          <Campo label={`Progresso: ${d.progresso}%`}>
-            <input type="range" min={0} max={100} className="w-full" value={d.progresso} onChange={(e) => set("progresso", Number(e.target.value))} />
-          </Campo>
           <Campo label={`Score de priorização: ${d.score}`}>
             <input type="range" min={0} max={100} className="w-full" value={d.score} onChange={(e) => set("score", Number(e.target.value))} />
           </Campo>
@@ -223,11 +217,9 @@ export function FormPortfolio({
               {saudes.map((s) => <option key={s.v} value={s.v}>{s.l}</option>)}
             </select>
           </Campo>
-          <Campo label="Riscos críticos">
-            <input type="number" min={0} className={inputCls} value={d.riscosCriticos} onChange={(e) => set("riscosCriticos", Math.max(0, Number(e.target.value)))} />
-          </Campo>
+
         </div>
-        <Rodape onCancel={onClose} onSave={salvar} onDelete={portfolio ? () => { carteira.removerPortfolio(portfolio.id); toast.success("Portfólio excluído"); onClose(); } : undefined} />
+        <Rodape onCancel={onClose} onSave={salvar} onDelete={portfolio ? async () => { try { await carteira.removerPortfolio(portfolio.id); onClose(); } catch { toast.error("Não foi possível excluir. Existem vínculos ou falta permissão."); } } : undefined} />
       </DialogContent>
     </Dialog>
   );
@@ -261,7 +253,7 @@ export function FormPrograma({ aberto, onClose, programa }: { aberto: boolean; o
   const setMeta = (i: number, parcial: Partial<Meta>) =>
     setD((x) => ({ ...x, metas: x.metas.map((m, j) => (j === i ? { ...m, ...parcial } : m)) }));
 
-  const salvar = () => {
+  const salvar = async () => {
     const r = esquemaPrograma.safeParse(d);
     if (!r.success) {
       setErros(Object.fromEntries(r.error.issues.map((i) => [String(i.path[0]), i.message])));
@@ -270,9 +262,9 @@ export function FormPrograma({ aberto, onClose, programa }: { aberto: boolean; o
     const metas = d.metas
       .filter((m) => m.nome.trim())
       .map((m) => ({ ...m, nome: m.nome.trim().slice(0, 80), alvo: Math.max(1, m.alvo), atual: Math.max(0, m.atual) }));
-    carteira.salvarPrograma({ ...d, ...r.data, metas });
+    try { await carteira.salvarPrograma({ ...d, ...r.data, metas });
     toast.success(programa ? "Programa atualizado" : "Programa cadastrado");
-    onClose();
+    onClose(); } catch { toast.error("Não foi possível salvar. Confira as permissões e os vínculos."); }
   };
 
   return (
@@ -301,9 +293,7 @@ export function FormPrograma({ aberto, onClose, programa }: { aberto: boolean; o
               <input className={inputCls} value={d.objetivo} maxLength={300} onChange={(e) => set("objetivo", e.target.value)} />
             </Campo>
           </div>
-          <Campo label={`Progresso: ${d.progresso}%`}>
-            <input type="range" min={0} max={100} className="w-full" value={d.progresso} onChange={(e) => set("progresso", Number(e.target.value))} />
-          </Campo>
+
           <Campo label="Saúde">
             <select className={inputCls} value={d.saude} onChange={(e) => set("saude", e.target.value as Saude)}>
               {saudes.map((s) => <option key={s.v} value={s.v}>{s.l}</option>)}
@@ -327,7 +317,7 @@ export function FormPrograma({ aberto, onClose, programa }: { aberto: boolean; o
             ))}
           </div>
         </div>
-        <Rodape onCancel={onClose} onSave={salvar} onDelete={programa ? () => { carteira.removerPrograma(programa.id); toast.success("Programa excluído"); onClose(); } : undefined} />
+        <Rodape onCancel={onClose} onSave={salvar} onDelete={programa ? async () => { try { await carteira.removerPrograma(programa.id); onClose(); } catch { toast.error("Não foi possível excluir. Existem vínculos ou falta permissão."); } } : undefined} />
       </DialogContent>
     </Dialog>
   );

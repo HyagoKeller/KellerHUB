@@ -3,7 +3,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export const VERSAO_TERMOS = "2026-10-02.1";
-const EMAIL_RESPONSAVEL_SEGURANCA = "hyagokeller@outlook.com.br";
+
 
 const eventoSchema = z.object({
   eventType: z.enum([
@@ -94,15 +94,8 @@ export const registrarEventoSeguranca = createServerFn({ method: "POST" })
 export const listarAuditoriaSeguranca = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const email = typeof context.claims.email === "string" ? context.claims.email.toLowerCase() : "";
-    if (email !== EMAIL_RESPONSAVEL_SEGURANCA) throw new Error("A auditoria consolidada é restrita ao responsável pela segurança.");
-    const { data: papel } = await context.supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", context.userId)
-      .eq("role", "superadmin")
-      .maybeSingle();
-    if (!papel) throw new Error("A auditoria consolidada é restrita ao responsável pela segurança.");
+    const [{data:admin},{data:auditor}]=await Promise.all([context.supabase.rpc("ppm_tem_papel",{p:"administrador_pmo"}),context.supabase.rpc("ppm_tem_papel",{p:"auditor"})]);
+    if(!admin&&!auditor)throw new Error("Acesso restrito a Auditor e Administrador/PMO.");
     const { data, error } = await context.supabase
       .from("security_audit_log")
       .select("id, user_id, event_type, entity_type, entity_id, result, context, session_reference, created_at")

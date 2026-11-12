@@ -21,7 +21,7 @@ import {
   Moon,
   LogOut,
 } from "lucide-react";
-import { usuarioAtual, organizacoes } from "@/lib/mock-data";
+
 import { usePortal } from "@/lib/portal";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -125,7 +125,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
 
 function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
   const { config } = usePortal();
-  const nomeOrg = config.organizacao || organizacoes[0].nome;
+  const nomeOrg = config.organizacao || "Keller Hub";
   return (
     <div className="flex h-full flex-col bg-sidebar/72 py-5 backdrop-blur-3xl">
       <div className="px-5 pb-5">
@@ -249,16 +249,6 @@ export function AppShell({
                 ) : (
                   <Moon className="h-4 w-4" />
                 )}
-              </Button>
-              <Button
-
-                variant="outline"
-                size="icon"
-                aria-label="Notificações"
-                className="relative text-muted-foreground hover:text-foreground"
-              >
-                <Bell className="h-4 w-4" />
-                <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary" />
               </Button>
               <SimularPerfil />
               <Button variant="outline" size="icon" onClick={() => void sair()} aria-label="Sair" title="Sair"><LogOut className="h-4 w-4" /></Button>

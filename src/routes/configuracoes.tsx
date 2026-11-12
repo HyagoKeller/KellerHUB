@@ -27,13 +27,13 @@ import { Panel, PanelTitle, Tag } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { AssistenteMarca, estilosAssistente, type EstiloAssistente } from "@/components/AssistenteMarca";
 import { cn } from "@/lib/utils";
-import type { Perfil } from "@/lib/mock-data";
-import { organizacoes } from "@/lib/mock-data";
+import type { Perfil } from "@/lib/ppm-types";
+
 import { blocosPorEscopo, useViews, type EscopoView } from "@/lib/views";
 import { motoresIA, useMotorIA } from "@/lib/ai-provedores";
 import { paletas, usePortal, type ConfigPortal, type PaletaId } from "@/lib/portal";
 import { supabase } from "@/integrations/supabase/client";
-import { EMAIL_SUPERADMIN } from "@/lib/auth";
+import {useCarteiraVisivel} from "@/lib/acesso";
 
 
 
@@ -74,7 +74,7 @@ const integracoesIniciais: Integracao[] = [
     nome: "Microsoft 365",
     descricao: "Calendário, Outlook, Teams e arquivos do SharePoint vinculados a projetos.",
     categoria: "Produtividade",
-    conectado: true,
+    conectado: false,
     conta: "seinov.onmicrosoft.com",
   },
   {
@@ -82,7 +82,7 @@ const integracoesIniciais: Integracao[] = [
     nome: "Google Workspace",
     descricao: "Login único, Google Agenda e documentos do Drive nas entregas.",
     categoria: "Produtividade",
-    conectado: true,
+    conectado: false,
     conta: "orgao.gov.br",
   },
   {
@@ -97,7 +97,7 @@ const integracoesIniciais: Integracao[] = [
     nome: "Power BI",
     descricao: "Publicação automática dos conjuntos de dados de indicadores.",
     categoria: "Análise",
-    conectado: true,
+    conectado: false,
     conta: "Workspace institucional",
   },
   {
@@ -127,8 +127,8 @@ const integracoesIniciais: Integracao[] = [
     nome: "SSO SAML / Entra ID",
     descricao: "Autenticação corporativa com provisionamento automático de usuários.",
     categoria: "Segurança",
-    conectado: true,
-    conta: "Entra ID · SCIM ativo",
+    conectado: false,
+    
   },
 ];
 
@@ -205,13 +205,8 @@ function Configuracoes() {
   const [mensagemMotor, setMensagemMotor] = useState("");
   const [podeAlterarMotor, setPodeAlterarMotor] = useState(false);
   useEffect(() => setRascunhoMotor(motorConfig), [motorConfig]);
-  useEffect(() => {
-    let ativo = true;
-    void supabase.auth.getUser().then(({ data }) => {
-      if (ativo) setPodeAlterarMotor(data.user?.email?.toLowerCase() === EMAIL_SUPERADMIN);
-    });
-    return () => { ativo = false; };
-  }, []);
+  const {capacidades}=useCarteiraVisivel();
+  useEffect(()=>setPodeAlterarMotor(capacidades.includes("ai_owner")),[capacidades]);
   const motorAlterado = JSON.stringify(rascunhoMotor) !== JSON.stringify(motorConfig);
   const motorRascunho = motoresIA.find((m) => m.id === rascunhoMotor.motorId) ?? motoresIA[0];
 
@@ -330,7 +325,7 @@ function Configuracoes() {
                 onChange={(e) =>
                   setRascunhoPortal((r) => ({ ...r, organizacao: e.target.value }))
                 }
-                placeholder={organizacoes[0].nome}
+                placeholder="Nome da organização"
                 className="rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:border-primary"
               />
             </label>
@@ -376,7 +371,7 @@ function Configuracoes() {
                 )}
               </div>
               <p className="text-[11px] text-muted-foreground">
-                A imagem fica guardada apenas neste navegador, em PNG, JPG, SVG ou WEBP.
+                A imagem é compartilhada entre dispositivos ao salvar a identidade do portal.
               </p>
             </div>
 
@@ -487,7 +482,7 @@ function Configuracoes() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setRascunhoPortal((r) => ({ ...r, metodoAcesso: "ad" }))}
+                  disabled title="Diretório não conectado"
                   className={cn("h-auto justify-start rounded-xl px-3 py-3", rascunhoPortal.metodoAcesso === "ad" && "border-primary bg-primary/10")}
                 >
                   <Building2 className="h-4 w-4" /> Active Directory
@@ -597,11 +592,7 @@ function Configuracoes() {
                     )}
                   </p>
                 </div>
-                <Toggle
-                  on={i.conectado}
-                  onClick={() => alternar(i.id)}
-                  label={`Conectar ${i.nome}`}
-                />
+
               </div>
             </div>
           ))}

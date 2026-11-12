@@ -11,7 +11,7 @@ import { ArrowUpRight, CheckCircle2, CircleDot, Plus, Sparkles } from "lucide-re
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, Stat, Tag } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
-import { objetivos, programas, projetos } from "@/lib/mock-data";
+import {useCarteiraVisivel} from "@/lib/acesso";
 
 export const Route = createFileRoute("/estrategia")({
   head: () => ({
@@ -35,6 +35,7 @@ export const Route = createFileRoute("/estrategia")({
 });
 
 function Estrategia() {
+ const {objetivos,programas,projetos}=useCarteiraVisivel();
   const radar = objetivos.map((o) => ({ objetivo: o.codigo, aderencia: o.aderencia }));
   const objectiveTones = [
     { tag: "success" as const, icon: "bg-success/15 text-success" },
@@ -48,33 +49,31 @@ function Estrategia() {
     <AppShell
       title="Gestão Estratégica"
       description="Objetivos e metas institucionais com alinhamento rastreável dos projetos e programas que os sustentam."
-      actions={
-        <Button><Plus /> Novo objetivo</Button>
-      }
+
     >
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Stat label="Objetivos estratégicos" value={String(objetivos.length)} />
         <Stat
           label="Aderência média"
-          value={`${Math.round(objetivos.reduce((a, o) => a + o.aderencia, 0) / objetivos.length)}%`}
+          value={`${Math.round(objetivos.reduce((a, o) => a + o.aderencia, 0) / (objetivos.length || 1))}%`}
         />
         <Stat
           label="Iniciativas alinhadas"
           value={String(projetos.length + programas.length)}
           hint={`${projetos.length} projetos · ${programas.length} programas`}
         />
-        <Stat label="Objetivos no ritmo" value="4 de 6" delta={{ texto: "+1 no trimestre", tom: "up" }} />
+        <Stat label="Objetivos no ritmo" value={`${objetivos.filter(o=>o.aderencia>=70).length} de ${objetivos.length}`} />
       </div>
 
       <div className="mt-4 grid gap-4 xl:grid-cols-12">
         <Panel rule="primary" className="relative xl:col-span-8">
           <div className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary"><Sparkles className="h-5 w-5" /></div>
           <p className="eyebrow text-primary">Objetivo prioritário</p>
-          <h2 className="mt-4 max-w-2xl font-display text-2xl font-semibold sm:text-3xl">{objetivos[0].nome}</h2>
-          <p className="mt-3 text-sm text-muted-foreground">{objetivos[0].meta} · liderança de {objetivos[0].responsavel}</p>
+          <h2 className="mt-4 max-w-2xl font-display text-2xl font-semibold sm:text-3xl">{objetivos[0]?.nome}</h2>
+          <p className="mt-3 text-sm text-muted-foreground">{objetivos[0]?.meta} · liderança de {objetivos[0]?.responsavel}</p>
           <div className="mt-8 grid gap-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
-            <div><div className="mb-2 flex justify-between text-xs"><span className="font-semibold">Aderência consolidada</span><span className="num">{objetivos[0].aderencia}%</span></div><Barra valor={objetivos[0].aderencia} tom="info" /></div>
-            <Button variant="outline">Abrir mapa <ArrowUpRight /></Button>
+            <div><div className="mb-2 flex justify-between text-xs"><span className="font-semibold">Aderência consolidada</span><span className="num">{objetivos[0]?.aderencia}%</span></div><Barra valor={objetivos[0]?.aderencia ?? 0} tom="info" /></div>
+
           </div>
         </Panel>
 

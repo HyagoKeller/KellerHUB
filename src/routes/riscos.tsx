@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import { AppShell } from "@/components/AppShell";
 import { Panel, PanelTitle, Stat, Tag } from "@/components/ui-kit";
-import { evolucaoRiscos, severidade, type Risco } from "@/lib/mock-data";
+import { severidade, type Risco } from "@/lib/ppm-types";
 import { useCarteiraVisivel } from "@/lib/acesso";
 
 export const Route = createFileRoute("/riscos")({
@@ -55,6 +55,7 @@ function Tendencia({ t }: { t: Risco["tendencia"] }) {
 
 function Riscos() {
   const { riscos } = useCarteiraVisivel();
+  const evolucaoRiscos=[{periodo:"Atual",critico:riscos.filter(r=>r.probabilidade*r.impacto>=15).length,alto:riscos.filter(r=>r.probabilidade*r.impacto>=9&&r.probabilidade*r.impacto<15).length,medio:riscos.filter(r=>r.probabilidade*r.impacto>=4&&r.probabilidade*r.impacto<9).length,baixo:riscos.filter(r=>r.probabilidade*r.impacto<4).length}];
   const [cat, setCat] = useState<(typeof categorias)[number]>("Todas");
   const lista = riscos.filter((r) => cat === "Todas" || r.categoria === cat);
 
@@ -62,11 +63,7 @@ function Riscos() {
     <AppShell
       title="Riscos Corporativos"
       description="Riscos estratégicos, operacionais e de projetos com avaliação de probabilidade × impacto, planos de resposta e histórico de evolução."
-      actions={
-        <button className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
-          Registrar risco
-        </button>
-      }
+
     >
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {(["Crítico", "Alto", "Médio", "Baixo"] as const).map((nivel) => (
@@ -117,7 +114,7 @@ function Riscos() {
         </Panel>
 
         <Panel className="xl:col-span-2">
-          <PanelTitle title="Evolução da exposição a riscos" hint="monitoramento contínuo" />
+          <PanelTitle title="Exposição atual a riscos" hint="monitoramento contínuo" />
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={evolucaoRiscos} margin={{ left: -18, right: 8, top: 8 }}>

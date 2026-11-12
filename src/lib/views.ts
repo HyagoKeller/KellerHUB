@@ -1,8 +1,5 @@
-// Views personalizadas do usuário (protótipo: persistidas no navegador).
-// A view padrão de cada tela nunca é alterada nem removida.
-import { useCallback, useEffect, useState } from "react";
-import type { Perfil } from "@/lib/mock-data";
-
+import type {Perfil} from "./ppm-types";
+import {useDadosCompartilhados,gravar} from "./ppm-store";
 export type EscopoView = "executiva" | "indicadores";
 
 export type ViewPersonalizada = {
@@ -32,63 +29,4 @@ export const blocosPorEscopo: Record<EscopoView, { id: string; label: string }[]
   ],
 };
 
-const STORAGE_KEY = "keller-hub.views.v1";
-const LEGACY_STORAGE_KEY = "hepta.views.v1";
-
-function ler(): ViewPersonalizada[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY) ?? window.localStorage.getItem(LEGACY_STORAGE_KEY);
-    if (raw && !window.localStorage.getItem(STORAGE_KEY)) {
-      window.localStorage.setItem(STORAGE_KEY, raw);
-    }
-    return raw ? (JSON.parse(raw) as ViewPersonalizada[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-const listeners = new Set<() => void>();
-
-function notificar() {
-  listeners.forEach((l) => l());
-}
-
-export function useViews(escopo?: EscopoView) {
-  const [views, setViews] = useState<ViewPersonalizada[]>([]);
-
-  const sync = useCallback(() => setViews(ler()), []);
-
-  useEffect(() => {
-    sync();
-    listeners.add(sync);
-    return () => {
-      listeners.delete(sync);
-    };
-  }, [sync]);
-
-  const salvar = useCallback((todas: ViewPersonalizada[]) => {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(todas));
-    notificar();
-  }, []);
-
-  const criar = useCallback(
-    (view: Omit<ViewPersonalizada, "id">) => {
-      salvar([...ler(), { ...view, id: `view-${Date.now()}` }]);
-    },
-    [salvar],
-  );
-
-  const remover = useCallback(
-    (id: string) => {
-      salvar(ler().filter((v) => v.id !== id));
-    },
-    [salvar],
-  );
-
-  return {
-    views: escopo ? views.filter((v) => v.escopo === escopo) : views,
-    criar,
-    remover,
-  };
-}
+export function useViews(escopo?:EscopoView){const {views}=useDadosCompartilhados();return {views:escopo?views.filter(v=>v.escopo===escopo):views,criar:(view:Omit<ViewPersonalizada,"id">)=>gravar("views_usuario",view),remover:(id:string)=>gravar("views_usuario",{id},"remover")};}

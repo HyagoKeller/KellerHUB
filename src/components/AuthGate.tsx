@@ -1,9 +1,9 @@
 import { Navigate, useRouterState } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useState, type ReactNode } from "react";
 import { LoaderCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { garantirSuperadmin } from "@/lib/auth";
-import { acesso } from "@/lib/acesso";
+import { CarteiraCompartilhadaProvider } from "@/lib/ppm-store";
 
 type Estado = "carregando" | "autorizado" | "negado";
 
@@ -18,7 +18,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
       try {
         const resultado = await garantirSuperadmin();
         if (!ativo) return;
-        if (resultado.autorizado) acesso.simular("u-felipe");
+
         setEstado(resultado.autorizado ? "autorizado" : "negado");
       } catch {
         if (ativo) setEstado("negado");
@@ -35,7 +35,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
         }
         void garantirSuperadmin(session?.user).then((resultado) => {
           if (!ativo) return;
-          if (resultado.autorizado) acesso.simular("u-felipe");
+  
           setEstado(resultado.autorizado ? "autorizado" : "negado");
         }).catch(() => {
           if (ativo) setEstado("negado");
@@ -59,5 +59,5 @@ export function AuthGate({ children }: { children: ReactNode }) {
       </div>
     );
   }
-  return children;
+  return <Suspense fallback={<div className="grid min-h-screen place-items-center bg-background text-foreground">Carregando dados compartilhados</div>}><CarteiraCompartilhadaProvider>{children}</CarteiraCompartilhadaProvider></Suspense>;
 }

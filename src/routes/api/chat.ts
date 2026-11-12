@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import { createRunIdFetch, getRunIdFromRequest } from "@/lib/ai-gateway.server";
 import { resolverMotor } from "@/lib/ai-modelo.server";
-import { ehPerfil, montarSystemPrompt } from "@/lib/assistente-contexto.server";
+import { montarSystemPrompt } from "@/lib/assistente-contexto.server";
 import { createClient } from "@supabase/supabase-js";
 
 type CorpoChat = {
@@ -26,22 +26,17 @@ export const Route = createFileRoute("/api/chat")({
         if (identidadeErro || !identidade.user) {
           return new Response("Não autorizado", { status: 401 });
         }
-        const { messages, perfil } = (await request.json()) as CorpoChat;
+        const { messages } = (await request.json()) as CorpoChat;
         if (!Array.isArray(messages)) {
           return new Response("Mensagens são obrigatórias", { status: 400 });
         }
 
-        const perfilAtivo = ehPerfil(perfil) ? perfil : "Gestor";
+        const perfilAtivo = "Autenticado, definido no banco";
         const initialRunId = getRunIdFromRequest(request);
         const runIdFetch = createRunIdFetch(initialRunId);
 
-        const { data: papel } = await cliente
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", identidade.user.id)
-          .eq("role", "superadmin")
-          .maybeSingle();
-        if (!papel) return new Response("Não autorizado", { status: 403 });
+        const {data:ativo,error:ativoErro}=await cliente.rpc("ppm_ativo");
+        if(ativoErro||!ativo)return new Response("Não autorizado",{status:403});
 
         const [{ data: aceite }, { count: usosRecentes }] = await Promise.all([
           cliente
@@ -87,7 +82,7 @@ export const Route = createFileRoute("/api/chat")({
 
         const result = streamText({
           model: resolucao.model,
-          system: montarSystemPrompt(perfilAtivo),
+          system: await montarSystemPrompt(cliente),
           messages: await convertToModelMessages(messages as UIMessage[]),
           abortSignal: request.signal,
           ...(nativo

@@ -5,7 +5,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Database } from "@/integrations/supabase/types";
 
-const EMAIL_RESPONSAVEL_IA = "hyagokeller@outlook.com.br";
+
 
 const motorSchema = z.object({
   motorId: z.enum(["nativa", "chatgpt", "gemini", "claude", "copilot", "personalizado"]),
@@ -29,13 +29,8 @@ async function exigirSuperadmin(
   supabase: SupabaseClient<Database>,
   userId: string,
 ) {
-  const { data, error } = await supabase
-    .from("user_roles")
-    .select("role")
-    .eq("user_id", userId)
-    .eq("role", "superadmin")
-    .maybeSingle();
-  if (error || !data) throw new Error("Apenas o Superadministrador pode alterar o motor de IA.");
+  const {data,error}=await supabase.rpc("ppm_ativo");
+  if(error||!data)throw new Error("Acesso não autorizado.");
 }
 
 export const obterConfigMotorIA = createServerFn({ method: "GET" })
@@ -62,9 +57,8 @@ export const salvarConfigMotorIA = createServerFn({ method: "POST" })
 
     const email = typeof context.claims.email === "string" ? context.claims.email : "";
     if (!email) throw new Error("Não foi possível confirmar a identidade do Superadministrador.");
-    if (email.toLowerCase() !== EMAIL_RESPONSAVEL_IA) {
-      throw new Error("A configuração do motor de IA é exclusiva do responsável Hyago Keller.");
-    }
+    const {data:dono,error:donoErro}=await context.supabase.rpc("ppm_tem_papel",{p:"ai_owner"});
+    if(donoErro||!dono)throw new Error("A configuração de IA é exclusiva do responsável autorizado.");
 
     const url = process.env["SUPABASE_URL"]!;
     const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;

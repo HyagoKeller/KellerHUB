@@ -36,6 +36,20 @@
       "when": 1790969665268,
       "tag": "0004_restrict_portal_settings_public_access",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794522118338,
+      "tag": "0005_ppm_shared_business_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794522266407,
+      "tag": "0006_ppm_authenticated_queries_and_mutations",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,83 @@
+export type Saude = "verde" | "amarelo" | "vermelho";
+export type StatusProjeto = string;
+export type Metodologia = string;
+export type Perfil = "Técnico" | "Gestor" | "Alta Administração" | "Administrador/PMO" | "Auditor";
+export type Portfolio = {
+  id: string;
+  areaId?: string;
+  responsavelId?: string;
+  nome: string;
+  tipo: string;
+  responsavel: string;
+  orcamento: number;
+  executado: number;
+  progresso: number;
+  saude: Saude;
+  prioridade: number;
+  score: number;
+  programas: number;
+  projetos: number;
+  riscosCriticos: number;
+};
+export type Programa = {
+  id: string;
+  nome: string;
+  portfolioId: string;
+  gerente: string;
+  objetivo: string;
+  progresso: number;
+  saude: Saude;
+  metas: { nome: string; alvo: number; atual: number; unidade: string }[];
+};
+export type Projeto = {
+  id: string;
+  nome: string;
+  programaId: string;
+  gerente: string;
+  metodologia: Metodologia;
+  status: StatusProjeto;
+  progresso: number;
+  saude: Saude;
+  inicio: string;
+  fim: string;
+  orcamento: number;
+  executado: number;
+  objetivoId: string;
+};
+export type Objetivo = {
+  id: string;
+  codigo: string;
+  nome: string;
+  perspectiva: string;
+  meta: string;
+  aderencia: number;
+  responsavel: string;
+};
+export type Indicador = {
+  id: string;
+  nome: string;
+  formula: string;
+  unidade: string;
+  meta: number;
+  atual: number;
+  periodicidade: "Mensal" | "Trimestral" | "Anual";
+  responsavel: string;
+  polaridade: "maior" | "menor";
+  historico: { periodo: string; valor: number }[];
+};
+export type Risco = {
+  id: string;
+  nome: string;
+  categoria: "Estratégico" | "Operacional" | "Projeto";
+  origem: string;
+  probabilidade: 1 | 2 | 3 | 4 | 5;
+  impacto: 1 | 2 | 3 | 4 | 5;
+  resposta: "Mitigar" | "Aceitar" | "Transferir" | "Evitar";
+  plano: string;
+  responsavel: string;
+  prazo: string;
+  tendencia: "alta" | "estável" | "queda";
+};
+
+export const moeda = (v: number) => new Intl.NumberFormat("pt-BR", {style:"currency", currency:"BRL",maximumFractionDigits:0}).format(v);
+export const severidade = (p:number,i:number) => { const s=p*i; return s>=15?{nivel:"Crítico",token:"destructive" as const}:s>=9?{nivel:"Alto",token:"warning" as const}:s>=4?{nivel:"Médio",token:"info" as const}:{nivel:"Baixo",token:"success" as const}; };

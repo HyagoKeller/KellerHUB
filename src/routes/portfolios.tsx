@@ -8,7 +8,7 @@ import { BotaoAcesso, DialogoAcesso, Moeda, SeloAcesso, AvisoAreas } from "@/com
 import { useCarteiraVisivel } from "@/lib/acesso";
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, SaudeTag, Stat, Tag } from "@/components/ui-kit";
-import { moeda, type Portfolio } from "@/lib/mock-data";
+import { moeda, type Portfolio } from "@/lib/ppm-types";
 
 export const Route = createFileRoute("/portfolios")({
   head: () => ({

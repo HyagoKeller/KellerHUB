@@ -29,7 +29,7 @@ export const motoresIA: MotorIA[] = [
     tipo: "interno",
     modelo: "openai/gpt-6-astra",
     descricao:
-      "Motor padrão, executado na infraestrutura da solução. Nenhum dado sai do ambiente contratado.",
+      "O contexto autorizado é enviado ao gateway de IA do Lovable e ao provedor do modelo para processamento.",
     incluidoNoContrato: true,
   },
   {

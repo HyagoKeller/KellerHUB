@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ChevronRight, Pencil } from "lucide-react";
 import { FormPrograma } from "@/components/FormulariosCarteira";
 import { useCarteira } from "@/lib/carteira";
-import type { Programa } from "@/lib/mock-data";
+import type { Programa } from "@/lib/ppm-types";
 import { BotaoAcesso, DialogoAcesso, Moeda, SeloAcesso, AvisoAreas } from "@/components/Acesso";
 import { useCarteiraVisivel } from "@/lib/acesso";
 import { AppShell } from "@/components/AppShell";

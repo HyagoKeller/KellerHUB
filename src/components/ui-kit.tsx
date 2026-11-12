@@ -1,7 +1,7 @@
 import type React from "react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import type { Saude } from "@/lib/mock-data";
+import type { Saude } from "@/lib/ppm-types";
 
 export function Panel({
   className,

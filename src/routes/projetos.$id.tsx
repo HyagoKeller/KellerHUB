@@ -10,29 +10,17 @@ import { Moeda, PainelAcesso } from "@/components/Acesso";
 import { useCarteiraVisivel } from "@/lib/acesso";
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, SaudeTag, Stat, Tag } from "@/components/ui-kit";
-import {
-  cronograma,
-  moeda,
-  projetos,
-  riscos,
-  severidade,
-  statusReports,
-  tarefasKanban,
-} from "@/lib/mock-data";
+import {moeda,severidade,type Projeto} from "@/lib/ppm-types";
 
 export const Route = createFileRoute("/projetos/$id")({
-  loader: ({ params }) => {
-    const base = projetos.find((p) => p.id === params.id);
-    return { id: params.id, nome: base?.nome ?? "Projeto" };
-  },
-  head: ({ loaderData }) => {
-    const t = `${loaderData?.nome ?? "Projeto"} | Keller Hub`;
+  head: () => {
+    const t = `${"Projeto"} | Keller Hub`;
     return {
       meta: [
         { title: t },
-        { name: "description", content: `Elementos, subelementos, atualizações, cronograma, custo e riscos do projeto ${loaderData?.nome ?? "do projeto"}.` },
+        { name: "description", content: `Elementos, subelementos, atualizações, cronograma, custo e riscos do projeto ${"selecionado"}.` },
         { property: "og:title", content: t },
-        { property: "og:description", content: `Acompanhamento de elementos, subelementos e execução do projeto ${loaderData?.nome ?? "do projeto"}.` },
+        { property: "og:description", content: `Acompanhamento de elementos, subelementos e execução do projeto ${"selecionado"}.` },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
@@ -44,7 +32,7 @@ export const Route = createFileRoute("/projetos/$id")({
 const abas = ["Visão geral", "Elementos", "Cronograma", "Kanban", "Riscos", "Status reports", "Acesso"] as const;
 
 function DetalheProjeto() {
-  const { id } = Route.useLoaderData();
+  const { id } = Route.useParams();
   const { projetos: lista } = useCarteiraVisivel();
   const projeto = lista.find((p) => p.id === id);
   if (!projeto) {
@@ -57,9 +45,9 @@ function DetalheProjeto() {
   return <Detalhe key={projeto.id} projeto={projeto} />;
 }
 
-function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
+function Detalhe({ projeto }: { projeto: Projeto }) {
   const { portfolios, programas } = useCarteira();
-  const { ocultarValores, podeEditar, usuario } = useCarteiraVisivel();
+  const { ocultarValores, podeEditar, usuario, riscos,cronograma,statusReports,tarefas,elementos } = useCarteiraVisivel();
   const [editar, setEditar] = useState(false);
   const [atualizacoes, setAtualizacoes] = useState<ContextoAtualizacao>();
   const [aba, setAba] = useState<(typeof abas)[number]>(
@@ -67,8 +55,9 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
   );
   const programa = programas.find((p) => p.id === projeto.programaId);
   const portfolio = portfolioDe(projeto, portfolios);
-  const riscosProjeto = riscos.filter((r) => r.origem === portfolio?.nome || r.categoria === "Projeto").slice(0, 4);
-  const totalSemanas = 90;
+  const riscosProjeto = riscos.filter((r) => r.origem === portfolio?.nome || r.origem === projeto.nome).slice(0, 4);
+  const tarefasKanban=Object.fromEntries(["Backlog","A fazer","Em andamento","Revisão","Concluído"].map(c=>[c,tarefas.filter(t=>t.projetoId===projeto.id&&t.status===c)]));
+  const totalSemanas = Math.max(1,...cronograma.filter(f=>f.projetoId===projeto.id).map(f=>f.inicio+f.duracao));
   const cronogramaProjeto = cronograma.filter((fase) => fase.projetoId === projeto.id);
 
   return (
@@ -90,9 +79,7 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
           >
             Editar projeto
           </Button>}
-          <Button>
-            Novo status report
-          </Button>
+
         </>
       }
     >
@@ -154,38 +141,13 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
             <Panel className="xl:col-span-2">
               <PanelTitle title="Escopo e entregas" />
               <ul className="space-y-3 text-sm">
-                {["Descoberta e mapeamento de jornadas", "Plataforma base e design system", "Integração com autenticação federada", "Catálogo de serviços digitais", "Homologação assistida e publicação"].map(
-                  (e, i) => (
-                    <li key={e} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-                      <div className="min-w-0">
-                        <p className="truncate">{e}</p>
-                        <div className="mt-1.5">
-                          <Barra valor={Math.max(0, 100 - i * 22)} />
-                        </div>
-                      </div>
-                      <span className="num shrink-0 text-xs text-muted-foreground">
-                        {Math.max(0, 100 - i * 22)}%
-                      </span>
-                    </li>
-                  ),
-                )}
+                {elementos.filter(e=>e.projetoId===projeto.id).map(e=><li key={e.id}><p>{e.nome}</p><Barra valor={e.progresso}/></li>)}
               </ul>
             </Panel>
             <Panel>
               <PanelTitle title="Recursos e qualidade" />
               <dl className="space-y-3 text-sm">
-                {[
-                  ["Equipe alocada", "14 pessoas"],
-                  ["Alocação média", "78%"],
-                  ["Defeitos abertos", "9"],
-                  ["Cobertura de testes", "72%"],
-                  ["Aceite de entregas", "5 de 7"],
-                ].map(([k, v]) => (
-                  <div key={k} className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
-                    <dt className="truncate text-muted-foreground">{k}</dt>
-                    <dd className="num shrink-0 font-medium">{v}</dd>
-                  </div>
-                ))}
+                <p className="text-muted-foreground">Nenhum registro de recursos ou qualidade disponível.</p>
               </dl>
             </Panel>
           </div>
@@ -197,7 +159,7 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
 
         {aba === "Cronograma" && (
           <Panel>
-            <PanelTitle title="Cronograma (Gantt)" hint={cronogramaProjeto.length ? "90 semanas" : "sem fases cadastradas"} />
+            <PanelTitle title="Cronograma (Gantt)" hint={cronogramaProjeto.length ? `${Math.ceil(totalSemanas)} semanas` : "sem fases cadastradas"} />
             {cronogramaProjeto.length ? <div className="space-y-3">
               {cronogramaProjeto.map((f) => (
                 <div key={f.fase} className="grid grid-cols-[minmax(0,1fr)] gap-1.5 sm:grid-cols-[180px_minmax(0,1fr)] sm:items-center sm:gap-3">
@@ -279,7 +241,7 @@ function Detalhe({ projeto }: { projeto: (typeof projetos)[number] }) {
           <Panel>
             <PanelTitle title="Status reports periódicos" hint="atualização colaborativa" />
             <ul className="space-y-3">
-              {statusReports.map((s) => (
+              {statusReports.filter(s=>s.projetoId===projeto.id).map((s) => (
                 <li key={s.id} className="rounded-lg border border-border p-4">
                   <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
                     <p className="truncate font-medium">{s.periodo}</p>

@@ -13,7 +13,7 @@ import {
 import { AppShell } from "@/components/AppShell";
 import { ViewTabs } from "@/components/ViewTabs";
 import { Barra, Panel, PanelTitle, Stat, Tag } from "@/components/ui-kit";
-import { indicadores as todosIndicadores } from "@/lib/mock-data";
+import type {Indicador} from "@/lib/ppm-types";
 import { useCarteiraVisivel } from "@/lib/acesso";
 import { AvisoAreas } from "@/components/Acesso";
 import { useViews } from "@/lib/views";
@@ -40,14 +40,14 @@ export const Route = createFileRoute("/indicadores")({
   component: Indicadores,
 });
 
-function atingimento(i: (typeof todosIndicadores)[number]) {
+function atingimento(i: Indicador) {
   return i.polaridade === "maior"
     ? Math.round((i.atual / i.meta) * 100)
     : Math.round((i.meta / i.atual) * 100);
 }
 
 function Indicadores() {
-  const [selecionados, setSelecionados] = useState<string[]>(["kpi-1", "kpi-3", "kpi-5"]);
+  const [selecionados, setSelecionados] = useState<string[]>([]);
   const [periodo, setPeriodo] = useState("Últimos 6 meses");
   const { views } = useViews("indicadores");
   const [ativa, setAtiva] = useState("padrao");
@@ -62,9 +62,9 @@ function Indicadores() {
   const serie = (indicadores[0]?.historico ?? []).map((h, idx) => {
     const linha: Record<string, string | number> = { periodo: h.periodo };
     indicadores
-      .filter((i) => selecionados.includes(i.id))
+      .filter((i) => (selecionados.length===0||selecionados.includes(i.id)))
       .forEach((i) => {
-        linha[i.nome] = i.historico[idx].valor;
+        linha[i.nome] = i.historico.find(v=>v.periodo===h.periodo)?.valor ?? 0;
       });
     return linha;
   });
@@ -75,19 +75,7 @@ function Indicadores() {
     <AppShell
       title="Indicadores de Desempenho"
       description="KPIs institucionais com fórmula de cálculo, meta, periodicidade, responsável e histórico de valores."
-      actions={
-        <>
-          <button className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm font-medium hover:bg-muted">
-            <Download className="h-4 w-4" /> CSV
-          </button>
-          <button className="inline-flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm font-medium hover:bg-muted">
-            <Download className="h-4 w-4" /> XLSX
-          </button>
-          <button className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90">
-            Novo indicador
-          </button>
-        </>
-      }
+
     >
       <AvisoAreas />
       <ViewTabs views={views} ativa={ativa} onChange={setAtiva} />
@@ -116,15 +104,7 @@ function Indicadores() {
           <h2 className="truncate font-display text-sm font-semibold ">
             Dashboard parametrizável
           </h2>
-          <select
-            value={periodo}
-            onChange={(e) => setPeriodo(e.target.value)}
-            className="shrink-0 rounded-md border border-border bg-card px-2.5 py-1.5 text-xs"
-          >
-            <option>Últimos 6 meses</option>
-            <option>Ano corrente</option>
-            <option>Últimos 12 meses</option>
-          </select>
+
         </div>
         <div className="mb-4 flex flex-wrap gap-2">
           {indicadores.map((i) => (
@@ -132,7 +112,7 @@ function Indicadores() {
               key={i.id}
               onClick={() => toggle(i.id)}
               className={
-                selecionados.includes(i.id)
+                (selecionados.length===0||selecionados.includes(i.id))
                   ? "rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground"
                   : "rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-muted"
               }
@@ -156,7 +136,7 @@ function Indicadores() {
                 }}
               />
               {indicadores
-                .filter((i) => selecionados.includes(i.id))
+                .filter((i) => (selecionados.length===0||selecionados.includes(i.id)))
                 .map((i, idx) => (
                   <Line
                     key={i.id}

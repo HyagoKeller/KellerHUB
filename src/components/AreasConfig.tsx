@@ -76,15 +76,15 @@ export function AreasConfig() {
       return (acessoDe(e, pg?.portfolioId ?? "").areaId ?? "ar-ti") === areaId;
     }).length;
 
-  const salvar = () => {
+  const salvar = async () => {
     if (!form) return;
     if (form.nome.trim().length < 3 || form.sigla.trim().length < 2 || !form.responsavel) {
       toast.error("Informe nome, sigla e responsável.");
       return;
     }
-    acesso.salvarArea({ ...form, nome: form.nome.trim(), sigla: form.sigla.trim().toUpperCase().slice(0, 10) });
+    try { await acesso.salvarArea({ ...form, nome: form.nome.trim(), sigla: form.sigla.trim().toUpperCase().slice(0, 10) });
     toast.success("Área salva e registrada na auditoria.");
-    setForm(null);
+    setForm(null); } catch {toast.error("Não foi possível salvar a área.");}
   };
   const alternarMembro = (uid: string) =>
     form && setForm({ ...form, membros: form.membros.some((m) => m.usuarioId === uid) ? form.membros.filter((m) => m.usuarioId !== uid) : [...form.membros, { usuarioId: uid, papel: "Membro" }] });
@@ -109,24 +109,6 @@ export function AreasConfig() {
         ) : (
           <span className="text-[11px] text-muted-foreground">Somente o Administrador/PMO cria e edita áreas.</span>
         )}
-      </div>
-      <div className="mb-5 grid gap-3 md:grid-cols-3">
-        {[
-          ["1", "Crie a área e coloque as pessoas", "Em \"Nova área\" defina nome, responsável e membros. Área Aberta: toda a organização pode consultar. Restrita: só os membros sabem que ela existe."],
-          ["2", "Ligue o portfólio à área", "No cadeado de cada portfólio escolha a área de origem. Programas e projetos dentro dele herdam essa área automaticamente."],
-          ["3", "Ajuste exceções no item", "No mesmo cadeado: torne Privado (só convidados), Compartilhe com outra área (somente leitura) ou Convide uma pessoa com um nível específico."],
-        ].map(([n, t, d]) => (
-          <div key={n} className="rounded-2xl border border-border bg-card/50 p-4">
-            <div className="flex items-center gap-2">
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">{n}</span>
-              <p className="text-sm font-semibold">{t}</p>
-            </div>
-            <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{d}</p>
-          </div>
-        ))}
-        <p className="text-[11px] leading-relaxed text-muted-foreground md:col-span-3">
-          O que cada pessoa pode fazer vem do <b className="text-foreground">perfil</b> (tabela abaixo); sobre quais dados, vem da <b className="text-foreground">área</b>. Exemplo: um Gestor membro de TI edita tudo de TI e só lê o que outra área compartilhou com TI. Para conferir, use "Simular perfil/área" clicando no seu nome no topo.
-        </p>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[720px] text-sm">
@@ -190,7 +172,7 @@ export function AreasConfig() {
                     ))}
                   </div></div>
               </div>
-              <BuscaDiretorio jaMembros={form.membros.map((m) => m.usuarioId)} onAdicionar={adicionarDoDiretorio} />
+
               <div>
                 <p className="mb-1.5 text-xs text-muted-foreground">Membros</p>
                 <ul className="max-h-60 divide-y divide-border/60 overflow-y-auto rounded-lg border border-border">

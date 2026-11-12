@@ -11,7 +11,7 @@ import { AssistenteMarca, type EstiloAssistente } from "@/components/AssistenteM
 import { Button } from "@/components/ui/button";
 import { useConversas } from "@/lib/assistente-conversas";
 import { useMotorIA } from "@/lib/ai-provedores";
-import { usuarioAtual } from "@/lib/mock-data";
+import {useCarteiraVisivel} from "@/lib/acesso";
 import { usePortal } from "@/lib/portal";
 import { cn } from "@/lib/utils";
 import { authenticatedFetch } from "@/lib/auth";
@@ -23,6 +23,7 @@ const sugestoes = [
 ];
 
 function ChatFlutuante({ id, rascunho, setRascunho }: { id: string; rascunho: string; setRascunho: (valor: string) => void }) {
+  const {usuario:usuarioAtual}=useCarteiraVisivel();
   const { conversas, salvarMensagens } = useConversas();
   const conversa = conversas.find((item) => item.id === id);
   const iniciais = useMemo<UIMessage[]>(() => conversa?.mensagens ?? [], [conversa?.id]);
@@ -85,6 +86,7 @@ function ChatFlutuante({ id, rascunho, setRascunho }: { id: string; rascunho: st
 }
 
 export function AssistenteFlutuante() {
+ const {usuario:usuarioAtual}=useCarteiraVisivel();
   const [aberto, setAberto] = useState(false);
   const [ativo, setAtivo] = useState<string | null>(null);
   const [rascunho, setRascunho] = useState("");

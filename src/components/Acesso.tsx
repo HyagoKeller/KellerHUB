@@ -13,13 +13,13 @@ import {
   useAcessoEstado,
   useCarteiraVisivel,
   usuarioPorId,
-  usuarios,
+  todosUsuarios,
   visibilidadeEfetiva,
   type NivelPermissao,
   type TipoObjeto,
   type VisibilidadeObjeto,
 } from "@/lib/acesso";
-import { moeda } from "@/lib/mock-data";
+import { moeda } from "@/lib/ppm-types";
 import { cn } from "@/lib/utils";
 
 /** Valor monetário: oculto ("Sem acesso" com cadeado) para o perfil Técnico. */
@@ -68,7 +68,7 @@ export function AvisoAreas() {
 
 export function SeletorArea() {
   const e = useAcessoEstado();
-  const u = usuarioPorId(e.simuladoId) ?? usuarios[0];
+  const u = usuarioPorId(e.simuladoId) ?? useCarteiraVisivel().usuario;
   const lista = areasConhecidas(e, u);
   const sel = e.filtroAreas;
   const alternar = (id: string) => acesso.filtrar(sel.includes(id) ? sel.filter((x) => x !== id) : [...sel, id]);
@@ -102,38 +102,8 @@ export function SeletorArea() {
 }
 
 export function SimularPerfil() {
-  const e = useAcessoEstado();
-  const u = usuarioPorId(e.simuladoId) ?? usuarios[0];
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <button className="glass-control flex items-center gap-2 rounded-xl px-2 py-1.5 transition-colors hover:border-primary/50">
-          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-success text-[11px] font-semibold text-success-foreground">{u.iniciais}</div>
-          <div className="hidden min-w-0 text-left leading-tight sm:block">
-            <p className="truncate text-xs font-medium text-foreground">{u.nome}</p>
-            <p className="eyebrow truncate text-muted-foreground">{u.perfil}</p>
-          </div>
-          <ChevronDown className="hidden h-3.5 w-3.5 text-muted-foreground sm:block" />
-        </button>
-      </PopoverTrigger>
-      <PopoverContent align="end" className="w-80 p-2">
-        <p className="eyebrow px-2 py-1.5 text-muted-foreground">Simular perfil/área</p>
-        {usuarios.map((x) => {
-          const areas = e.areas.filter((a) => a.membros.some((m) => m.usuarioId === x.id)).map((a) => a.sigla);
-          return (
-            <button key={x.id} onClick={() => acesso.simular(x.id)} className="flex w-full items-center gap-3 rounded-md px-2 py-2 text-left hover:bg-muted">
-              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-muted text-[10px] font-semibold">{x.iniciais}</span>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-sm">{x.nome}</span>
-                <span className="block truncate text-[11px] text-muted-foreground">{x.perfil} · {areas.join(", ") || "transversal"}</span>
-              </span>
-              {x.id === u.id && <Check className="h-4 w-4 text-primary" />}
-            </button>
-          );
-        })}
-      </PopoverContent>
-    </Popover>
-  );
+ const {usuario:u}=useCarteiraVisivel();
+ return <div className="flex items-center gap-2"><span className="grid h-8 w-8 place-items-center rounded-lg bg-success text-xs text-success-foreground">{u.iniciais}</span><div className="hidden min-w-0 sm:block"><p className="max-w-40 truncate text-xs">{u.nome}</p><p className="text-xs text-muted-foreground">{u.perfil}</p></div></div>;
 }
 
 export function BuscaGlobal() {
@@ -263,7 +233,7 @@ export function PainelAcesso({ tipo, id, nome }: { tipo: TipoObjeto; id: string;
           <div className="mt-2 flex gap-2">
             <select value={convidar} onChange={(e) => setConvidar(e.target.value)} className="h-9 min-w-0 flex-1 rounded-md border border-border bg-transparent px-2">
               <option value="">Selecione um usuário…</option>
-              {usuarios.filter((x) => !o.convidados.some((c) => c.usuarioId === x.id)).map((x) => <option key={x.id} value={x.id}>{x.nome} · {x.perfil}</option>)}
+              {todosUsuarios(estado).filter((x) => !o.convidados.some((c) => c.usuarioId === x.id)).map((x) => <option key={x.id} value={x.id}>{x.nome} · {x.perfil}</option>)}
             </select>
             <button disabled={!convidar} onClick={() => { upd({ convidados: [...o.convidados, { usuarioId: convidar, nivel: "Somente leitura" }] }); setConvidar(""); }}
               className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground disabled:opacity-50">

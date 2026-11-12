@@ -22,11 +22,9 @@ import {
 import { AppShell } from "@/components/AppShell";
 import { Barra, Panel, PanelTitle, SaudeTag, Stat, Tag } from "@/components/ui-kit";
 import {
-  auditoria,
-  execucaoMensal,
   moeda,
   severidade,
-} from "@/lib/mock-data";
+} from "@/lib/ppm-types";
 import { useCarteiraVisivel, useAcessoEstado } from "@/lib/acesso";
 import { AvisoAreas, Moeda, SeloAcesso } from "@/components/Acesso";
 
@@ -67,7 +65,8 @@ function Dashboard() {
   const show = (bloco: string) => !view || view.blocos.includes(bloco);
   const { portfolios, projetos, riscos, ocultarValores, estado } = useCarteiraVisivel();
   const logAcesso = useAcessoEstado().log;
-  const trilha = [...logAcesso, ...auditoria];
+  const trilha = logAcesso;
+  const execucaoMensal=portfolios.map(p=>({periodo:p.nome,planejado:p.orcamento/1000000,realizado:p.executado/1000000}));
   void estado;
   const statusDist = [
     { nome: "Em execução", valor: projetos.filter((p) => p.status === "Em execução").length },
@@ -128,7 +127,7 @@ function Dashboard() {
           value={String(
             riscos.filter((r) => ["Alto", "Crítico"].includes(severidade(r.probabilidade, r.impacto).nivel)).length,
           )}
-          delta={{ texto: "+2 no trimestre", tom: "down" }}
+
         />
       </div>
       )}
@@ -139,7 +138,7 @@ function Dashboard() {
         {show("execucao") && (
         <Panel className={show("status") ? "xl:col-span-2" : ""}>
 
-          {ocultarValores ? (<><PanelTitle title="Execução orçamentária acumulada" hint="restrito" /><p className="flex items-center gap-2 py-16 text-sm text-muted-foreground"><Lock className="h-4 w-4" /> Valores em R$ ocultos para o seu perfil.</p></>) : (<><PanelTitle title="Execução orçamentária acumulada" hint="R$ milhões · 2026" />
+          {ocultarValores ? (<><PanelTitle title="Execução orçamentária por portfólio" hint="restrito" /><p className="flex items-center gap-2 py-16 text-sm text-muted-foreground"><Lock className="h-4 w-4" /> Valores em R$ ocultos para o seu perfil.</p></>) : (<><PanelTitle title="Execução orçamentária por portfólio" hint="R$ milhões" />
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={execucaoMensal} margin={{ left: -18, right: 8, top: 8 }}>

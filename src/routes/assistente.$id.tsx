@@ -19,7 +19,7 @@ import {
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { useConversas } from "@/lib/assistente-conversas";
-import { usuarioAtual } from "@/lib/mock-data";
+import {useCarteiraVisivel} from "@/lib/acesso";
 import { useMotorIA } from "@/lib/ai-provedores";
 import { usePortal } from "@/lib/portal";
 import { AssistenteMarca, type EstiloAssistente } from "@/components/AssistenteMarca";
@@ -57,6 +57,7 @@ const sugestoes = [
 ];
 
 function Assistente() {
+  const {usuario:usuarioAtual}=useCarteiraVisivel();
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const { conversas, criar, remover, salvarMensagens } = useConversas();

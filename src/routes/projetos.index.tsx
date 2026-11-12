@@ -9,7 +9,7 @@ import { Barra, Panel, SaudeTag, Stat } from "@/components/ui-kit";
 import { EtiquetaCelula } from "@/components/EtiquetaCelula";
 import { FormProjeto } from "@/components/FormulariosCarteira";
 import { carteira, portfolioDe, useCarteira } from "@/lib/carteira";
-import { moeda, type Projeto } from "@/lib/mock-data";
+import { moeda, type Projeto } from "@/lib/ppm-types";
 
 export const Route = createFileRoute("/projetos/")({
   head: () => ({
