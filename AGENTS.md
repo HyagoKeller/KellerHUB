@@ -20,3 +20,6 @@
 - Load the global governance assistant after the primary interface becomes idle; this keeps AI dependencies out of the critical rendering path.
 - Security acceptance and audit records are immutable server-side records, while the global user watermark remains visible and printable; this preserves traceability without treating client-side controls as copy prevention.
 - Portal identity and regional preferences persist in shared server settings, with only sign-in presentation fields publicly readable; this keeps every device consistent without exposing administrative configuration.
+- For the ANA POC migration, persist business records and saved views in Cloud, use Query for reads and mutations, and enforce authorization in RLS/server boundaries; browser storage is limited to personal visual preferences to prevent device divergence and client-side privilege escalation.
+- Keep application roles exclusively in protected role tables, separate from profile fields, and replace email-based authorization with explicit capabilities; this preserves least privilege without binding access to personal identities.
+- Use authenticated, invoker-security database aggregates as the shared source for dashboard metrics; this keeps totals consistent without exposing inaccessible records.

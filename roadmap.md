@@ -26,3 +26,15 @@
 - [x] Otimizar carregamento inicial, navegação, cálculos de acesso e efeitos Liquid Glass em dispositivos móveis
 - [x] Adicionar aceite obrigatório de licença, marca d’água individual, auditoria persistente e reforços contra uso indevido
 - [x] Compartilhar configurações do portal entre dispositivos e congelar as formas do fundo Glassmorphism
+
+## Prova de conceito ANA
+
+Os itens históricos acima descrevem o protótipo, não comprovam atendimento aos critérios da prova de conceito.
+
+- [ ] Fase 1: dados de negócio compartilhados, agregados consistentes, atualização entre usuários e eliminação das fontes fictícias em execução
+- [ ] Fase 2: projetos completos, estratégia, indicadores, riscos e publicação de resultados
+- [ ] Fase 3: administração de usuários e permissões efetivas por perfil, área e atribuição, sem privilégios por e-mail
+- [ ] Fase 4: auditoria completa, imutável e consultável por Auditor e Administrador/PMO
+- [ ] Fase 5: exportações, importação assistida, tokens de API e documentação de integração
+- [ ] Fase 6: assistente sobre dados autorizados, suporte com SLA e ajuda integrada
+- [ ] Em cada fase: testes por perfil, conferência entre dispositivos e atualização dos manuais
