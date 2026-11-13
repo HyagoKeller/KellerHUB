@@ -55,3 +55,7 @@ Conferência visual com a conta do responsável: lista de 14 projetos e aba Elem
 Limites desta evidência: autenticação e operações pela interface dos demais perfis ainda não foram testadas. O banco isolado usa auxiliares equivalentes de identidade e remove somente instruções de publicação Realtime. Não comprova entrega simultânea de eventos. A consulta principal ainda entrega valores financeiros de registros autorizados ao Técnico; o texto antigo do manual que prometia ocultação foi corrigido, sem afirmar proteção inexistente. O ajuste de controles por item atribuído na interface e a revisão granular de campos permanecem pendentes.
 
 Execução: `bun test tests/ppm-role-matrix.test.ts` e `python3 tests/ppm_permissions.py`.
+## Seed e paginação
+
+- Dados de demonstração versionados em `supabase/seed/ppm_demo.sql` (162 registros, reexecutável sem duplicar).
+- Listas de Projetos e Riscos divididas em páginas de 20 itens; regra coberta por teste automatizado.

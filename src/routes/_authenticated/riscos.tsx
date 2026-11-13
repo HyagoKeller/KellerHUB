@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Fragment, useState } from "react";
+import { Paginacao } from "@/components/Paginacao";
+import { usePaginacao } from "@/lib/paginacao";
 import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react";
 import {
   Area,
@@ -58,6 +60,7 @@ function Riscos() {
   const evolucaoRiscos=[{periodo:"Atual",critico:riscos.filter(r=>r.probabilidade*r.impacto>=15).length,alto:riscos.filter(r=>r.probabilidade*r.impacto>=9&&r.probabilidade*r.impacto<15).length,medio:riscos.filter(r=>r.probabilidade*r.impacto>=4&&r.probabilidade*r.impacto<9).length,baixo:riscos.filter(r=>r.probabilidade*r.impacto<4).length}];
   const [cat, setCat] = useState<(typeof categorias)[number]>("Todas");
   const lista = riscos.filter((r) => cat === "Todas" || r.categoria === cat);
+  const pag = usePaginacao(lista, 20, cat);
 
   return (
     <AppShell
@@ -157,7 +160,7 @@ function Riscos() {
       </div>
 
       <div className="mt-4 grid gap-4 md:grid-cols-2">
-        {lista.map((r) => {
+        {pag.itens.map((r) => {
           const s = severidade(r.probabilidade, r.impacto);
           return (
             <Panel key={r.id}>
@@ -193,6 +196,7 @@ function Riscos() {
           );
         })}
       </div>
+      <Paginacao {...pag} />
     </AppShell>
   );
 }

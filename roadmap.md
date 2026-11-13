@@ -38,7 +38,7 @@ Os itens históricos acima descrevem o protótipo, não comprovam atendimento ao
   - [x] Migrar leitura e gravação dos cadastros e elementos para registros compartilhados
   - [x] Validar cadastro em uma conta e leitura em outra, acesso privado e saída da conta
   - [x] Atualização simultânea sem recarregar (tempo real + verificação a cada 20s)
-  - [ ] Completar seed versionado e paginação
+  - [x] Seed versionado (supabase/seed/ppm_demo.sql, 162 registros) e paginação de 20 itens em Projetos e Riscos
 - [ ] Fase 2: projetos completos, estratégia, indicadores, riscos e publicação de resultados
 - [ ] Fase 3: administração de usuários e permissões efetivas por perfil, área e atribuição, sem privilégios por e-mail
 - [ ] Fase 4: auditoria completa, imutável e consultável por Auditor e Administrador/PMO

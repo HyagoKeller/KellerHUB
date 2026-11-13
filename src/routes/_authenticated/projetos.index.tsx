@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { Paginacao } from "@/components/Paginacao";
+import { usePaginacao } from "@/lib/paginacao";
 import { ContadorAtualizacoes, PainelAtualizacoes, type ContextoAtualizacao } from "@/components/AtualizacoesProjeto";
 import { BotaoAcesso, DialogoAcesso, Moeda, SeloAcesso, AvisoAreas } from "@/components/Acesso";
 import { useCarteiraVisivel } from "@/lib/acesso";
@@ -41,6 +43,7 @@ function Projetos() {
   const [filtro, setFiltro] = useState<string>("Todas");
   const [form, setForm] = useState<{ aberto: boolean; projeto?: Projeto }>({ aberto: false });
   const lista = projetos.filter((p) => filtro === "Todas" || p.metodologia === filtro);
+  const pag = usePaginacao(lista, 20, filtro);
 
   return (
     <AppShell
@@ -99,7 +102,7 @@ function Projetos() {
             </tr>
           </thead>
           <tbody>
-            {lista.map((p) => {
+            {pag.itens.map((p) => {
               const pg = programas.find((x) => x.id === p.programaId);
               return (
                 <tr key={p.id} className="border-b border-border/70 last:border-0 hover:bg-muted/40">
@@ -162,6 +165,7 @@ function Projetos() {
             })}
           </tbody>
         </table>
+        <Paginacao {...pag} />
       </Panel>
       <DialogoAcesso tipo="projeto" id={acessoDe?.id} nome={acessoDe?.nome} onClose={() => setAcessoDe(undefined)} />
       <FormProjeto aberto={form.aberto} projeto={form.projeto} onClose={() => setForm({ aberto: false })} />
