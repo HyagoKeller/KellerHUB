@@ -1330,6 +1330,53 @@ export type Database = {
           },
         ]
       }
+      risco_reavaliacoes: {
+        Row: {
+          autor: string
+          created_at: string
+          created_by: string | null
+          id: string
+          impacto: number
+          impacto_anterior: number | null
+          justificativa: string
+          prob_anterior: number | null
+          probabilidade: number
+          risco_id: string
+        }
+        Insert: {
+          autor?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          impacto: number
+          impacto_anterior?: number | null
+          justificativa?: string
+          prob_anterior?: number | null
+          probabilidade: number
+          risco_id: string
+        }
+        Update: {
+          autor?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          impacto?: number
+          impacto_anterior?: number | null
+          justificativa?: string
+          prob_anterior?: number | null
+          probabilidade?: number
+          risco_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "risco_reavaliacoes_risco_id_fkey"
+            columns: ["risco_id"]
+            isOneToOne: false
+            referencedRelation: "riscos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       riscos: {
         Row: {
           area_id: string

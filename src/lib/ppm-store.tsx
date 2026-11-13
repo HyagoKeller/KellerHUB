@@ -53,7 +53,7 @@ export function CarteiraCompartilhadaProvider({children}: {children:ReactNode}) 
   },[data,mutation.mutateAsync,accessMutation.mutateAsync]);
   useEffect(()=>{
     const channel=supabase.channel(`ppm-${crypto.randomUUID()}`);
-    for (const table of ['portfolios','programas','projetos','riscos','indicadores','indicador_valores','status_reports','projeto_elementos','projeto_subelementos','projeto_atualizacoes','areas','area_membros','objetos_acesso','views_usuario','ppm_papeis','ppm_usuarios']) {
+    for (const table of ['portfolios','programas','projetos','riscos','indicadores','indicador_valores','status_reports','risco_planos','risco_reavaliacoes','projeto_elementos','projeto_subelementos','projeto_atualizacoes','areas','area_membros','objetos_acesso','views_usuario','ppm_papeis','ppm_usuarios']) {
       channel.on('postgres_changes',{event:'*',schema:'public',table},()=>{void client.invalidateQueries({queryKey:['ppm']});});
     }
     channel.subscribe();

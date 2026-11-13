@@ -44,7 +44,7 @@ Os itens históricos acima descrevem o protótipo, não comprovam atendimento ao
   - [ ] Qualidade (critérios, entregas, checklist) e Recursos (alocação, horas, custos)
   - [ ] Estratégia: metas, iniciativas, vínculos e comparação entre períodos
   - [ ] Indicadores: valores por período, calculados, agregação e exportação
-  - [ ] Riscos: planos de mitigação, reavaliações e matriz calculada
+  - [x] Riscos: planos de mitigação, reavaliações e matriz calculada
   - [ ] Publicações por público e permissões de exportar e compartilhar
 - [ ] Fase 3: administração de usuários e permissões efetivas por perfil, área e atribuição, sem privilégios por e-mail
 - [ ] Fase 4: auditoria completa, imutável e consultável por Auditor e Administrador/PMO
