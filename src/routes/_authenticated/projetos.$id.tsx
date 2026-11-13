@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ContadorAtualizacoes, PainelAtualizacoes, type ContextoAtualizacao } from "@/components/AtualizacoesProjeto";
+import { StatusReportsProjeto } from "@/components/StatusReports";
 import { ElementosProjeto } from "@/components/ElementosProjeto";
 import { Button } from "@/components/ui/button";
 import { EtiquetaCelula } from "@/components/EtiquetaCelula";
@@ -29,7 +30,7 @@ export const Route = createFileRoute("/_authenticated/projetos/$id")({
   component: DetalheProjeto,
 });
 
-const abas = ["Visão geral", "Elementos", "Cronograma", "Kanban", "Riscos", "Status reports", "Acesso"] as const;
+const abas = ["Visão geral", "Elementos", "Cronograma", "Kanban", "Riscos", "Relatórios de situação", "Acesso"] as const;
 
 function DetalheProjeto() {
   const { id } = Route.useParams();
@@ -47,7 +48,7 @@ function DetalheProjeto() {
 
 function Detalhe({ projeto }: { projeto: Projeto }) {
   const { portfolios, programas } = useCarteira();
-  const { ocultarValores, podeEditar, usuario, riscos,cronograma,statusReports,tarefas,elementos } = useCarteiraVisivel();
+  const { ocultarValores, podeEditar, usuario, riscos,cronograma,tarefas,elementos } = useCarteiraVisivel();
   const [editar, setEditar] = useState(false);
   const [atualizacoes, setAtualizacoes] = useState<ContextoAtualizacao>();
   const [aba, setAba] = useState<(typeof abas)[number]>(
@@ -237,23 +238,7 @@ function Detalhe({ projeto }: { projeto: Projeto }) {
           </Panel>
         )}
 
-        {aba === "Status reports" && (
-          <Panel>
-            <PanelTitle title="Status reports periódicos" hint="atualização colaborativa" />
-            <ul className="space-y-3">
-              {statusReports.filter(s=>s.projetoId===projeto.id).map((s) => (
-                <li key={s.id} className="rounded-lg border border-border p-4">
-                  <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-                    <p className="truncate font-medium">{s.periodo}</p>
-                    <SaudeTag saude={s.saude} />
-                  </div>
-                  <p className="mt-1.5 text-sm text-muted-foreground">{s.resumo}</p>
-                  <p className="mt-2 text-xs text-muted-foreground">Registrado por {s.autor}</p>
-                </li>
-              ))}
-            </ul>
-          </Panel>
-        )}
+        {aba === "Relatórios de situação" && <StatusReportsProjeto projeto={projeto} podeEditar={podeEditar("projeto", projeto.id)} />}
       </div>
       <FormProjeto aberto={editar} projeto={projeto} onClose={() => setEditar(false)} />
       <PainelAtualizacoes contexto={atualizacoes} onClose={() => setAtualizacoes(undefined)} podePublicar={podeEditar("projeto", projeto.id)} autor={usuario.nome} />

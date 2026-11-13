@@ -40,6 +40,12 @@ Os itens históricos acima descrevem o protótipo, não comprovam atendimento ao
   - [x] Atualização simultânea sem recarregar (tempo real + verificação a cada 20s)
   - [x] Seed versionado (supabase/seed/ppm_demo.sql, 162 registros) e paginação de 20 itens em Projetos e Riscos
 - [ ] Fase 2: projetos completos, estratégia, indicadores, riscos e publicação de resultados
+  - [x] Relatórios de situação com formulário, histórico, edição, autoria protegida e impressão/PDF
+  - [ ] Qualidade (critérios, entregas, checklist) e Recursos (alocação, horas, custos)
+  - [ ] Estratégia: metas, iniciativas, vínculos e comparação entre períodos
+  - [ ] Indicadores: valores por período, calculados, agregação e exportação
+  - [ ] Riscos: planos de mitigação, reavaliações e matriz calculada
+  - [ ] Publicações por público e permissões de exportar e compartilhar
 - [ ] Fase 3: administração de usuários e permissões efetivas por perfil, área e atribuição, sem privilégios por e-mail
 - [ ] Fase 4: auditoria completa, imutável e consultável por Auditor e Administrador/PMO
 - [ ] Fase 5: exportações, importação assistida, tokens de API e documentação de integração

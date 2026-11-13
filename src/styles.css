@@ -553,3 +553,13 @@
   main select, main input, main textarea { max-width: 100%; min-width: 0; }
   main img, main svg, main video { max-width: 100%; }
 }
+
+/* Impressão de relatório de situação: só o relatório e a marca d'água */
+.relatorio-impressao { display: none; }
+@media print {
+  body.imprimindo-relatorio > *:not(.relatorio-impressao):not(.security-watermark) { display: none !important; }
+  body.imprimindo-relatorio .relatorio-impressao { display: block; padding: 12mm; color: #111; background: #fff; font-size: 11pt; }
+  body.imprimindo-relatorio .relatorio-impressao h1 { font-size: 18pt; font-weight: 600; margin-bottom: 4pt; }
+  body.imprimindo-relatorio .relatorio-impressao h2 { font-size: 12pt; font-weight: 600; margin: 12pt 0 4pt; }
+  body.imprimindo-relatorio .relatorio-impressao p { white-space: pre-wrap; line-height: 1.45; }
+}
