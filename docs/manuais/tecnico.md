@@ -19,8 +19,7 @@ O perfil Técnico acompanha atividades sob sua responsabilidade e consulta o res
 
 - Criar portfólios, programas ou projetos.
 - Administrar áreas, usuários, integrações ou identidade.
-- Alterar acesso sem nível suficiente.
-- Visualizar orçamento, execução financeira e valores em reais.
+- Alterar visibilidade, convites ou compartilhamentos, operações exclusivas do Administrador/PMO.
 - Conhecer áreas restritas das quais não participa.
 
 ## 3. Início da jornada
@@ -33,7 +32,7 @@ O perfil Técnico acompanha atividades sob sua responsabilidade e consulta o res
 
 ## 4. Visão executiva
 
-Use a página para acompanhar volume da carteira, andamento e riscos. Os valores financeiros aparecem como **Sem acesso** com cadeado. Isso é uma regra do perfil e não uma falha.
+Use a página para acompanhar volume da carteira, andamento e riscos. Na etapa atual, valores financeiros de registros autorizados podem aparecer. Não há bloqueio financeiro específico comprovado para o Técnico; não trate a apresentação como proteção desses campos.
 
 As views disponíveis podem reorganizar os blocos. Elas não mostram dados de outras áreas.
 
@@ -64,7 +63,7 @@ Botões de criação e edição não aparecem quando o perfil não possui autori
 - **Metodologia:** forma de execução do projeto.
 - **Status:** etapa atual.
 - **Prazo:** data de término.
-- **Custo:** aparece como Sem acesso.
+- **Custo:** valores dos registros autorizados podem aparecer nesta etapa.
 - **Progresso:** percentual informado.
 - **Saúde:** condição geral em verde, amarelo ou vermelho.
 
@@ -98,6 +97,8 @@ Não altere orçamento ou valor executado. Esses campos são protegidos pelo per
 4. Se o projeto estiver atribuído a você ou houver convite de edição, atualize status, progresso e demais campos autorizados.
 5. Selecione o balão do projeto, elemento ou subelemento para consultar o histórico correto.
 6. Quando autorizado, escreva a informação e selecione **Publicar atualização**.
+
+O servidor permite ao Técnico alterar elementos e subelementos somente quando o item está atribuído à sua conta e você pertence à área do projeto. O nome escrito no campo não cria autorização. A atribuição do projeto não libera automaticamente todos os seus itens. Não é permitido trocar o responsável, mover o item para outro projeto ou elemento, nem excluir. A interface ainda pode ocultar controles de itens atribuídos quando o projeto inteiro está em somente leitura; a adequação desses controles permanece pendente.
 
 Cada balão possui histórico independente. Em somente leitura, o campo de publicação não aparece.
 

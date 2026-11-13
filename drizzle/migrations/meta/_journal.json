@@ -85,6 +85,13 @@
       "when": 1794523014896,
       "tag": "0011_ppm_fix_context_validation",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1794567367815,
+      "tag": "0012_ppm_protect_subelement_parent",
+      "breakpoints": true
     }
   ]
 }

@@ -31,6 +31,9 @@
 
 Os itens históricos acima descrevem o protótipo, não comprovam atendimento aos critérios da prova de conceito.
 
+- [x] Prioridade autorizada: executar matriz automatizada de negativas com SQL real isolado para Técnico, Gestor, Auditor e Alta Administração, corrigir falhas e documentar evidências
+- [ ] Complementar com contas reais pela interface, controles por atribuição e revisão granular de campos; aguardam a próxima etapa de implementação e validação
+
 - [ ] Fase 1: dados de negócio compartilhados, agregados consistentes, atualização entre usuários e eliminação das fontes fictícias em execução
   - [x] Migrar leitura e gravação dos cadastros e elementos para registros compartilhados
   - [x] Validar cadastro em uma conta e leitura em outra, acesso privado e saída da conta

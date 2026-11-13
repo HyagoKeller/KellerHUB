@@ -10,7 +10,7 @@ O Gestor administra a carteira das áreas das quais é membro. Pode estruturar p
 
 - Criar e editar portfólios, programas e projetos em suas áreas.
 - Visualizar orçamento e execução financeira.
-- Alterar acesso de itens quando possui Editar tudo.
+- Consultar acesso de itens; alterações de visibilidade e convites são exclusivas do Administrador/PMO nesta etapa.
 - Consultar indicadores, riscos, relatórios e auditoria do escopo.
 - Usar o Assistente com dados autorizados.
 
@@ -55,7 +55,7 @@ A tabela permite comparar score, progresso, execução e saúde. A matriz Valor 
 
 ### 5.3 Editar ou excluir
 
-Use o ícone de lápis. Para excluir, selecione **Excluir** e depois **Confirmar exclusão**. Antes de excluir, verifique programas e projetos dependentes.
+Use o ícone de lápis para editar conteúdo autorizado. Exclusões são exclusivas do Administrador/PMO no servidor, mesmo que um controle de exclusão ainda apareça na interface.
 
 ## 6. Gestão de programas
 
@@ -120,13 +120,15 @@ Use as abas Visão geral, Cronograma, Kanban, Riscos, Status reports e Acesso. C
 3. Informe nome, responsável, status, prazo e progresso.
 4. Use o ícone de adição na linha para cadastrar um subelemento.
 5. Expanda a linha para acompanhar o detalhamento.
-6. Use o lápis para editar ou excluir.
+6. Use o lápis para editar conteúdo autorizado. Exclusão, reatribuição e mudança do elemento pai de um subelemento são exclusivas do Administrador/PMO.
 
 ### 7.6 Atualizações em balão
 
 Use o balão do projeto para decisões gerais. Use o balão de cada elemento ou subelemento para registrar impedimentos, encaminhamentos e entregas daquele contexto. O contador informa a quantidade de registros. Cada atualização guarda autor, data e hora.
 
 ## 8. Gestão de acesso
+
+Na etapa compartilhada atual, o Gestor consulta área e nível. As operações de alteração descritas abaixo são realizadas pelo Administrador/PMO; o servidor rejeita sua execução pelo Gestor, inclusive com convite de edição.
 
 1. Selecione o cadeado do item.
 2. Confira a área de origem e seu nível.
