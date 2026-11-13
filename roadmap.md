@@ -37,7 +37,8 @@ Os itens históricos acima descrevem o protótipo, não comprovam atendimento ao
 - [ ] Fase 1: dados de negócio compartilhados, agregados consistentes, atualização entre usuários e eliminação das fontes fictícias em execução
   - [x] Migrar leitura e gravação dos cadastros e elementos para registros compartilhados
   - [x] Validar cadastro em uma conta e leitura em outra, acesso privado e saída da conta
-  - [ ] Completar seed versionado, paginação, matriz de negativas por perfil e atualização simultânea sem recarregar
+  - [x] Atualização simultânea sem recarregar (tempo real + verificação a cada 20s)
+  - [ ] Completar seed versionado e paginação
 - [ ] Fase 2: projetos completos, estratégia, indicadores, riscos e publicação de resultados
 - [ ] Fase 3: administração de usuários e permissões efetivas por perfil, área e atribuição, sem privilégios por e-mail
 - [ ] Fase 4: auditoria completa, imutável e consultável por Auditor e Administrador/PMO
