@@ -14,8 +14,8 @@
 - [x] Revisar os manuais contra as regras efetivas de acesso e validar a apresentação da nova marca
 - [x] Substituir as cartilhas por manuais operacionais completos, com menus, telas, campos, procedimentos, exemplos e solução de problemas
 - [x] Adicionar elementos, subelementos e atualizações contextuais aos projetos, com testes e documentação completa
-- [ ] Publicar demonstração temporária protegida por login e conta Superadministrador autorizada, aguardando autorização do usuário
-- [ ] Verificar e configurar o domínio próprio kellerhub-demo.com
+- [x] Publicar demonstração temporária protegida por login e conta Superadministrador autorizada, aguardando autorização do usuário
+- [x] Domínio próprio: kellerhub.com.br configurado (kellerhub-demo.com dispensado)
 - [x] Adicionar crédito de desenvolvimento e direitos reservados, mantendo a publicação pausada
 - [x] Remodelar a tela de acesso com identidade configurável, acesso Local ou Active Directory e preparação do botão Microsoft 365
 - [x] Proteger a configuração do motor de IA com confirmação da senha do Superadministrador e persistência no servidor
@@ -34,7 +34,7 @@ Os itens históricos acima descrevem o protótipo, não comprovam atendimento ao
 - [x] Prioridade autorizada: executar matriz automatizada de negativas com SQL real isolado para Técnico, Gestor, Auditor e Alta Administração, corrigir falhas e documentar evidências
 - [ ] Complementar com contas reais pela interface, controles por atribuição e revisão granular de campos; aguardam a próxima etapa de implementação e validação
 
-- [ ] Fase 1: dados de negócio compartilhados, agregados consistentes, atualização entre usuários e eliminação das fontes fictícias em execução
+- [x] Fase 1: dados de negócio compartilhados, agregados consistentes, atualização entre usuários e eliminação das fontes fictícias em execução
   - [x] Migrar leitura e gravação dos cadastros e elementos para registros compartilhados
   - [x] Validar cadastro em uma conta e leitura em outra, acesso privado e saída da conta
   - [x] Atualização simultânea sem recarregar (tempo real + verificação a cada 20s)
